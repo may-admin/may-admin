@@ -1,5 +1,4 @@
 <?php
-
 return [
     // 默认磁盘
     'default' => 'local',
