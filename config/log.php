@@ -1,7 +1,7 @@
 <?php
 return [
     // 默认日志记录通道
-    'default'      => 'file',
+    'default'      => env('log.channel', 'file'),
     // 日志记录级别
     'level'        => [],
     // 日志类型记录的通道 ['error'=>'email',...]
@@ -23,7 +23,7 @@ return [
             // 独立日志级别
             'apart_level'    => [],
             // 最大日志文件数量
-            'max_files'      => 0,
+            'max_files'      => env('log.max_files', 20),
             // 使用JSON格式记录
             'json'           => false,
             // 日志处理

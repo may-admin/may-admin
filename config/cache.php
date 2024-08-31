@@ -1,7 +1,7 @@
 <?php
 return [
     // 默认缓存驱动
-    'default' => 'file',
+    'default' => env('cache.driver', 'file'),
 
     // 缓存连接方式配置
     'stores'  => [
@@ -11,9 +11,9 @@ return [
             // 缓存保存目录
             'path'       => '',
             // 缓存前缀
-            'prefix'     => '',
+            'prefix'     => env('common.prefix', ''),
             // 缓存有效期 0表示永久缓存
-            'expire'     => 0,
+            'expire'     => (int) env('cache.expire', 0),
             // 缓存标签前缀
             'tag_prefix' => 'tag:',
             // 序列化机制 例如 ['serialize', 'unserialize']

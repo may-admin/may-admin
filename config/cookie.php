@@ -1,7 +1,7 @@
 <?php
 return [
     // cookie 保存时间
-    'expire'    => 0,
+    'expire'    => env('cookie.expire', 28800),
     // cookie 保存路径
     'path'      => '/',
     // cookie 有效域名

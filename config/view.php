@@ -3,7 +3,7 @@ return [
     // 模板引擎类型使用Think
     'type'          => 'Think',
     // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写 3 保持操作方法
-    'auto_rule'     => 1,
+    'auto_rule'     => 3,
     // 模板目录名
     'view_dir_name' => 'view',
     // 模板后缀
@@ -18,4 +18,6 @@ return [
     'taglib_begin'  => '{',
     // 标签库标签结束标记
     'taglib_end'    => '}',
+    // 默认过滤方法 用于普通标签输出
+    'default_filter'=> '',
 ];
