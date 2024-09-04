@@ -1,0 +1,47 @@
+{if !empty($searchConf) }
+<div class="box-header with-border" >
+    <form class="form-horizontal" method="GET" action="{:url(CONTROLLER_NAME.'/index')}" pjax-search="">
+        <div class="row">
+            {volist name="searchConf" id="vo"}
+            <div class="col-lg-3 col-md-6">
+            {if $vo['type'] == 'ToTime' }
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{$vo['widget_conf']['title']}</label>
+                <div class="col-sm-9">
+                    <div class="input-daterange input-group input-group-md">
+                        <input class="form-control" id="{$vo['widget_conf']['start_name']}" name="{$vo['widget_conf']['start_name']}" value="{$vo['data'][$vo['widget_conf']['start_name']]}" placeholder="开始日期" type="text">
+                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                        <input class="form-control" id="{$vo['widget_conf']['end_name']}" name="{$vo['widget_conf']['end_name']}" value="{$vo['data'][$vo['widget_conf']['end_name']]}" placeholder="结束日期" type="text">
+                    </div>
+                </div>
+            </div>
+            <script>
+            $(function(){
+                var picker1 = $("#{$vo['widget_conf']['start_name']}").datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: moment.locale('zh-cn'),
+                });
+                var picker2 = $("#{$vo['widget_conf']['end_name']}").datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: moment.locale('zh-cn'),
+                });
+                picker1.on('dp.change', function (e) {
+                    picker2.data('DateTimePicker').minDate(e.date);   //结束设置最小值
+                });
+                picker2.on('dp.change', function (e) {
+                    picker1.data('DateTimePicker').maxDate(e.date);   //开始设置最大值
+                });
+            })
+            </script>
+            {else /}
+            {:widget('common/'.$vo['type'].'/index', [$vo['data'], $vo['widget_conf']])}
+            {/if}
+            </div>
+            {/volist}
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-info pull-right sreachs" data-loading-text="<i class='fa fa-spinner fa-spin '></i> {:lang('search')}">{:lang('search')}</button>
+        </div>
+    </form>
+</div>
+{/if}
