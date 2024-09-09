@@ -1,9 +1,10 @@
 <?php
 namespace app\admin\controller;
 
+use app\common\controller\Admin as Admins;
 use think\facade\View;
 
-class Admin
+class Admin extends Admins
 {
     public function index()
     {
