@@ -1,0 +1,83 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{if $data}{:lang('edit')}{else /}{:lang('create')}{/if} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">{:lang('base_param')}</a></li>
+                        <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'id',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'k',
+                                'title' => lang('k'),
+                                'placeholder' => lang('k'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'v',
+                                'title' => lang('v'),
+                                'placeholder' => lang('v'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'type',
+                                'title' => lang('type'),
+                                'placeholder' => lang('type'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'infos',
+                                'title' => lang('infos'),
+                                'placeholder' => lang('infos'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'prompt',
+                                'title' => lang('prompt'),
+                                'placeholder' => lang('prompt'),
+                            ]])}
+                            {:widget('common/Select/index', [$data, [
+                                'name' => 'texttype',
+                                'title' => lang('texttype'),
+                                'from' => 'selectlist',
+                                'fromcfg' => 'texttype',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'textvalue',
+                                'title' => lang('textvalue'),
+                                'placeholder' => lang('textvalue'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'sorts',
+                                'title' => lang('sorts'),
+                                'placeholder' => lang('sorts'),
+                                'default_val' => '50',
+                            ]])}
+                            {:widget('common/Select/index', [$data, [
+                                'name' => 'status',
+                                'title' => lang('status'),
+                                'from' => 'selectlist',
+                                'fromcfg' => 'status',
+                            ]])}
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{/block}

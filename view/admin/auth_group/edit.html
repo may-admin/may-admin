@@ -1,0 +1,67 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{if $data}{:lang('edit')}{else /}{:lang('create')}{/if} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">{:lang('base_param')}</a></li>
+                        <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'id',
+                            ]])}
+                            {:widget('common/Hidden/index', [$module, [
+                                'name' => 'module',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'title',
+                                'title' => lang('title'),
+                                'placeholder' => lang('title'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'notation',
+                                'title' => lang('notation'),
+                                'placeholder' => lang('notation'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'level',
+                                'title' => lang('level'),
+                                'placeholder' => lang('level'),
+                                'default_val' => 50
+                            ]])}
+                            {:widget('common/Select/index', [$data, [
+                                'name' => 'status',
+                                'title' => lang('status'),
+                                'from' => 'selectlist',
+                                'fromcfg' => 'status',
+                            ]])}
+                            {:widget('common/Checkbox/index', [$data, [
+                                'name' => 'rules',
+                                'title' => lang('rules'),
+                                'from' => 'function',
+                                'fromcfg' => ['auth_rule_check', $module['module']],
+                                'theme' => 'rules',
+                            ]])}
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{/block}

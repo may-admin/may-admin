@@ -1,0 +1,54 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{:lang('auth_group')} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">{:lang('auth_group')}</a></li>
+                        <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'id',
+                            ]])}
+                            {:widget('common/Text/index', [$data, [
+                                'name' => 'username',
+                                'title' => lang('username'),
+                            ]])}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{:lang('auth_group')}</label>
+                                <div class="col-sm-6">
+                                    {volist name="groupList" id="vo"}
+                                    <label class="checkbox-inline">
+                                        <input type="radio" class="icheck_group_id" name="group_id" value="{$vo.id}" {$vo.checked} > {$vo.title}
+                                    </label>
+                                    {/volist}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+$(function(){
+    $('.icheck_group_id').iCheck({ checkboxClass:'icheckbox_flat-green', radioClass: 'iradio_flat-green'});    //iCheck初始化
+})
+</script>
+{/block}

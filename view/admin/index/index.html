@@ -1,0 +1,57 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="small-box bg-yellow">
+                <div class="inner"><h3>{$data.admin_total}</h3><p>{:lang('admin_total')}</p></div>
+                <div class="icon"><i class="fa fa-users"></i></div>
+                <a href="{:url('Admin/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="small-box bg-green">
+                <div class="inner"><h3>{$data.member_total}</h3><p>{:lang('member_total')}</p></div>
+                <div class="icon"><i class="fa fa-user-plus"></i></div>
+                <a href="javascript:void(0);" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="small-box bg-aqua">
+                <div class="inner"><h3>{$data.archive_total}</h3><p>{:lang('archive_total')}</p></div>
+                <div class="icon"><i class="fa fa-file-text"></i></div>
+                <a href="{:url('Archive/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="small-box bg-red">
+                <div class="inner"><h3>{$data.comment_total}</h3><p>{:lang('comment_total')}</p></div>
+                <div class="icon"><i class="fa fa-commenting"></i></div>
+                <a href="javascript:void(0);" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        
+        <div class="clearfix"></div>
+        
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">{:lang('system_config')}</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table table-hover">
+                        {volist name="data.system_config" id="vo" }
+                        <tr>
+                            <td>{$key}：{$vo}</td>
+                        </tr>
+                        {/volist}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{/block}

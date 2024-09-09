@@ -1,0 +1,99 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{if $data}{:lang('edit')}{else /}{:lang('create')}{/if} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">{:lang('base_param')}</a></li>
+                        <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'avatar',
+                            ]])}
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'logins',
+                            ]])}
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'reg_ip',
+                            ]])}
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'last_time',
+                            ]])}
+                            {:widget('common/Hidden/index', [$data, [
+                                'name' => 'last_ip',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'username',
+                                'title' => lang('username'),
+                                'placeholder' => lang('username'),
+                                'validate' => lang('username_require'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'password',
+                                'title' => lang('password'),
+                                'placeholder' => lang('password'),
+                                'validate' => lang('password_require'),
+                                'inputtype' => 'password',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'repassword',
+                                'title' => lang('repassword'),
+                                'placeholder' => lang('repassword'),
+                                'inputtype' => 'password',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'name',
+                                'title' => lang('name'),
+                                'placeholder' => lang('name'),
+                                'validate' => lang('name_require'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'mobile',
+                                'title' => lang('mobile'),
+                                'placeholder' => lang('mobile'),
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'email',
+                                'title' => lang('email'),
+                                'placeholder' => lang('email'),
+                            ]])}
+                            {:widget('common/Select/index', [$data, [
+                                'name' => 'sex',
+                                'title' => lang('sex'),
+                                'from' => 'selectlist',
+                                'fromcfg' => 'sex',
+                            ]])}
+                            {:widget('common/Input/index', [$data, [
+                                'name' => 'qq',
+                                'title' => lang('qq'),
+                                'placeholder' => lang('qq'),
+                            ]])}
+                            {:widget('common/Select/index', [$data, [
+                                'name' => 'status',
+                                'title' => lang('status'),
+                                'from' => 'selectlist',
+                                'fromcfg' => 'status',
+                            ]])}
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-6">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{/block}

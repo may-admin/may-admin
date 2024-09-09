@@ -1,0 +1,58 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{:lang('list')} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        {volist name="dataList" id="vo" key="k"}
+                        <li {if $k == 1}class="active"{/if}><a href="#tab{$vo.id}" data-toggle="tab">{$vo.title}</a></li>
+                        {/volist}
+                        <li><a href="#tab2" data-toggle="tab">{:lang('help')}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        {volist name="dataList" id="vo2" key="k2"}
+                        <div class="tab-pane {if $k2 == 1}active{/if}" id="tab{$vo2.id}">
+                            <form class="form-horizontal" method="POST" action="{:url('Config/save')}" onsubmit="return false" >
+                                {:widget('common/Hidden/index', [$vo2, [
+                                    'name' => 'type',
+                                ]])}
+                                {volist name="vo2.config_lists" id="vo3"}
+                                {:widget('common/'.$vo3->texttype.'/index', [$vo3, [
+                                    'name' => $vo3->k,
+                                    'title' => $vo3->infos,
+                                    'placeholder' => $vo3->infos,
+                                    'validate' => $vo3->prompt,
+                                    'from' => 'selectlist',
+                                    'fromcfg' => $vo3->textvalue,
+                                ]])}
+                                {/volist}
+                                <div class="box-footer">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-6">
+                                        <div class="btn-group">
+                                            {:auth_action(CONTROLLER_NAME.'/save', 'submit', lang('submit'), '', 'info', '')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {/volist}
+                        <div class="tab-pane" id="tab2">
+                            <div class="callout callout-danger">
+                                <p>特别注意：</p>
+                                <p>1、值不能包含英文的单引号，“'”，否则会导致生成配置文件错误，导致程序错误</p>
+                                <p>2、如果需要填写PHP数组请分别以“[”和“]”开始和结束，不能单独以“[”开始，否则会导致生成配置文件错误，导致程序错误</p>
+                                <p>如果不慎保存，请手动修复dbconfig.php配置文件或清空并重新保存</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+{/block}

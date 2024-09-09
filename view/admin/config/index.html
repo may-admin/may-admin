@@ -17,30 +17,27 @@
                         <tr>
                             <th width="36"><input type="checkbox" class="icheck checkbox-toggle"></th>
                             <th>{:lang('id')}{:table_sort('id')}</th>
-                            <th>{:lang('avatar')}</th>
-                            <th>{:lang('username')}{:table_sort('username')}<br />{:lang('name')}{:table_sort('name')}<br />{:lang('auth_group_title')}</th>
-                            <th>{:lang('mobile')}{:table_sort('mobile')}<br />{:lang('email')}{:table_sort('email')}<br />{:lang('sex')}{:table_sort('sex')}</th>
-                            <th>{:lang('create_time')}{:table_sort('create_time')} / {:lang('reg_ip')}{:table_sort('reg_ip')}</th>
-                            <th>{:lang('last_time')}{:table_sort('last_time')} / {:lang('last_ip')}{:table_sort('last_ip')}</th>
-                            <th>{:lang('logins')}{:table_sort('logins')}</th>
+                            <th>{:lang('k')}</th>
+                            <th>{:lang('v')}</th>
+                            <th>{:lang('infos')}</th>
+                            <th>{:lang('type')}{:table_sort('type')}</th>
+                            <th>{:lang('texttype')}{:table_sort('texttype')}</th>
+                            <th>{:lang('sorts')}{:table_sort('sorts')}</th>
                             <th>{:lang('status')}{:table_sort('status')}</th>
-                            <th width="204">{:lang('action')}</th>
+                            <th width="124">{:lang('action')}</th>
                         </tr>
                         {volist name="dataList" id="vo"}
                         <tr>
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="icheck"></td>
                             <td>{$vo.id}</td>
-                            <td><img src="{$vo.avatar}" style="width:50px;border-radius:50%;" /></td>
-                            <td>{$vo.username}<br />{:list_write($vo, 'name')}<br /><span class="label label-danger">{$vo.title}</span></td>
-                            <td>{:list_write($vo, 'mobile')}<br />{:list_write($vo, 'email')}<br />{$vo.sex_text}</td>
-                            <td>{$vo.create_time|time_turn}<br />{$vo.reg_ip}</td>
-                            <td>{$vo.last_time|time_turn}<br />{$vo.last_ip}</td>
-                            <td>{$vo.logins}</td>
+                            <td>{:list_write($vo, 'k')}</td>
+                            <td class="ellipsis" style="max-width:400px;" title="{$vo.v}">{:list_write($vo, 'v')}</td>
+                            <td>{:list_write($vo, 'infos')}</td>
+                            <td>{:list_write($vo, 'type')}</td>
+                            <td>{$vo.texttype}</td>
+                            <td>{:list_write($vo, 'sorts')}</td>
                             <td>{:list_status($vo['id'], $vo['status'])}</td>
-                            <td>
-                                {:auth_action(CONTROLLER_NAME.'/authGroup', 'a', lang('auth_group'), ['id' => $vo.id], 'success')} 
-                                {include file="public/list_action" /}
-                            </td>
+                            <td>{include file="public/list_action" /}</td>
                         </tr>
                         {/volist}
                     </table>

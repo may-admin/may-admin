@@ -1,0 +1,49 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{:lang('list')} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border" style="height:51px;" >
+                    <div class="pull-left" style="margin-right:10px;">
+                        {:auth_action(CONTROLLER_NAME.'/create', 'a', lang('create'), [], 'primary', 'sm', 'save')} 
+                    </div>
+                </div>
+                <div class="box-body table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th>{:lang('title')}</th>
+                            <th>{:lang('name')}</th>
+                            <th>{:lang('level')}</th>
+                            <th>{:lang('icon')}</th>
+                            <th>{:lang('sorts')}</th>
+                            <th>{:lang('ismenu')}</th>
+                            <th>{:lang('status')}</th>
+                            <th width="124">{:lang('action')}</th>
+                        </tr>
+                        {volist name="dataList" id="vo"}
+                        <tr>
+                            <td>
+                                {eq name="vo['level']" value="3"}　　　│　　　├{/eq}
+                                {eq name="vo['level']" value="2"}　　　├{/eq}
+                                {:list_write($vo, 'title')}
+                            </td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.level_text}</td>
+                            <td><i class="{$vo.icon}"></i></td>
+                            <td>{:list_write($vo, 'sorts')}</td>
+                            <td>{:list_status($vo['id'], $vo['ismenu'], 'ismenu')}</td>
+                            <td>{:list_status($vo['id'], $vo['status'])}</td>
+                            <td>{include file="public/list_action" /}</td>
+                        </tr>
+                        {/volist}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{/block}
