@@ -3,7 +3,6 @@ namespace app\admin\controller;
 
 use app\common\controller\Admin;
 use app\common\model\Admin as Admins;
-use app\common\model\Archive;
 use think\facade\View;
 use think\facade\Cache;
 
@@ -17,8 +16,6 @@ class Index extends Admin
         
         $data['member_total'] = 0;
         
-        // $archiveModel = new Archive();
-        // $data['archive_total'] = $archiveModel->count();
         $data['archive_total'] = 0;
         
         $data['comment_total'] = 0;
