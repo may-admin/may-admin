@@ -1,0 +1,42 @@
+{if isset($wconfig['theme']) && $wconfig['theme'] == 'rules' }
+<div class="form-group">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col} rule_node">
+        <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />
+        {volist name="optionList" id="vo"}
+        <p class='left{$vo.html[0]} {if $vo.html[0] != 1 } pull-left{/if}' >
+        <label class="checkbox-inline">
+            <input type="checkbox" class="icheck_{$wconfig.name}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled} > {$vo.html[1]}
+        </label>
+        </p>
+        {/volist}
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+{else /}
+<div class="form-group">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />
+        {volist name="optionList" id="vo"}
+        <label class="checkbox-inline">
+            <input type="checkbox" class="icheck_{$wconfig.name}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
+        </label>
+        {/volist}
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+{/if}
+<script type="text/javascript">
+$(function(){
+    $('.icheck_{$wconfig.name}').iCheck({ checkboxClass:'icheckbox_flat-green', radioClass: 'iradio_flat-green'});    //iCheck初始化
+})
+</script>

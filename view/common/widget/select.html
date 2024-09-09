@@ -1,0 +1,38 @@
+{if isset($wconfig['theme']) && $wconfig['theme'] == 'arctype_select' }
+<div class="form-group">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <select class="form-control" id="select2_{:str_replace('.', '_', $wconfig.name)}" name="{$wconfig.name}" {$wconfig.disabled} style="width:100%;">
+            {volist name="optionList" id="vo"}
+            <option value="{$vo.value}" {$vo.selected} {$vo.html.disabled} >{$vo.html.val}</option>
+            {/volist}
+        </select>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+{else /}
+<div class="form-group">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <select class="form-control" id="select2_{:str_replace('.', '_', $wconfig.name)}" name="{$wconfig.name}" {$wconfig.multiple} {$wconfig.disabled} style="width:100%;">
+            {volist name="optionList" id="vo"}
+            <option value="{$vo.value}" {$vo.selected} >{$vo.html}</option>
+            {/volist}
+        </select>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+{/if}
+<script type="text/javascript">
+$(function(){
+    $('#select2_{:str_replace('.', '_', $wconfig.name)}').select2({language:"zh-CN"});    //select2初始化
+})
+</script>
