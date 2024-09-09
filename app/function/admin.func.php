@@ -36,6 +36,24 @@ function auth_action($rule, $cationType='a', $info='infos', $param='', $color='p
 }
 
 /**
+ * @Description: todo(分配权限节点)
+ * @author 苏晓信 <654108442@qq.com>
+ * @date 2018年11月9日
+ * @throws
+ */
+function auth_rule_check($module){
+    $authRuleModel = new \app\common\model\AuthRule();
+    $list = $authRuleModel->treeList($module, 1);
+    $option = [];
+    if (!empty($list)){
+        foreach ($list as $v){
+            $option[$v['id']] = [$v['level'], $v['title']];
+        }
+    }
+    return $option;
+}
+
+/**
  * @Description: todo(列表table排序)
  * @param string $param
  * @return string

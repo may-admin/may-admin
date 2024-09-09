@@ -71,3 +71,20 @@ function time_turn($time, $format='Y-m-d H:i:s'){
     }
     return date($format, $time);
 }
+
+/**
+ * @Description: todo(删除二维数组中的空值，保留0和false)
+ * @param array $arr
+ * @return array
+ * @author 苏晓信 <654108442@qq.com>
+ * @date 2018年10月9日
+ * @throws
+ */
+function del_arr_empty($arr){
+    foreach ($arr as $key => $value){
+        if ($value == ''){
+            unset($arr[$key]);
+        }
+    }
+    return $arr;
+}

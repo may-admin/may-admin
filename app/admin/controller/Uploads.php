@@ -20,6 +20,8 @@ class Uploads extends BaseController
         'file_url' => '',            //上传图片主机URL地址
     ];
     
+    private $public_path;       //public目录
+    
     private $up_type;           //上传类型
     private $file_move_path;    //上传文件移动服务器位置
     private $file_back_path;    //上传文件返回文件地址
@@ -30,18 +32,20 @@ class Uploads extends BaseController
     
     public function initialize()
     {
+        $this->public_path = public_path();
+        
         if (config('dbconfig.up')) {
             $this->config = array_merge($this->config, config('dbconfig.up'));      // 请新扩展配置文件
         }
         $this->up_type = input('get.dir');   //上传文件类型
-        $this->file_move_path = WEB_PATH.DIRECTORY_SEPARATOR.$this->config['upload_path'].DIRECTORY_SEPARATOR.$this->up_type;
+        $this->file_move_path = $this->public_path.$this->config['upload_path'].DIRECTORY_SEPARATOR.$this->up_type;
         $this->file_back_path = DIRECTORY_SEPARATOR.$this->config['upload_path'].DIRECTORY_SEPARATOR.$this->up_type;
         
-        $this->root_path = WEB_PATH.'/'.$this->config['upload_path'].'/';
+        $this->root_path = $this->public_path.$this->config['upload_path'].'/';
         $this->root_url = '/'.$this->config['upload_path'].'/';
         $this->order = empty(input('get.order')) ? 'name' : strtolower(input('get.order'));
         if (!file_exists($this->root_path)) {
-            mkdir($this->root_path);
+            mkdir($this->root_path, 0755, true);
         }
     }
     
@@ -127,8 +131,8 @@ class Uploads extends BaseController
                     $where = ['id' => $id];
                     $result = $adminModel->where($where)->update($data);
                     if ($result){   //保存成功再删除旧头像
-                        if ($oldAvatar != config('custom.default_avatar') && file_exists(WEB_PATH.$oldAvatar)){      //删除之前头像
-                            unlink(WEB_PATH.$oldAvatar);
+                        if ($oldAvatar != config('custom.default_avatar') && file_exists($this->public_path.$oldAvatar)){      //删除之前头像
+                            unlink($this->public_path.$oldAvatar);
                         }
                         $res['message'] = 'success';
                         $res['result'] = $back;
@@ -278,8 +282,8 @@ class Uploads extends BaseController
         $res['code'] = 400;
         $res['data'] = [];
         if ($data['dir'] == 'dir'){
-            deldir(WEB_PATH.$data['del_url'], 'y');   //删除目录
-            if (!file_exists(WEB_PATH.$data['del_url'])){   //检测目录是否还存在
+            deldir($this->public_path.$data['del_url'], 'y');   //删除目录
+            if (!file_exists($this->public_path.$data['del_url'])){   //检测目录是否还存在
                 $res['msg'] = '目录删除成功';
                 $res['code'] = 200;
             }else {
@@ -287,8 +291,8 @@ class Uploads extends BaseController
                 $res['code'] = 400;
             }
         }else if($data['dir'] == 'file'){
-            unlink(WEB_PATH.$data['del_url']);   //删除文件
-            if (!file_exists(WEB_PATH.$data['del_url'])){   //检测目录是否还存在
+            unlink($this->public_path.$data['del_url']);   //删除文件
+            if (!file_exists($this->public_path.$data['del_url'])){   //检测目录是否还存在
                 $res['msg'] = '文件删除成功';
                 $res['code'] = 200;
             }else {
