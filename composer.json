@@ -5,7 +5,6 @@
     "keywords": [
         "may-admin",
         "thinkphp"
-        
     ],
     "homepage": "https://www.thinkphp.cn/",
     "license": "Apache-2.0",
@@ -14,10 +13,6 @@
             "name": "子青时节",
             "email": "654108442@qq.com"
         }
-        
-        
-        
-        
     ],
     "require": {
         "php": ">=8.0.0",
