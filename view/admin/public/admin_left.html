@@ -1,3 +1,25 @@
 {if !defined('ISPJAX') || ISPJAX !== true }
-admin_left
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            {volist name="treeMenu" id="vo"}
+            <li class="{if !empty($vo['_child'])}treeview {/if} {if in_array($vo['id'], $activeMenus)}active menu-open{/if}">
+                <a href="{if !empty($vo['_child'])}javascript:void(0);{else /}{:url($vo.name)}{/if}">
+                    <i class="{$vo.icon}"></i><span>{$vo.title}</span>
+                    {if !empty($vo['_child'])}
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    {/if}
+                </a>
+                {if !empty($vo['_child'])}
+                <ul class="treeview-menu" {if in_array($vo['id'], $activeMenus)}style="display:block;"{/if}>
+                    {volist name="vo._child" id="vo2"}
+                    <li {if in_array($vo2['id'], $activeMenus)}class="active"{/if}><a href="{:url($vo2.name)}"><i class="{$vo2.icon}"></i>{$vo2.title}</a></li>
+                    {/volist}
+                </ul>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </section>
+</aside>
 {/if}

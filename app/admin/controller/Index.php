@@ -17,8 +17,9 @@ class Index extends Admin
         
         $data['member_total'] = 0;
         
-        $archiveModel = new Archive();
-        $data['archive_total'] = $archiveModel->count();
+        // $archiveModel = new Archive();
+        // $data['archive_total'] = $archiveModel->count();
+        $data['archive_total'] = 0;
         
         $data['comment_total'] = 0;
         

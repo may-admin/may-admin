@@ -1,3 +1,3 @@
 {if !defined('ISPJAX') || ISPJAX !== true }
-admin_bottom
+<footer class="main-footer"><div class="pull-right hidden-xs">{:config('dbconfig.sys.version')}</div>{:htmlspecialchars_decode(config('dbconfig.sys.copyright'))}</footer>
 {/if}
