@@ -1,5 +1,5 @@
 {if isset($wconfig['theme']) && $wconfig['theme'] == 'rules' }
-<div class="form-group">
+<div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col} rule_node">
         <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />
@@ -18,7 +18,7 @@
     {/if}
 </div>
 {else /}
-<div class="form-group">
+<div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
         <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />

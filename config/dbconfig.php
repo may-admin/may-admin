@@ -1,11 +1,11 @@
 <?php
 return [
     'sys' => [
-        'login_title' => '子青时节',
-        'login_image' => '子青时节后台管理',
+        'login_title' => 'MayAdmin',
+        'login_image' => 'MayAdmin后台管理',
         'login_bg' => '/static/global/common/img/avatar.png',
-        'top_big_logo' => '子青时节',
-        'top_small_logo' => '子青',
+        'top_big_logo' => 'MayAdmin',
+        'top_small_logo' => 'May',
         'copyright' => 'Copyright © 2017-2024 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;',
         'version' => 'Version 1.0.0',
     ],

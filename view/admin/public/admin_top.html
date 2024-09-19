@@ -1,29 +1,25 @@
 {if !defined('ISPJAX') || ISPJAX !== true }
 <header class="main-header">
-    <a class="logo hidden-xs">
+    <a class="logo d-none d-md-block">
         <span class="logo-mini">{:config('dbconfig.sys.top_small_logo')}</span>
         <span class="logo-lg">{:config('dbconfig.sys.top_big_logo')}</span>
     </a>
     <nav class="navbar navbar-static-top">
         <a href="javacript:void(0);" class="sidebar-toggle" title="展开主菜单" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{:request()->domain()}" target="_blank"><i class="fa fa-home"></i> {:lang('web_home')}</a></li>
-                <li><a href="{:url('Login/LoginLock')}" ><i class="fa fa-desktop"></i> {:lang('lock_btn')}</a></li>
+                <li><a href="{:request()->domain()}" target="_blank"><i class="fa-solid fa-home"></i> {:lang('web_home')}</a></li>
+                <li class="d-none d-md-block"><a href="{:url('Login/LoginLock')}" ><i class="fa-solid fa-desktop"></i> {:lang('lock_btn')}</a></li>
                 {:auth_action('Index/cleanCache', 'clean_cache', lang('clean_cache'), -1, '', '', 'paint-brush')}
                 <li class="dropdown user user-menu">
-                    <a href="javacript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="javacript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown">
                         <img src="{:cookie('admin_avatar')}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">{:cookie('admin_name')}</span>
+                        <span class="name">{:cookie('admin_name')}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>{:auth_action('Admin/editSelf', 'a', lang('edit_self'), [], 'flat', 'default', 'user-o')}</li>
-                        <li><a href="{:url('Login/LoginOut')}" class="btn btn-default btn-flat last"><i class="fa fa-sign-out"></i> {:lang('sign_out')}</a></li>
+                        <li>{:auth_action('Admin/editSelf', 'a', lang('edit_self'), [], 'flat', 'default', 'user')}</li>
+                        <li><a href="{:url('Login/LoginOut')}" class="btn btn-default btn-flat last"><i class="fa-solid fa-sign-out"></i> {:lang('sign_out')}</a></li>
                     </ul>
                 </li>
             </ul>

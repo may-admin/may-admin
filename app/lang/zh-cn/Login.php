@@ -7,6 +7,7 @@ return [
     'remember_password' => '记住密码',
     'captcha_error'     => '验证码错误',
     'admin_require'     => '用户名或密码不能为空',
+    'captcha_require'   => '验证码不能为空',
     'admin_empty'       => '用户不存在',
     'admin_stop'        => '用户被停用',
     'password_error'    => '密码错误',

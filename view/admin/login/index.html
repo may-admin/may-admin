@@ -6,10 +6,10 @@
 <title>{:lang('login')} - {:config('dbconfig.sys.login_title')}</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 {load href="/static/global/bootstrap/css/bootstrap.min.css" /}
-{load href="/static/global/font-awesome/css/font-awesome.min.css" /}
+{load href="/static/global/font-awesome/css/all.min.css" /}
 {load href="/static/system/dist/css/AdminLTE.min.css" /}
 {load href="/static/global/jquery/jquery-2.2.3.min.js" /}
-{load href="/static/global/bootstrap/js/bootstrap.min.js" /}
+{load href="/static/global/bootstrap/js/bootstrap.bundle.min.js" /}
 {load href="/static/global/layer/layer.js" /}
 {load href="/static/global/jquery/jquery.form.js" /}
 {load href="/static/system/dist/js/login.js" /}
@@ -58,34 +58,46 @@
             <div class="form-container">
                 <form action="{:url('Login/checkLogin')}" method="post" onsubmit="return false" >
                     {if cookie('admin_username')}
-                    <div class="form-group text-center">{:cookie('admin_username')}</div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="{:lang('login_lock_text')}">
+                    <div class="form-group row text-center">
+                        <div class="col-12">{:cookie('admin_username')}</div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-xs-8"><input class="form-control" name="captcha" placeholder="{:lang('captcha')}"></div>
-                        <div class="col-xs-4">
+                        <div class="col-12">
+                            <input type="password" class="form-control" name="password" placeholder="{:lang('login_lock_text')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6"><input class="form-control" name="captcha" placeholder="{:lang('captcha')}"></div>
+                        <div class="col-6">
                             <img src="{:url('verify')}" id="captcha" alt="captcha" onclick="this.src='{:url('verify')}?rnd=' + Math.random();" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block login" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('login_lock_btn')}">{:lang('login_lock_btn')}</button>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success btn-block login" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('login_lock_btn')}">{:lang('login_lock_btn')}</button>
+                        </div>
                     </div>
                     {else /}
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="{:lang('username')}">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="{:lang('password')}">
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <input type="text" class="form-control" name="username" placeholder="{:lang('username')}">
+                        </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-xs-6"><input class="form-control" name="captcha" placeholder="{:lang('captcha')}"></div>
-                        <div class="col-xs-6">
+                        <div class="col-12">
+                            <input type="password" class="form-control" name="password" placeholder="{:lang('password')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6"><input class="form-control" name="captcha" placeholder="{:lang('captcha')}"></div>
+                        <div class="col-6">
                             <img src="{:url('verify')}" id="captcha" alt="captcha" onclick="this.src='{:url('verify')}?rnd=' + Math.random();" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block login" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('login')}">{:lang('login')}</button>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success btn-block login" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('login')}">{:lang('login')}</button>
+                        </div>
                     </div>
                     {/if}
                 </form>

@@ -5,12 +5,12 @@
             {volist name="searchConf" id="vo"}
             <div class="col-lg-3 col-md-6">
             {if $vo['type'] == 'ToTime' }
-            <div class="form-group">
+            <div class="form-group row">
                 <label class="col-sm-3 control-label">{$vo['widget_conf']['title']}</label>
                 <div class="col-sm-9">
                     <div class="input-daterange input-group input-group-md">
                         <input class="form-control" id="{$vo['widget_conf']['start_name']}" name="{$vo['widget_conf']['start_name']}" value="{$vo['data'][$vo['widget_conf']['start_name']]}" placeholder="开始日期" type="text">
-                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                        <span class="input-group-addon"><i class="fa-solid fa-chevron-right"></i></span>
                         <input class="form-control" id="{$vo['widget_conf']['end_name']}" name="{$vo['widget_conf']['end_name']}" value="{$vo['data'][$vo['widget_conf']['end_name']]}" placeholder="结束日期" type="text">
                     </div>
                 </div>
@@ -40,7 +40,7 @@
             {/volist}
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-info pull-right sreachs" data-loading-text="<i class='fa fa-spinner fa-spin '></i> {:lang('search')}">{:lang('search')}</button>
+            <button type="submit" class="btn btn-info"><i class='fa-solid fa-search'></i> {:lang('search')}</button>
         </div>
     </form>
 </div>

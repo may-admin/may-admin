@@ -18,6 +18,46 @@ $(function(){
         $.pjax({url:_href, container: '#pjax-container', fragment:'#pjax-container'})
     });
     
+    //全选-反选
+    $('body').off('click', '.table-check');
+    $('body').on('click', '.table-check', function(event){
+        var _this = $(this);
+        var table_check = _this.closest('.table').find(".table-check");
+        var check_num = table_check.length;
+        table_check.each(function() {
+            if($(this).prop('checked') === false){
+                check_num--;
+            }
+        });
+        var _check_toggle = _this.closest('.table').find(".table-check-toggle");
+        if(check_num == table_check.length){
+            _check_toggle.prop('checked', true);
+            _check_toggle[0].indeterminate = false;
+            _check_toggle.removeClass('indeterminate');
+        }else if(check_num == 0){
+            _check_toggle.prop('checked', false);
+            _check_toggle[0].indeterminate = false;
+            _check_toggle.removeClass('indeterminate');
+        }else{
+            _check_toggle.prop('checked', false);
+            _check_toggle[0].indeterminate = true;
+            _check_toggle.addClass('indeterminate');
+        }
+    });
+    $('body').off('click', '.table-check-toggle');
+    $('body').on('click', '.table-check-toggle', function(event){
+        var _this = $(this);
+        if(_this.hasClass('indeterminate')){
+            var table_check = _this.closest('.table').find(".table-check").prop('checked', true);
+            _this[0].indeterminate = false;
+            _this.removeClass('indeterminate');
+        }else if($(this).prop('checked') === true){
+            var table_check = _this.closest('.table').find(".table-check").prop('checked', true);
+        }else if($(this).prop('checked') === false){
+            var table_check = _this.closest('.table').find(".table-check").prop('checked', false);
+        }
+    });
+    
     //分页input选择页数
 //    $('body').off('keypress', '.pagination input');
 //    $('body').on('keypress', '.pagination input', function(event){
@@ -28,22 +68,24 @@ $(function(){
 //    });
     
     //下拉选择搜索
-    $('body').off('click', '.search-ul li a');
-    $('body').on('click', '.search-ul li a', function(event){
-        var _this = $(this);
-        var _field = _this.data('field');
-        var _html = _this.html();
-        var _box = _this.closest('.input-group-btn');
-        _box.find('.search_field').val(_field);
-        _box.find('.dropdown-toggle span').html(_html);
-        _box.next('input').attr('placeholder', _html);
-    });
+    // $('body').off('click', '.search-ul li a');
+    // $('body').on('click', '.search-ul li a', function(event){
+    //     var _this = $(this);
+    //     var _field = _this.data('field');
+    //     var _html = _this.html();
+    //     var _box = _this.closest('.input-group-btn');
+    //     _box.find('.search_field').val(_field);
+    //     _box.find('.dropdown-toggle span').html(_html);
+    //     _box.next('input').attr('placeholder', _html);
+    // });
     
     //提交
     $('body').off('click', '.submits');
     $('body').on('click', '.submits', function(event){
         var _this = $(this);
-        _this.button('loading');
+        _this.addClass('disabled').prop("disabled", true);
+        _this.data('loading-html', _this.html());
+        _this.html(_this.data('loading-text'));
         var form = _this.closest('form');
         if(form.length){
             var ajax_option={
@@ -54,11 +96,11 @@ $(function(){
                         if(data.url != ''){
                             $.pjax({url: data.url, container: '#pjax-container', fragment:'#pjax-container'});
                         }
-                        _this.button('reset');
                     }else{
-                        _this.button('reset');
                         layer.msg(data.info, {icon: 2});
                     }
+                    _this.removeClass('disabled').prop("disabled", false);
+                    _this.html(_this.data('loading-html'));
                 }
             }
             form.ajaxSubmit(ajax_option);
@@ -173,18 +215,6 @@ $(function(){
         var _this = $(this).addClass('active');
     });
 })
-
-function index_list_init(){
-    /*ajax页面加载icheck，有该控件的页面才需要*/
-    $('.icheck').iCheck({ checkboxClass:'icheckbox_flat-green', radioClass: 'iradio_flat-green'});
-    
-    /*全选-反选*/
-    $('.checkbox-toggle').on('ifChecked', function(event){
-        $(this).closest('.table').find('tr td input[type="checkbox"]').iCheck('check');
-    }).on('ifUnchecked', function(event){
-        $(this).closest('.table').find('tr td input[type="checkbox"]').iCheck('uncheck');
-    });
-}
 
 function list_write(input){
     var _input = $(input);

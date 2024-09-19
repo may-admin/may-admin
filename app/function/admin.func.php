@@ -19,16 +19,16 @@ function auth_action($rule, $cationType='a', $info='infos', $param='', $color='p
     if( $result ){
         switch ($cationType) {
             case "a":
-                $result = "<a class=\"btn btn-".$color." btn-".$size."\" href=\"".url($rule, $param)."\"><i class=\"fa fa-".$icon."\"></i> ".$info."</a>";
+                $result = "<a class=\"btn btn-".$color." btn-".$size."\" href=\"".url($rule, $param)."\"><i class=\"fa-solid fa-".$icon."\"></i> ".$info."</a>";
                 break;
             case "confirm":
-                $result = "<a class=\"btn btn-".$color." btn-".$size." btn-confirm\" href=\"javascript:void(0);\" data-url=\"".url($rule)."\" data-id=\"".$param."\" data-title=\"".$info."\" ><i class=\"fa fa-".$icon."\"></i> ".$info."</a>";
+                $result = "<a class=\"btn btn-".$color." btn-".$size." btn-confirm\" href=\"javascript:void(0);\" data-url=\"".url($rule)."\" data-id=\"".$param."\" data-title=\"".$info."\" ><i class=\"fa-solid fa-".$icon."\"></i> ".$info."</a>";
                 break;
             case "clean_cache":
-                $result = "<li><a href=\"javacript:void(0);\" class=\"btn-confirm\" data-url=\"".url($rule)."\" data-id=\"".$param."\" data-title=\"".$info."\" ><i class=\"fa fa-".$icon."\"></i> ".$info."</a></li>";
+                $result = "<li><a href=\"javacript:void(0);\" class=\"btn-confirm\" data-url=\"".url($rule)."\" data-id=\"".$param."\" data-title=\"".$info."\" ><i class=\"fa-solid fa-".$icon."\"></i> ".$info."</a></li>";
                 break;
             case "submit":
-                $result = "<button type=\"submit\" class=\"btn btn-".$color." btn-".$size." submits\" data-loading-text=\"&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; ".$info."\">".$info."</button>";
+                $result = "<button type=\"submit\" class=\"btn btn-".$color." btn-".$size." submits\" data-loading-text=\"&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; ".$info."\">".$info."</button>";
                 break;
         }
     }
@@ -90,7 +90,7 @@ function table_sort($param){
     }
     $paramStrs = implode('&', $paramStr);
     $url_path = $url_path.'?'.$paramStrs;
-    return "<a class=\"fa ".$faStr."\" href=\"".$url_path."\"></a>";
+    return "<a class=\"fa-solid ".$faStr."\" href=\"".$url_path."\"></a>";
 }
 
 /**
@@ -110,7 +110,7 @@ function list_status($id, $value, $field='status', $action='edit'){
     }else{
         $str = "fa-times-circle text-red";
     }
-    return "<a href=\"javascript:void(0);\" data-id=\"".$id."\" data-field=\"".$field."\" data-value=\"".$value."\" data-url=\"".url($action)."\" class=\"editimg fa ".$str."\"></a>";
+    return "<a href=\"javascript:void(0);\" data-id=\"".$id."\" data-field=\"".$field."\" data-value=\"".$value."\" data-url=\"".url($action)."\" class=\"editimg fa-solid ".$str."\"></a>";
 }
 
 /**

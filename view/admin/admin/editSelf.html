@@ -7,11 +7,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">{:lang('base_param')}</a></li>
-                    <li><a href="#tab2" data-toggle="tab">{:lang('base_avatar')}</a></li>
-                    <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
-                </ul>
+                <div class="nav nav-tabs">
+                    <div class="nav-item">
+                        <a data-bs-target="#tab1" data-bs-toggle="tab" class="active">{:lang('base_param')}</a>
+                        <a data-bs-target="#tab2" data-bs-toggle="tab">{:lang('base_avatar')}</a>
+                    </div>
+                    <div class="nav-back"><a href="javascript:history.back(-1)"><i class="fa-solid fa-list"></i> {:lang('back')}</a></div>
+                </div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab1">
                         <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
@@ -66,11 +68,11 @@
                                 'from' => 'selectlist',
                                 'fromcfg' => 'status',
                             ]])}
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-6">
                                     <div class="btn-group">
-                                        <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                                        <button type="submit" class="btn btn-info submits" data-loading-text="&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@
                     </div>
                     <div class="tab-pane" id="tab2">
                         <div class="form-horizontal">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">{$Think.lang.avatar}</label>
                                 <div class="col-sm-7">
                                     <div id="avatar-box">
@@ -98,8 +100,8 @@
                                                         <input type="hidden" name="id" value="{$data.id}" />
                                                         <input type="hidden" name="model" value="Admin" />
                                                         <div class="modal-header">
-                                                            <button class="close" data-dismiss="modal" type="button">&times;</button>
-                                                            <h4 class="modal-title" id="avatar-modal-label">图片大小限制在 2.00M</h4>
+                                                            <h5 class="modal-title" id="avatar-modal-label">图片大小限制在 2.00M</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="avatar-body">
@@ -114,21 +116,21 @@
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <div class="avatar-preview preview-lg"></div>
-                                                                        <div class="avatar-preview preview-md hide"></div>
-                                                                        <div class="avatar-preview preview-sm hide"></div>
+                                                                        <div class="avatar-preview preview-md d-none"></div>
+                                                                        <div class="avatar-preview preview-sm d-none"></div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row avatar-btns">
                                                                     <div class="col-md-9">
                                                                         <div class="btn-group">
-                                                                            <button class="btn" data-method="rotate" data-option="-90" type="button"><i class="fa fa-undo"></i> 向左旋转</button>
+                                                                            <button class="btn" data-method="rotate" data-option="-90" type="button"><i class="fa-solid fa-undo"></i> 向左旋转</button>
                                                                         </div>
                                                                         <div class="btn-group">
-                                                                            <button class="btn" data-method="rotate" data-option="90" type="button"><i class="fa fa-repeat"></i> 向右旋转</button>
+                                                                            <button class="btn" data-method="rotate" data-option="90" type="button"><i class="fa-solid fa-repeat"></i> 向右旋转</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <button class="btn btn-info btn-block" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+                                                                        <button class="btn btn-info btn-block" type="submit"><i class="fa-solid fa-save"></i> 保存修改</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

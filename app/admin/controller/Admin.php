@@ -188,7 +188,8 @@ class Admin extends Admins
             $group_id = input('post.group_id');
             $data = $authGroupAccessModel->where([['uid', '=', $uid], ['module', '=', 'admin']])->find();
             if (!empty($data)){
-                $result = $authGroupAccessModel->where([['uid', '=', $uid], ['module', '=', 'admin']])->save(['group_id' => $group_id]);
+                $data->group_id = $group_id;
+                $result = $data->save();
             }else{
                 $result = $authGroupAccessModel->save(['uid' => $uid, 'group_id' => $group_id, 'module' => 'admin']);
             }

@@ -1,3 +1,6 @@
 {if !defined('ISPJAX') || ISPJAX !== true }
-<footer class="main-footer"><div class="pull-right hidden-xs">{:config('dbconfig.sys.version')}</div>{:htmlspecialchars_decode(config('dbconfig.sys.copyright'))}</footer>
+<footer class="main-footer">
+    <div class="copyright">{:htmlspecialchars_decode(config('dbconfig.sys.copyright'))}</div>
+    <div class="d-none d-md-block">{:config('dbconfig.sys.version')}</div>
+</footer>
 {/if}

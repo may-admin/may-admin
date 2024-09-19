@@ -47,15 +47,18 @@ class Login extends BaseController
     {
         if(request()->isPost()){
             $data = input('post.');
-            if(!captcha_check($data['captcha'])){
-                return ajax_return(1, lang('captcha_error'));
-            };
             if (cookie('admin_username')){
                 $data['username'] = cookie('admin_username');
             }
             if(empty($data['username']) || empty($data['password'])){
                 return ajax_return(1, lang('admin_require'));
             }
+            if(empty($data['captcha'])){
+                return ajax_return(1, lang('captcha_require'));
+            }
+            if(!captcha_check($data['captcha'])){
+                return ajax_return(2, lang('captcha_error'));
+            };
             $where = [['username', '=', $data['username'] ]];
             $adminData = $this->cModel->where($where)->find();
             if(!empty($adminData)){

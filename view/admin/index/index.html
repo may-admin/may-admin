@@ -5,28 +5,28 @@
 {block name="pjax_container"}
 <section class="content">
     <div class="row">
-        <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-sm-6 col-12">
             <div class="small-box bg-yellow">
                 <div class="inner"><h3>{$data.admin_total}</h3><p>{:lang('admin_total')}</p></div>
                 <div class="icon"><i class="fa fa-users"></i></div>
                 <a href="{:url('Admin/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-sm-6 col-12">
             <div class="small-box bg-green">
                 <div class="inner"><h3>{$data.member_total}</h3><p>{:lang('member_total')}</p></div>
                 <div class="icon"><i class="fa fa-user-plus"></i></div>
                 <a href="javascript:void(0);" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-sm-6 col-12">
             <div class="small-box bg-aqua">
                 <div class="inner"><h3>{$data.archive_total}</h3><p>{:lang('archive_total')}</p></div>
                 <div class="icon"><i class="fa fa-file-text"></i></div>
                 <a href="{:url('Archive/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-sm-6 col-12">
             <div class="small-box bg-red">
                 <div class="inner"><h3>{$data.comment_total}</h3><p>{:lang('comment_total')}</p></div>
                 <div class="icon"><i class="fa fa-commenting"></i></div>
@@ -36,7 +36,7 @@
         
         <div class="clearfix"></div>
         
-        <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-sm-6 col-12">
             <div class="box box-primary">
                 <div class="box-header">
                     <h3 class="box-title">{:lang('system_config')}</h3>
@@ -52,6 +52,45 @@
                 </div>
             </div>
         </div>
+        
+        
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+        
+        
+<div class="bd-callout bd-callout-info">
+<h5 id="conveying-meaning-to-assistive-technologies">Conveying meaning to assistive technologies <a class="anchor-link" href="#conveying-meaning-to-assistive-technologies" aria-label="Link to this section: Conveying meaning to assistive technologies"></a></h5>
+<p>Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies – such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (e.g. the visible text), or is included through alternative means, such as additional text hidden with the <code>.visually-hidden</code> class.
+</p></div>
+        
+        
     </div>
 </section>
 {/block}

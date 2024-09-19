@@ -67,15 +67,15 @@
     },
 
     initTooltip: function () {
-      this.$avatarView.tooltip({
+      new bootstrap.Tooltip(this.$avatarView, {
         placement: 'bottom'
-      });
+      })
     },
 
     initModal: function () {
-      this.$avatarModal.modal({
+      new bootstrap.Modal(this.$avatarModal, {
         show: false
-      });
+      })
     },
 
     initPreview: function () {
