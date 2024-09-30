@@ -2,14 +2,22 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col} rule_node">
-        <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />
-        {volist name="optionList" id="vo"}
-        <p class='left{$vo.html[0]} {if $vo.html[0] != 1 } pull-left{/if}' >
-        <label class="checkbox-inline">
-            <input type="checkbox" class="icheck_{$wconfig.name}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled} > {$vo.html[1]}
+        <input type="hidden" name="{$wconfig.name}[]" value="" />
+        <label class="check-inline check-inline-all">
+            <input type="checkbox" class="form-check-input check1" > {:lang('check_all')}
         </label>
-        </p>
+        {php} $rule_now_level = 0; {/php}
+        {volist name="optionList" id="vo" key="k2"}
+        {if $rule_now_level == 0 && $vo['html'][0] == 1 }<div class="rule_node_box c-0">{/if}
+        {if $rule_now_level == 2 && $vo['html'][0] == 1 }</div></div><div class="rule_node_box c2-1">{/if}
+        {if $rule_now_level == 3 && $vo['html'][0] == 1 }</div></div><div class="rule_node_box c3-1">{/if}
+        {if $rule_now_level == 1 && $vo['html'][0] == 2 }<div class="rule_node_item c1-2">{/if}
+        <label class="check-inline left{$vo.html[0]}">
+            <input type="checkbox" class="form-check-input {if $vo['html'][0] == 1 }check2{else /}check3{/if}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled} > {$vo.html[1]}
+        </label>
+        {php} $rule_now_level = $vo['html'][0]; {/php}
         {/volist}
+        </div></div>
     </div>
     {if $wconfig['validate_col'] > 0 }
     <div class="col-sm-{$wconfig.validate_col}">
@@ -17,14 +25,52 @@
     </div>
     {/if}
 </div>
+<script>
+$('body').off('click', '.check1');
+$('body').on('click', '.check1', function(event){
+    var _this = $(this);
+    var ok = _this.prop("checked");
+    $(this).parents('.check-inline-all').siblings().find("input[type='checkbox']").prop('checked', ok);
+});
+
+$('body').off('click', '.check2');
+$('body').on('click', '.check2', function(event){
+    var _this = $(this);
+    var ok = _this.prop("checked");
+    _this.parents('.rule_node_box').find('.check3').prop("checked", ok);
+    var oCheck2 = _this.parents('.rule_node_box').siblings().andSelf().find(".check2");
+    _this.parents('.rule_node_box').siblings(".check-inline-all").find('.check1').prop("checked", trueorfalse(oCheck2));
+});
+
+$('body').off('click', '.check3');
+$('body').on('click', '.check3', function(event){
+    var _this = $(this);
+    var ockeck3 = _this.parent().siblings().andSelf().find(".check3");
+    _this.parents('.rule_node_box').find('.check2').prop("checked", trueorfalse(ockeck3));
+    var oCheck1 = _this.parents('.rule_node_box').siblings().andSelf().find('.check2');
+    _this.parents('.rule_node_box').siblings(".check-inline-all").find('.check1').prop("checked", trueorfalse(oCheck1));
+});
+
+// 找同级元素的checked状态
+function trueorfalse(obj) {
+    var bool = false;
+    $(obj).each(function() {
+        if ($(this).prop("checked")) {
+            bool = true;
+        }
+    })
+    return bool;
+}
+$('.check1').prop("checked", trueorfalse($('.rule_node .check2')));
+</script>
 {else /}
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
-        <input type="checkbox" class="hide" name="{$wconfig.name}[]" value="" checked="checked" />
+        <input type="checkbox" class="d-none" name="{$wconfig.name}[]" value="" checked="checked" />
         {volist name="optionList" id="vo"}
-        <label class="checkbox-inline">
-            <input type="checkbox" class="icheck_{$wconfig.name}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
+        <label class="check-inline">
+            <input type="checkbox" class="form-check-input" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
         </label>
         {/volist}
     </div>
@@ -35,8 +81,3 @@
     {/if}
 </div>
 {/if}
-<script type="text/javascript">
-$(function(){
-    $('.icheck_{$wconfig.name}').iCheck({ checkboxClass:'icheckbox_flat-green', radioClass: 'iradio_flat-green'});    //iCheck初始化
-})
-</script>

@@ -173,3 +173,18 @@ textarea.form-control{min-height:100px;resize:none}
 .form-check-input[type=checkbox]:indeterminate{background-color: #00c1de;border-color: #00c1de;}
 
 .input-group .input-group-addon{height: 34px;line-height: 34px;padding: 0 10px;border: 1px solid #ccc;}
+
+.rule_node{}
+.rule_node_box{clear:both;}
+.rule_node_box .left1{display:block;width:100%;background-color:#f9f9f9;padding-left:8px;}
+.rule_node_box .left2{clear:both;margin-left:30px}
+/*.rule_node_box .rule_node_item{}*/
+
+/*.rule_node_box .check-inline{padding:8px 8px;}*/
+
+/*.rule_node p{ clear:both; margin-bottom:0px;}*/
+/*.rule_node p .checkbox-inline{ padding-top:0px;}*/
+/*.rule_node p.pull-left{float:left;}*/
+/*.rule_node .left1{ background:#f9f9f9;}*/
+/*.rule_node .left2{ margin-left:24px;}*/
+/*.rule_node .left3{ margin-left:24px; clear:none;}*/

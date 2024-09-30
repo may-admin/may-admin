@@ -13,6 +13,7 @@ return [
     'delete'            => '删除',
     'search'            => '搜索',
     'back'              => '返回',
+    'check_all'         => '全选',
     'upload'            => '上传',
     'submit'            => '提交',
     'preview'           => '预览',

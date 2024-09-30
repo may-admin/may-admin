@@ -59,11 +59,17 @@ class Select
             }
         }elseif( $wconfig['from'] == 'function' ){
             if ( function_exists($wconfig['fromcfg'][0]) ){
-                if (isset($wconfig['fromcfg'][1])){
-                    $optionListData = eval("return ".$wconfig['fromcfg'][0]."('".$wconfig['fromcfg'][1]."');");
-                }else{
-                    $optionListData = eval("return ".$wconfig['fromcfg'][0]."();");
+                $function_str = "";
+                foreach ($wconfig['fromcfg'] as $k => $val){
+                    if($k == 0){
+                        $function_str .= "return ".$val."(";
+                    }else if($k == count($wconfig['fromcfg']) - 1){
+                        $function_str .= "\"".$val."\");";
+                    }else{
+                        $function_str .= "\"".$val."\", ";
+                    }
                 }
+                $optionListData = eval($function_str);
             }else{
                 return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">配置function函数：'.$wconfig['fromcfg'][0].' 不存在</span></div></div>';
             }
