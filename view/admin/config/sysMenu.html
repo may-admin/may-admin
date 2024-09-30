@@ -7,12 +7,15 @@
     <div class="row">
         <div class="col-md-12">
                 <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        {volist name="dataList" id="vo" key="k"}
-                        <li {if $k == 1}class="active"{/if}><a href="#tab{$vo.id}" data-toggle="tab">{$vo.title}</a></li>
-                        {/volist}
-                        <li><a href="#tab2" data-toggle="tab">{:lang('help')}</a></li>
-                    </ul>
+                    <div class="nav nav-tabs">
+                        <div class="nav-item">
+                            {volist name="dataList" id="vo" key="k"}
+                            <a data-bs-target="#tab{$vo.id}" data-bs-toggle="tab" {if $k == 1}class="active"{/if}>{$vo.title}</a>
+                            {/volist}
+                            <a data-bs-target="#tab2" data-bs-toggle="tab">{:lang('help')}</a>
+                        </div>
+                    </div>
+                    
                     <div class="tab-content">
                         {volist name="dataList" id="vo2" key="k2"}
                         <div class="tab-pane {if $k2 == 1}active{/if}" id="tab{$vo2.id}">
@@ -31,10 +34,12 @@
                                 ]])}
                                 {/volist}
                                 <div class="box-footer">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-6">
-                                        <div class="btn-group">
-                                            {:auth_action(CONTROLLER_NAME.'/save', 'submit', lang('submit'), '', 'info', '')}
+                                    <div class="row">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-6">
+                                            <div class="btn-group">
+                                                {:auth_action(CONTROLLER_NAME.'/save', 'submit', lang('submit'), '', 'info', '')}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
