@@ -3,7 +3,6 @@ namespace app\admin\controller;
 
 use app\common\controller\Admin as Admins;
 use think\facade\View;
-use app\common\model\AuthGroup;
 use app\common\model\AuthGroupAccess;
 
 class Admin extends Admins
@@ -201,19 +200,10 @@ class Admin extends Admins
             }
         }else{
             $id = input('get.id');
-            $authGroupModel = new AuthGroup();
-            $groupList = $authGroupModel->where([['module', '=', 'admin'], ['status', '=', 1]])->order('level ASC,id ASC')->select();   //管理员正常角色
-            $group_id = $authGroupAccessModel->where([['uid', '=', $id], ['module', '=', 'admin']])->value('group_id');                 //当前管理员已拥有角色
-            foreach ($groupList as $k => $v){
-                if ($group_id == $v['id']){
-                    $groupList[$k]['checked'] = 'checked="checked"';
-                }else{
-                    $groupList[$k]['checked'] = '';
-                }
-            }
+            $group_id = $authGroupAccessModel->where([['uid', '=', $id], ['module', '=', 'admin']])->value('group_id'); //当前管理员已拥有角色
             $data = $this->cModel->find($id);
+            $data['group_id'] = $group_id;
             View::assign('data', $data);
-            View::assign('groupList', $groupList);
             return View::fetch();
         }
     }

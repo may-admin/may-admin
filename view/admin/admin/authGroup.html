@@ -23,16 +23,12 @@
                                 'name' => 'username',
                                 'title' => lang('username'),
                             ]])}
-                            <div class="form-group row">
-                                <label class="col-sm-2 control-label">{:lang('auth_group')}</label>
-                                <div class="col-sm-6">
-                                    {volist name="groupList" id="vo"}
-                                    <label class="check-inline">
-                                        <input type="radio" class="form-check-input" name="group_id" value="{$vo.id}" {$vo.checked} ><span>{$vo.title}</span>
-                                    </label>
-                                    {/volist}
-                                </div>
-                            </div>
+                            {:widget('common/Radio/index', [$data, [
+                                'name' => 'group_id',
+                                'title' => lang('auth_group'),
+                                'from' => 'function',
+                                'fromcfg' => ['auth_group', 'admin'],
+                            ]])}
                         </div>
                     </div>
                     <div class="box-footer">

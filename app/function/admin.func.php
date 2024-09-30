@@ -36,6 +36,33 @@ function auth_action($rule, $cationType='a', $info='infos', $param='', $color='p
 }
 
 /**
+ * @Description: todo(权限节点)
+ * @param string $module
+ * @return array
+ * @author 苏晓信 <654108442@qq.com>
+ * @date 2019年5月12日
+ * @throws
+ */
+function auth_rule_select($module){
+    $authRuleModel = new \app\common\model\AuthRule();
+    $list = $authRuleModel->treeList($module, 1);
+    $option = ['0' => lang('auth_rule_top')];
+    if (!empty($list)){
+        foreach ($list as $v){
+            if ($v['h_layer'] < 3){
+                if ($v['h_layer'] > 1){
+                    $lv = '　　├ ';
+                }else{
+                    $lv = '';
+                }
+                $option[$v['id']] = $lv.$v['title'];
+            }
+        }
+    }
+    return $option;
+}
+
+/**
  * @Description: todo(分配权限节点)
  * @author 苏晓信 <654108442@qq.com>
  * @date 2018年11月9日
@@ -49,6 +76,26 @@ function auth_rule_check($module){
         foreach ($list as $v){
             $option[$v['id']] = [$v['level'], $v['title']];
         }
+    }
+    return $option;
+}
+
+/**
+ * @Description: todo(权限组)
+ * @author 苏晓信 <654108442@qq.com>
+ * @date 2024年9月29日
+ * @throws
+ */
+function auth_group($module, $please_select=false){
+    $authGroupModel = new \app\common\model\AuthGroup();
+    $list = $authGroupModel->where([['module', '=', $module], ['status', '=', 1]])->order('level ASC,id ASC')->select();
+    if($please_select){
+        $option[0] = lang('please_select');
+    }else{
+        $option = [];
+    }
+    foreach ($list as $v){
+        $option[$v->id] = $v->title;
     }
     return $option;
 }

@@ -2,8 +2,8 @@
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
         {volist name="optionList" id="vo"}
-        <label class="checkbox-inline">
-            <input type="radio" class="icheck_{$wconfig.name}" name="{$wconfig.name}" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
+        <label class="check-inline">
+            <input type="radio" class="form-check-input" name="{$wconfig.name}" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
         </label>
         {/volist}
     </div>
@@ -13,8 +13,3 @@
     </div>
     {/if}
 </div>
-<script type="text/javascript">
-$(function(){
-    $('.icheck_{$wconfig.name}').iCheck({ checkboxClass:'icheckbox_flat-green', radioClass: 'iradio_flat-green'});    //iCheck初始化
-})
-</script>

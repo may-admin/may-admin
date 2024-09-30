@@ -8,10 +8,13 @@
         <div class="col-md-12">
             <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
                 <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab1" data-toggle="tab">{:lang('base_param')}</a></li>
-                        <li class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-sm"><i class="fa fa-list"></i> {:lang('back')}</a></li>
-                    </ul>
+                    <div class="nav nav-tabs">
+                        <div class="nav-item">
+                            <a data-bs-target="#tab1" data-bs-toggle="tab" class="active">{:lang('base_param')}</a>
+                        </div>
+                        <div class="nav-back"><a href="javascript:history.back(-1)"><i class="fa-solid fa-list"></i> {:lang('back')}</a></div>
+                    </div>
+                    
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab1">
                             {:widget('common/Hidden/index', [$data, [
@@ -68,10 +71,12 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-6">
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-6">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-info submits" data-loading-text="&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; {:lang('submit')}">{:lang('submit')}</button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -31,7 +31,7 @@ return [
     'lock_btn'          => '锁屏',
     'sign_out'          => '退出',
     'edit_self'         => '个人资料',
-    'please_choice'     => '请选择',
+    'please_select'     => '请选择',
     'top_arctype'       => '顶级分类',
     'choice_arctype'    => '选择分类',
     'isbrowse'          => 'ID:44管理员被开启浏览模式',
