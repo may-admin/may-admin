@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use app\BaseController;
+use app\common\model\UploadFile;
 
 class Uploads extends BaseController
 {
@@ -12,7 +13,7 @@ class Uploads extends BaseController
         'image_format' => 'jpg,jpeg,png',     //图片上传格式限制
         'file_format' => 'doc,docx,xls,xlsx,ppt,zip,rar',     //文件上传格式限制
         'flash_format' => 'swf,flv',     //视频上传格式限制
-        'media_format' => 'swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb',     //音频上传格式限制
+        'media_format' => 'swf,flv,mp3,mp4,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb',     //音频上传格式限制
         'isprint' => '0',            //是否添加水印
         'print_image' => '',         //水印图片地址
         'print_position' => '9',     //水印位置
@@ -37,7 +38,7 @@ class Uploads extends BaseController
         if (config('dbconfig.up')) {
             $this->config = array_merge($this->config, config('dbconfig.up'));      // 请新扩展配置文件
         }
-        $this->up_type = input('get.dir');   //上传文件类型
+        $this->up_type = input('param.dir');   //上传文件类型
         $this->file_move_path = $this->public_path.$this->config['upload_path'].DIRECTORY_SEPARATOR.$this->up_type;
         $this->file_back_path = DIRECTORY_SEPARATOR.$this->config['upload_path'].DIRECTORY_SEPARATOR.$this->up_type;
         
@@ -55,7 +56,7 @@ class Uploads extends BaseController
     public function upload()
     {
         if (!in_array($this->up_type, array('image', 'flash', 'media', 'file'))) {   //kindeditor允许的文件目录名
-            return json(['error' => 1, 'message' => '不允许目录', 'info' => '不允许目录']);
+            return json(['code' => 1, 'message' => '不允许目录', 'info' => '不允许目录']);
         }
         $file = request()->file('imgFile');
         if ($file){
@@ -67,12 +68,30 @@ class Uploads extends BaseController
                 $savename = \think\facade\Filesystem::putFile($this->up_type, $file);
                 $file_path = $this->root_url.$savename;
                 $file_path = $this->config['file_url'].str_replace('\\', '/', $file_path);
-                return json(['error' => 0, 'url' => $file_path, 'info' => '上传成功']);
+                
+                $data = [];
+                $data['format'] = $this->up_type;
+                $data['name'] = $file->getOriginalName();
+                $data['tag'] = input('param.tag');
+                $data['url'] = $file_path;
+                if($this->up_type == 'image'){
+                    $file_info = getimagesize($file);
+                    $data['width'] = $file_info[0];
+                    $data['height'] = $file_info[1];
+                }
+                $data['filesize'] = filesize($file);
+                $data['mime'] =  explode('/', mime_content_type($this->public_path.$file_path))[1];
+                $data['sorts'] = 50;
+                
+                $uploadFileModel = new UploadFile();
+                $uploadFileModel->save($data);
+                
+                return json(['code' => 0, 'link' => $file_path, 'info' => '上传成功']);
             } catch (\think\exception\ValidateException $e) {
-                return json(['error' => 1, 'message' => $e->getMessage(), 'info' => $e->getMessage()]);
+                return json(['code' => 1, 'message' => $e->getMessage(), 'info' => $e->getMessage()]);
             }
         }else{
-            return json(['error' => 1, 'message' => '请选择文件', 'info' => '请选择文件']);
+            return json(['code' => 1, 'message' => '请选择文件', 'info' => '请选择文件']);
         }
     }
     
@@ -149,6 +168,31 @@ class Uploads extends BaseController
             $res['message'] = '请选择图片';
         }
         return json($res);
+    }
+    
+    public function froalaManager()
+    {
+        $format = input('param.format');
+        $uploadFileModel = new UploadFile();
+        $dataList = $uploadFileModel->field('id,tag,url')->where([['format', '=', $format]])->order('sorts asc,id desc')->select();
+        return json($dataList);
+    }
+    
+    public function froalaDelete()
+    {
+        $id = input('param.data-id');
+        $url = input('param.data-url');
+        $uploadFileModel = new UploadFile();
+        $data = $uploadFileModel->where([['id', '=', $id], ['url', '=', $url]])->find();
+        if(!empty($data)){
+            $data->delete();
+            if (file_exists($this->public_path.$data['url'])) {
+                unlink($this->public_path.$data['url']);
+            }
+            return ajax_return(0, lang('action_success'));
+        }else{
+            return ajax_return(1, lang('action_fail'));
+        }
     }
     
     /**

@@ -1,0 +1,50 @@
+<div class="form-group row">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <textarea class="form-control" id="froala_{$wconfig.name}" name="{$wconfig.name}" >{$wconfig.widget_val}</textarea>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+<script>
+$(function(){
+    new FroalaEditor("#froala_{$wconfig.name}", {
+        language: 'zh_cn',   //多语言
+        height: 280,   //高度
+        toolbarButtons: [['html', 'fullscreen', 'undo', 'redo', 'selectAll', 'print' , '|', 'align', 'outdent', 'indent', 'lineHeight', 'subscript', 'superscript', 'specialCharacters', 'insertHR', 'clearFormatting', '-', 'paragraphFormat', 'fontFamily', 'fontSize', '|', 'textColor', 'backgroundColor', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'insertImage', 'insertVideo', 'insertFile', 'insertLink', 'insertTable']],
+        imageDefaultWidth: 0,   //图片默认宽度
+        quickInsertEnabled: false,   //快捷插入
+        wordCounterCount: false,   //右下word统计
+        imageUploadURL: '{:url("Uploads/upload")}',
+        imageUploadParam: 'imgFile',   //
+        imageUploadParams: {dir: 'image', tag: 'content'},
+        imageManagerLoadURL: '{:url("Uploads/froalaManager")}',
+        imageManagerLoadParams: {format: 'image'},
+        imageManagerPageSize: 12,
+        imageManagerDeleteURL: '{:url("Uploads/froalaDelete")}',
+        videoUploadURL: '{:url("Uploads/upload")}',
+        videoUploadParam: 'imgFile',
+        videoUploadParams: {dir: 'media', tag: 'content'},
+        fileUploadURL: '{:url("Uploads/upload")}',
+        fileUploadParam: 'imgFile',
+        fileUploadParams: {dir: 'file', tag: 'content'},
+        events: {
+            'image.error': function (error, response) {
+                var res = JSON.parse(response);
+                layer.msg(res.message, {icon: 2});
+            },
+            'video.error': function (error, response) {
+                var res = JSON.parse(response);
+                layer.msg(res.message, {icon: 2});
+            },
+            'file.error': function (error, response) {
+                var res = JSON.parse(response);
+                layer.msg(res.message, {icon: 2});
+            },
+        }
+    })
+})
+</script>

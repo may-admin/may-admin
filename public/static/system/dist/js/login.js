@@ -9,13 +9,13 @@ $(function () {
         if(form.length){
             var ajax_option={
                 dataType:'json',
-                success:function(data){
-                    if(data.status == '0'){
-                        layer.msg(data.info, {icon: 1});
-                        window.location.href = data.url; 
+                success:function(res){
+                    if(res.code == '0'){
+                        layer.msg(res.message, {icon: 1});
+                        window.location.href = res.url; 
                     }else{
-                        layer.msg(data.info, {icon: 2});
-                        if(data.status == '2'){
+                        layer.msg(res.message, {icon: 2});
+                        if(res.code == '2'){
                             $('#captcha').click();
                         }
                         _this.removeClass('disabled').prop("disabled", false);

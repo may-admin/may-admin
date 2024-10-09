@@ -90,14 +90,14 @@ $(function(){
         if(form.length){
             var ajax_option={
                 dataType:'json',
-                success:function(data){
-                    if(data.status == '0'){
-                        layer.msg(data.info, {icon: 1});
-                        if(data.url != ''){
-                            $.pjax({url: data.url, container: '#pjax-container', fragment:'#pjax-container'});
+                success:function(res){
+                    if(res.code == '0'){
+                        layer.msg(res.message, {icon: 1});
+                        if(res.url != ''){
+                            $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'});
                         }
                     }else{
-                        layer.msg(data.info, {icon: 2});
+                        layer.msg(res.message, {icon: 2});
                     }
                     _this.removeClass('disabled').prop("disabled", false);
                     _this.html(_this.data('loading-html'));
@@ -133,14 +133,14 @@ $(function(){
             url : url,
             dataType : 'json',
             data : dataStr,
-            success : function(data) {
-                if(data.status == '0'){
+            success : function(res) {
+                if(res.code == '0'){
                     _this.data('value', pvalue);
                     _this.removeClass(addclass);
                     _this.addClass(removeclass);
-                    layer.msg(data.info, {icon: 1});
+                    layer.msg(res.message, {icon: 1});
                 }else{
-                    layer.msg(data.info, {icon: 2});
+                    layer.msg(res.message, {icon: 2});
                 }
             }
         });
@@ -186,14 +186,14 @@ $(function(){
                     url : url_del,
                     dataType : 'json',
                     data : { id:id, },
-                    success : function(data) {
-                        if(data.status == '0'){
-                            layer.msg(data.info, {icon: 1});
-                            if(data.url != ''){
-                                $.pjax({url: data.url, container: '#pjax-container', fragment:'#pjax-container'})
+                    success : function(res) {
+                        if(res.code == '0'){
+                            layer.msg(res.message, {icon: 1});
+                            if(res.url != ''){
+                                $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
                             }
                         }else{
-                            layer.msg(data.info, {icon: 2});
+                            layer.msg(res.message, {icon: 2});
                         }
                     }
                 });
@@ -229,12 +229,12 @@ function list_write(input){
             url : _prev.data('url'),
             dataType : 'json',
             data : params,
-            success : function(data) {
-                if(data.status == '0'){
-                    layer.msg(data.info, {icon: 1});
+            success : function(res) {
+                if(res.code == '0'){
+                    layer.msg(res.message, {icon: 1});
                     _prev.html(_input.val());
                 }else{
-                    layer.msg(data.info, {icon: 2});
+                    layer.msg(res.message, {icon: 2});
                 }
             }
         });

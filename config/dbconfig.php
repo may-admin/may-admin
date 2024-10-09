@@ -15,7 +15,7 @@ return [
         'image_format' => 'jpg,jpeg,png',
         'file_format' => 'doc,docx,xls,xlsx,ppt,zip,rar',
         'flash_format' => 'swf,flv',
-        'media_format' => 'swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb',
+        'media_format' => 'swf,flv,mp3,mp4,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb',
         'isprint' => '0',
         'print_image' => '',
         'print_position' => '9',
