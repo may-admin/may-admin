@@ -17,20 +17,10 @@
             </div>
             <script>
             $(function(){
-                var picker1 = $("#{$vo['widget_conf']['start_name']}").datetimepicker({
-                    format: 'YYYY-MM-DD',
-                    locale: moment.locale('zh-cn'),
-                });
-                var picker2 = $("#{$vo['widget_conf']['end_name']}").datetimepicker({
-                    format: 'YYYY-MM-DD',
-                    locale: moment.locale('zh-cn'),
-                });
-                picker1.on('dp.change', function (e) {
-                    picker2.data('DateTimePicker').minDate(e.date);   //结束设置最小值
-                });
-                picker2.on('dp.change', function (e) {
-                    picker1.data('DateTimePicker').maxDate(e.date);   //开始设置最大值
-                });
+                var flatpickr_start = $("#{$vo['widget_conf']['start_name']}").flatpickr({locale: 'zh', dateFormat: 'Y-m-d'});
+                var flatpickr_end = $("#{$vo['widget_conf']['end_name']}").flatpickr({locale: 'zh', dateFormat: 'Y-m-d'});
+                flatpickr_start.config.onChange.push(function(selectedDates, dateStr, instance){ flatpickr_end.set("minDate", dateStr) })
+                flatpickr_end.config.onChange.push(function(selectedDates, dateStr, instance){ flatpickr_start.set("maxDate", dateStr) })
             })
             </script>
             {else /}

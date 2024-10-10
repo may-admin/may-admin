@@ -33,6 +33,9 @@
 {/if}
 <script type="text/javascript">
 $(function(){
-    $('#select2_{:str_replace('.', '_', $wconfig.name)}').select2({language:"zh-CN"});    //select2初始化
+    $('#select2_{:str_replace('.', '_', $wconfig.name)}').select2({
+        language: 'zh-CN',
+        tags: '{$wconfig.tags}',
+    });    //select2初始化
 })
 </script>

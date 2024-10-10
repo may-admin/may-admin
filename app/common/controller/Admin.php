@@ -188,13 +188,10 @@ class Admin extends BaseController
                 $keys = array_keys($v['data']);
                 $last_key = end($keys);
                 foreach ($v['data'] as $k2 => $v2){
-                    if(empty($v2)){
-                        break;
-                    }
                     if($k2 == $last_key){
-                        $time[] = strtotime($v2) + 86399;
+                        $time[] = !empty($v2) ? strtotime($v2) + 86399 : time();
                     }else{
-                        $time[] = strtotime($v2);
+                        $time[] = !empty($v2) ? strtotime($v2) : 0;
                     }
                 }
                 if(!empty($time)){

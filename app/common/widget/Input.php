@@ -46,14 +46,14 @@ class Input
         }
         
         /* 是否只读 */
-        if (isset($wconfig['readonly']) && $wconfig['readonly'] == 'readonly'){
+        if (isset($wconfig['readonly']) && $wconfig['readonly'] === true){
             $wconfig['readonly'] = 'readonly="readonly"';
         }else{
             $wconfig['readonly'] = '';
         }
         
         /* 是否禁用 */
-        if (isset($wconfig['disabled']) && $wconfig['disabled'] == 'disabled'){
+        if (isset($wconfig['disabled']) && $wconfig['disabled'] === true){
             $wconfig['disabled'] = 'disabled="disabled"';
         }else{
             $wconfig['disabled'] = '';

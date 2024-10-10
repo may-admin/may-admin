@@ -23,6 +23,7 @@ class Select
      *      validate_col        提示信息占比（默认4）【非必须】
      *      disabled            禁用【非必须】
      *      multiple            多选【非必须】
+     *      tags                标签模式【非必须，必须先开启multiple】
      * </pre>
      * @return string
      * @author 苏晓信 <654108442@qq.com>
@@ -86,18 +87,21 @@ class Select
         }
         
         /* 是否禁用 */
-        if (isset($wconfig['disabled']) && $wconfig['disabled'] == 'disabled'){
+        if (isset($wconfig['disabled']) && $wconfig['disabled'] === true){
             $wconfig['disabled'] = 'disabled="disabled"';
         }else{
             $wconfig['disabled'] = '';
         }
         
         /* 是否多选 */
-        if (isset($wconfig['multiple']) && $wconfig['multiple'] == 'multiple'){
+        if (isset($wconfig['multiple']) && $wconfig['multiple'] === true){
             $wconfig['multiple'] = 'multiple="multiple"';
         }else{
             $wconfig['multiple'] = '';
         }
+        
+        /* 是否标签 */
+        $wconfig['tags'] = (isset($wconfig['tags']) && $wconfig['tags'] === true) ? true : false;
         
         View::assign('optionList', $optionList);
         View::assign('wconfig', $wconfig);

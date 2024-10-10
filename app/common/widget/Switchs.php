@@ -39,7 +39,7 @@ class Switchs
         }
         
         /* 是否禁用 */
-        if (isset($wconfig['disabled']) && $wconfig['disabled'] == 'disabled'){
+        if (isset($wconfig['disabled']) && $wconfig['disabled'] === true){
             $wconfig['disabled'] = 'disabled="disabled"';
         }else{
             $wconfig['disabled'] = '';
