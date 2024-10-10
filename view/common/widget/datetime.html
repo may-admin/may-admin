@@ -1,0 +1,26 @@
+<div class="form-group row">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <div class="input-group">
+            <input class="form-control" id="flatpickr_{$wconfig.name}" name="{$wconfig.name}" value="{$wconfig.widget_val}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} />
+        </div>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+<script type="text/javascript">
+$(function(){
+    $('#flatpickr_{$wconfig.name}').flatpickr({
+        locale: 'zh',
+        disableMobile: true,
+        allowInput: true,   //手动输入
+        enableTime: true,   //是否[时分]
+        enableSeconds: true,   //是否[秒]
+        time_24hr: true,   //24小时格式
+        dateFormat: "{$wconfig.format}",   //日期显示格式
+    });
+})
+</script>

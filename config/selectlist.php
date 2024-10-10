@@ -40,7 +40,7 @@ return [
             'Input' => 'Input',
             'Select' => 'Select',
             'Textarea' => 'Textarea',
-            'Content' => 'Content',
+            'FroalaEditor' => 'FroalaEditor',
             'Checkbox' => 'Checkbox',
             'Radio' => 'Radio',
             'FileUpload' => 'FileUpload',

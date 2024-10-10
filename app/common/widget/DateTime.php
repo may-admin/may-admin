@@ -3,18 +3,18 @@ namespace app\common\widget;
 
 use think\facade\View;
 
-class Date
+class DateTime
 {
     /**
      * @Title: index
-     * @Description: todo(普通Date挂件)
+     * @Description: todo(普通DateTime挂件)
      * @param array $data       【编辑操作时旧数据集合】
      * @param array $wconfig    【配置项】
      * <pre>
      *      name                组件标签name属性值，对应数据库字段【必须】
      *      title               组件标题【必须】
      *      placeholder         提示内容【非必须】
-     *      format              时间格式【非必须，默认：YYYY-MM-DD HH:mm:ss】
+     *      format              时间格式【非必须，默认：Y-m-d H:i:S】
      *      now_time            是否使用当前时间，优先级低于默认值【非必须,true or false】
      *      title_col           标题占比（默认2）【非必须】
      *      content_col         内容占比（默认6）【非必须】
@@ -59,11 +59,11 @@ class Date
         $wconfig['title_col'] = isset($wconfig['title_col']) ? $wconfig ['title_col'] : '2';
         $wconfig['content_col'] = isset($wconfig['content_col']) ? $wconfig ['content_col'] : '6';
         $wconfig['validate_col'] = isset($wconfig['validate_col']) ? $wconfig ['validate_col'] : '4';
-        $wconfig['format'] = isset($wconfig['format']) ? $wconfig ['format'] : 'YYYY-MM-DD HH:mm:ss';
+        $wconfig['format'] = isset($wconfig['format']) ? $wconfig ['format'] : 'Y-m-d H:i:S';
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
         $wconfig['placeholder'] = isset($wconfig['placeholder']) ? $wconfig ['placeholder'] : '';
         
         View::assign('wconfig', $wconfig);
-        return View::fetch('common@widget/date');
+        return View::fetch('common@widget/datetime');
     }
 }

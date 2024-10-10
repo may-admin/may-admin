@@ -163,8 +163,16 @@ textarea.form-control{min-height:100px;resize:none}
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover{color:#fff}
 .select2-container .select2-selection--single .select2-selection__rendered{padding-right:10px}
 
-.form-group .check-inline{cursor:pointer;padding-top:7px;padding-bottom:7px;float:left;}
-.check-inline .form-check-input{margin-top:2px;cursor:pointer;}
+.switch-box{display:flex;height:34px;align-items:center;}
+.switch-box>input{display:none}
+.switch-box label{width:40px;background:#CCC;height:22px;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.1) inset;cursor:pointer;margin-bottom:0;}
+.switch-box label em{width:20px;height:20px;float:left;margin:1px;border-radius:13px;box-shadow:2px 3px 8px rgba(0,0,0,.1);background:#fff;transition:0.1s;}
+.switch-box input:checked + label{background:#00c1de;}
+.switch-box input:checked + label em{margin:1px 1px 1px 19px;}
+.switch-box input:disabled + label{opacity:0.5}
+
+.form-group .check-inline{cursor:pointer;padding-top:6.5px;padding-bottom:6.5px;float:left;}
+.check-inline .form-check-input{margin-top:3px;cursor:pointer;}
 .check-inline>span{font-size:14px;margin-left:5px;display:inline-block;height:20px;line-height:20px;}
 .check-inline + .check-inline{margin-top:0;margin-left:10px;}
 .form-check-input{width:16px;height:16px;cursor:pointer;}
