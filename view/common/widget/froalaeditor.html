@@ -20,17 +20,17 @@ $(function(){
         wordCounterCount: false,   //右下word统计
         imageUploadURL: '{:url("Uploads/upload")}',
         imageUploadParam: 'imgFile',   //
-        imageUploadParams: {dir: 'image', tag: 'content'},
+        imageUploadParams: {dir: 'image', tag: 'editor'},
         imageManagerLoadURL: '{:url("Uploads/froalaManager")}',
         imageManagerLoadParams: {format: 'image'},
         imageManagerPageSize: 12,
         imageManagerDeleteURL: '{:url("Uploads/froalaDelete")}',
         videoUploadURL: '{:url("Uploads/upload")}',
         videoUploadParam: 'imgFile',
-        videoUploadParams: {dir: 'media', tag: 'content'},
-        fileUploadURL: '{:url("Uploads/upload")}',
+        videoUploadParams: {dir: 'media', tag: 'editor'},
+        fileUploadURL : '{:url("Uploads/upload")}',
         fileUploadParam: 'imgFile',
-        fileUploadParams: {dir: 'file', tag: 'content'},
+        fileUploadParams: {dir: 'file', tag: 'editor'},
         events: {
             'image.error': function (error, response) {
                 var res = JSON.parse(response);

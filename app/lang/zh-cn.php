@@ -11,10 +11,12 @@ return [
     'create'            => '新增',
     'edit'              => '编辑',
     'delete'            => '删除',
+    'select'            => '选择',
     'search'            => '搜索',
     'back'              => '返回',
     'check_all'         => '全选',
     'upload'            => '上传',
+    'browse'            => '浏览',
     'submit'            => '提交',
     'preview'           => '预览',
     'code'              => '代码',
@@ -23,6 +25,14 @@ return [
     'base_param'        => '基本参数',
     'advanced_param'    => '高级参数',
     'base_avatar'       => '修改头像',
+    
+    'table_url'         => '图片',
+    'table_name'        => '名称',
+    'table_tag'         => '标签',
+    'table_width'       => '宽度',
+    'table_height'      => '高度',
+    'table_filesize'    => '大小',
+    'table_mime'        => '类型',
     
     //其他
     'list_rows'         => '每页数量',

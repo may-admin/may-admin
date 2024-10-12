@@ -1,0 +1,27 @@
+<div class="form-group row">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <div class="input-group">
+            <input class="form-control widget-image-input" name="{$wconfig.name}" value="{$wconfig.widget_val}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} >
+            <span class="input-group-btn up-box">
+                <a href="{$wconfig.widget_val_img}" class="show-image-box" target="_blank" >
+                    <img src="{$wconfig.widget_val_img}" />
+                </a>
+                <div class="up-btn-box">
+                    <input type="file" class="widget-image-upload" data-url='{:url("Uploads/upload")}' accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+                    <button class="btn btn-success btn-flat {$wconfig.name}" type="button" {$wconfig.btn_disabled} >
+                        <i class="fa-solid fa-cloud-arrow-up"> {:lang('upload')}</i>
+                    </button>
+                </div>
+                <button class="btn btn-info btn-flat widget-image-manage" data-url='{:url("Uploads/ajaxManager")}' data-back-btn='widget-back-manage-{$wconfig.name}' type="button" {$wconfig.btn_disabled} >
+                    <i class="fa-regular fa-images"> {:lang('browse')}</i>
+                </button>
+            </span>
+        </div>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>

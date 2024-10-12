@@ -53,7 +53,7 @@ class BootstrapAdmin extends Paginator
 
     //统计信息
     protected function info(){
-        return "<li class='disabled'><span>".$this->total.lang('page_total')."</span></li>";
+        return "<li class='page-item'><span class='page-link'>".$this->total.lang('page_total')."</span></li>";
     }
 
     //分页选择
@@ -87,7 +87,7 @@ class BootstrapAdmin extends Paginator
         }
         $url_str = request()->baseUrl(true).$query_str.'list_rows=';
         
-        $str = "<li class='disabled'><span>".lang('list_rows')."</span></li>";
+        $str = "<li class='page-item'><span class='page-link'>".lang('list_rows')."</span></li>";
         $str .= "<select>";
         foreach($list_rows as $k => $v){
             if($k == $this->listRows){
@@ -160,16 +160,25 @@ class BootstrapAdmin extends Paginator
      */
     public function render()
     {
+        // dd($this->options['modal_ajax']);
         if ($this->hasPages()) {
             if ($this->simple) {
                 return sprintf(
-                    '<ul class="pager">%s %s</ul>',
+                    '<ul class="pagination">%s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getNextButton()
                 );
-            } else {
+            }elseif(isset($this->options['modal_ajax']) && $this->options['modal_ajax'] === true){
                 return sprintf(
-                    '<ul class="pagination pagination-sm no-margin pull-right">%s %s %s %s %s %s</ul>',
+                    '<ul class="pagination">%s %s %s %s</ul>',
+                    $this->info(),
+                    $this->getPreviousButton(),
+                    $this->getLinks(),
+                    $this->getNextButton()
+                );
+            }else {
+                return sprintf(
+                    '<ul class="pagination">%s %s %s %s %s %s</ul>',
                     $this->info(),
                     $this->getPreviousButton(),
                     $this->getLinks(),
@@ -190,7 +199,11 @@ class BootstrapAdmin extends Paginator
      */
     protected function getAvailablePageWrapper(string $url, string $page): string
     {
-        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        if(isset($this->options['modal_ajax']) && $this->options['modal_ajax'] === true){
+            return '<li class="page-item"><a class="page-link modal-page-ajax" data-href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        }else{
+            return '<li class="page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        }
     }
 
     /**
@@ -201,7 +214,7 @@ class BootstrapAdmin extends Paginator
      */
     protected function getDisabledTextWrapper(string $text): string
     {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
+        return '<li class="page-item disabled"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**
@@ -212,7 +225,7 @@ class BootstrapAdmin extends Paginator
      */
     protected function getActivePageWrapper(string $text): string
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="page-item active"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**

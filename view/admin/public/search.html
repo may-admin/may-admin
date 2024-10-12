@@ -17,8 +17,14 @@
             </div>
             <script>
             $(function(){
-                var flatpickr_start = $("#{$vo['widget_conf']['start_name']}").flatpickr({locale: 'zh', dateFormat: 'Y-m-d'});
-                var flatpickr_end = $("#{$vo['widget_conf']['end_name']}").flatpickr({locale: 'zh', dateFormat: 'Y-m-d'});
+                var flatpickr_start = $("#{$vo['widget_conf']['start_name']}").flatpickr({locale: 'zh', disableMobile: true, dateFormat: 'Y-m-d'});
+                var flatpickr_end = $("#{$vo['widget_conf']['end_name']}").flatpickr({locale: 'zh', disableMobile: true, dateFormat: 'Y-m-d'});
+                {if !empty($vo['data'][$vo['widget_conf']['end_name']]) }
+                    flatpickr_start.set("maxDate", "{$vo['data'][$vo['widget_conf']['end_name']]}")
+                {/if}
+                {if !empty($vo['data'][$vo['widget_conf']['start_name']]) }
+                    flatpickr_end.set("minDate", "{$vo['data'][$vo['widget_conf']['start_name']]}")
+                {/if}
                 flatpickr_start.config.onChange.push(function(selectedDates, dateStr, instance){ flatpickr_end.set("minDate", dateStr) })
                 flatpickr_end.config.onChange.push(function(selectedDates, dateStr, instance){ flatpickr_start.set("maxDate", dateStr) })
             })

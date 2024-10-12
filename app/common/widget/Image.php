@@ -3,11 +3,11 @@ namespace app\common\widget;
 
 use think\facade\View;
 
-class FileUpload
+class Image
 {
     /**
      * @Title: index
-     * @Description: todo(普通FileUpload挂件)
+     * @Description: todo(普通Image挂件)
      * @param array $data       【编辑操作时旧数据集合】
      * @param array $wconfig    【配置项】
      * <pre>
@@ -66,6 +66,6 @@ class FileUpload
         $wconfig['placeholder'] = isset($wconfig['placeholder']) ? $wconfig ['placeholder'] : '';
         
         View::assign('wconfig', $wconfig);
-        return View::fetch('common@widget/fileupload');
+        return View::fetch('common@widget/image');
     }
 }

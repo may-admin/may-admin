@@ -43,7 +43,7 @@ return [
             'FroalaEditor' => 'FroalaEditor',
             'Checkbox' => 'Checkbox',
             'Radio' => 'Radio',
-            'FileUpload' => 'FileUpload',
+            'Image' => 'Image',
         ],
     ],
     'print_position' => [

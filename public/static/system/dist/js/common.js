@@ -11,11 +11,108 @@ $(function(){
     $(document).on('pjax:send', function() { NProgress.start(); });
     $(document).on('pjax:complete', function() { NProgress.done(); });
     
-    //分页select选择页数
+    //正常分页select选择页数
     $('body').off('change', '.pagination select');
     $('body').on('change', '.pagination select', function(event){
         var _href = $(this).find('option:selected').data('href');
         $.pjax({url:_href, container: '#pjax-container', fragment:'#pjax-container'})
+    });
+    
+    //modal弹框分页按钮
+    $('body').off('click', '.pagination .modal-page-ajax');
+    $('body').on('click', '.pagination .modal-page-ajax', function(event){
+        var _this = $(this);
+        var _href = _this.data('href');
+        $.ajax({
+            type : 'get',
+            url : _href,
+            dataType : 'json',
+            success : function(html) {
+                _this.closest('.modal-content').html(html);
+            }
+        });
+    });
+    
+    //单图上传挂件上传按钮
+    $('body').off('change', '.widget-image-upload');
+    $('body').on('change', '.widget-image-upload', function(event){
+        var _this = $(this);
+        var _url = _this.data('url');
+        
+        var formData = new FormData();
+        formData.append('dir', 'image');
+        formData.append('tag', 'image');
+        formData.append('imgFile', _this[0].files[0]);
+        
+        var _button_html = _this.next('.btn').html();
+        
+        $.ajax({
+            type: 'post',
+            url: _url,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: formData,
+            xhr: function() {
+                var xhr = $.ajaxSettings.xhr();
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function(event) {
+                        if(event.lengthComputable){
+                            var percentComplete = event.loaded / event.total;
+                            percentComplete = parseInt(percentComplete * 100) + '%';
+                            _this.next('.btn').html(percentComplete)
+                        }
+                    }, false);
+                }
+                return xhr;
+            },
+            success: function(res) {
+                if(res.code == '0'){
+                    _this.closest('.up-box').prev('.widget-image-input').val(res.link);
+                    _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
+                    _this.closest('.up-box').find('.show-image-box img').attr('src', res.link);
+                    layer.msg(res.message, {icon: 1});
+                }else{
+                    layer.msg(res.message, {icon: 2});
+                }
+                _this.next('.btn').html(_button_html);
+                _this.val('');
+            }
+        });
+    });
+    
+    //单图上传挂件浏览选择按钮
+    $('body').off('click', '.widget-image-select');
+    $('body').on('click', '.widget-image-select', function(event){
+        var _this = $(this);
+        var _url = _this.data('url');
+        var _back = _this.data('back-btn');
+        var _back_btn = $('.widget-image-manage[data-back-btn="'+_back+'"]');
+        _back_btn.closest('.up-box').prev('.widget-image-input').val(_url);
+        _back_btn.closest('.up-box').find('.show-image-box').attr('href', _url);
+        _back_btn.closest('.up-box').find('.show-image-box img').attr('src', _url);
+        $('.widgetImageModal').modal('hide');
+    });
+    
+    //上传挂件浏览按钮
+    $('body').off('click', '.widget-image-manage');
+    $('body').on('click', '.widget-image-manage', function(event){
+        var _this = $(this);
+        var _url = _this.data('url');
+        
+        if($('.widgetImageModal').length == 0){
+            $('body').append('<div class="modal fade widgetImageModal"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"></div></div></div>');
+        }
+        $('.widgetImageModal').modal('show');
+        $.ajax({
+            type: 'post',
+            url: _url,
+            dataType: 'html',
+            data: {format: 'image', back: _this.data('back-btn')},
+            success: function(html) {
+                $('.widgetImageModal .modal-content').html(html);
+            }
+        });
     });
     
     //全选-反选
@@ -57,27 +154,6 @@ $(function(){
             var table_check = _this.closest('.table').find(".table-check").prop('checked', false);
         }
     });
-    
-    //分页input选择页数
-//    $('body').off('keypress', '.pagination input');
-//    $('body').on('keypress', '.pagination input', function(event){
-//        if(event.keyCode == '13'){
-//            var _href = $(this).data('href')+'&list_rows='+$(this).val();
-//           $.pjax({url:_href, container: '#pjax-container', fragment:'#pjax-container'})
-//        }
-//    });
-    
-    //下拉选择搜索
-    // $('body').off('click', '.search-ul li a');
-    // $('body').on('click', '.search-ul li a', function(event){
-    //     var _this = $(this);
-    //     var _field = _this.data('field');
-    //     var _html = _this.html();
-    //     var _box = _this.closest('.input-group-btn');
-    //     _box.find('.search_field').val(_field);
-    //     _box.find('.dropdown-toggle span').html(_html);
-    //     _box.next('input').attr('placeholder', _html);
-    // });
     
     //提交
     $('body').off('click', '.submits');
