@@ -39,11 +39,12 @@ return [
         'data' => [
             'Input' => 'Input',
             'Select' => 'Select',
-            'Textarea' => 'Textarea',
-            'FroalaEditor' => 'FroalaEditor',
-            'Checkbox' => 'Checkbox',
             'Radio' => 'Radio',
+            'Checkbox' => 'Checkbox',
+            'Textarea' => 'Textarea',
             'Image' => 'Image',
+            'Images' => 'Images',
+            'FroalaEditor' => 'FroalaEditor',
         ],
     ],
     'print_position' => [

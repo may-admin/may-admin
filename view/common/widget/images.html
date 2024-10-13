@@ -1,0 +1,54 @@
+<div class="form-group row">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <div class="input-group">
+            <input class="form-control widget-upload-input" name="{$wconfig.name}" value="{$wconfig.widget_val}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} >
+            <span class="input-group-btn up-box">
+                <div class="up-btn-box">
+                    <input type="file" class="widget-upload-btn" data-url='{:url("Uploads/upload")}' data-dir="image" data-tag="images" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+                    <button class="btn btn-success btn-flat {$wconfig.name}" type="button" {$wconfig.btn_disabled} >
+                        <i class="fa-solid fa-cloud-arrow-up"> {:lang('upload')}</i>
+                    </button>
+                </div>
+                <button class="btn btn-info btn-flat widget-upload-manage" data-url='{:url("Uploads/ajaxManager")}' data-back-btn='widget-back-manage-{$wconfig.name}' data-tag="images" type="button" {$wconfig.btn_disabled} >
+                    <i class="fa-regular fa-images"> {:lang('browse')}</i>
+                </button>
+            </span>
+        </div>
+        <div class="sortables sortables_{$wconfig.name}">
+            {php} $val_arr = del_arr_empty(explode(',', $wconfig['widget_val'])); {/php}
+            {volist name="val_arr" id="vo" }
+            <div class="items">
+                <div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del" ><i class="fa fa-trash"></i></span></div>
+                <a class="img-box" href="{$vo}" target="_blank">
+                    <img src="{$vo}" />
+                </a>
+            </div>
+            {/volist}
+        </div>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+<script>
+$(function(){
+    var sortables_{$wconfig.name} = $('.sortables_{$wconfig.name}');
+    
+    new Sortable(sortables_{$wconfig.name}[0], {
+        onEnd: function(evt) {
+            if(evt.oldIndex != evt.newIndex){   //鼠标松开，发生移动变化
+                var _val = '';
+                sortables_{$wconfig.name}.find('.img-box img').each(function(i, e){
+                    var _this = $(this);
+                    _val += _this.attr('src')+',';
+                })
+                _val = (_val.substring(_val.length - 1) == ',') ? _val.substring(0, _val.length - 1) : _val;
+                $("input[name='{$wconfig.name}']").val(_val);
+            }
+        }
+    });
+})
+</script>

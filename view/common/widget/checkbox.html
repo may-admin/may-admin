@@ -38,16 +38,16 @@ $('body').on('click', '.check2', function(event){
     var _this = $(this);
     var ok = _this.prop("checked");
     _this.parents('.rule_node_box').find('.check3').prop("checked", ok);
-    var oCheck2 = _this.parents('.rule_node_box').siblings().andSelf().find(".check2");
+    var oCheck2 = _this.parents('.rule_node_box').siblings().addBack().find(".check2");
     _this.parents('.rule_node_box').siblings(".check-inline-all").find('.check1').prop("checked", trueorfalse(oCheck2));
 });
 
 $('body').off('click', '.check3');
 $('body').on('click', '.check3', function(event){
     var _this = $(this);
-    var ockeck3 = _this.parent().siblings().andSelf().find(".check3");
+    var ockeck3 = _this.parent().siblings().addBack().find(".check3");
     _this.parents('.rule_node_box').find('.check2').prop("checked", trueorfalse(ockeck3));
-    var oCheck1 = _this.parents('.rule_node_box').siblings().andSelf().find('.check2');
+    var oCheck1 = _this.parents('.rule_node_box').siblings().addBack().find('.check2');
     _this.parents('.rule_node_box').siblings(".check-inline-all").find('.check1').prop("checked", trueorfalse(oCheck1));
 });
 

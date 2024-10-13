@@ -1,0 +1,47 @@
+{extend name="public/base" /}
+
+{block name="title"}<title>{:lang('list')} - {:config('dbconfig.sys.login_title')}</title>{/block}
+
+{block name="pjax_container"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {include file="public/search" /}
+                <div class="box-header with-border">{:auth_action(CONTROLLER_NAME.'/delete', 'confirm', lang('delete'), '', 'danger', 'sm', 'trash')} </div>
+                <div class="box-body table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th width="36"><input type="checkbox" class="form-check-input table-check-toggle"></th>
+                            <th>{:lang('name')}</th>
+                            <th>{:lang('url_text')}</th>
+                            <th>{:lang('tag')}</th>
+                            <th>{:lang('width')}</th>
+                            <th>{:lang('height')}</th>
+                            <th>{:lang('filesize')}</th>
+                            <th>{:lang('mime')}</th>
+                            <th width="66">{:lang('action')}</th>
+                        </tr>
+                        {volist name="dataList" id="vo"}
+                        <tr>
+                            <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
+                            <td><div data-bs-toggle="tooltip" data-bs-title="{$vo.name}">{$vo.name}</div></td>
+                            <td>{$vo.url_text}</td>
+                            <td>{$vo.tag}</td>
+                            <td>{$vo.width}</td>
+                            <td>{$vo.height}</td>
+                            <td>{$vo.filesize|file_size_unit}</td>
+                            <td>{$vo.mime}</td>
+                            <td>{include file="public/list_action" /}</td>
+                        </tr>
+                        {/volist}
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {$dataList->render()|raw}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{/block}

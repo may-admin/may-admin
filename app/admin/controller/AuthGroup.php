@@ -46,7 +46,7 @@ class AuthGroup extends Admin
             if (!$validate->scene('create')->check($data)) {
                 return ajax_return(1, $validate->getError());
             }
-            $result = $this->cModel->save($data);
+            $result = $this->cModel->save(del_arr_empty($data));
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
                 return ajax_return(0, lang('action_success'), $url);

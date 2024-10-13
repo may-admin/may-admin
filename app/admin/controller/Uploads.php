@@ -181,6 +181,7 @@ class Uploads extends BaseController
     public function ajaxManager()
     {
         $format = input('param.format');
+        $tag = input('param.tag');
         $uploadFileModel = new UploadFile();
         $page_param = page_param();
         $page_param['modal_ajax'] = true;
@@ -189,6 +190,7 @@ class Uploads extends BaseController
         
         View::assign('dataList', $dataList);
         View::assign('back', input('param.back'));
+        View::assign('tag', $tag);
         return View::fetch('upload_file/ajaxManager');
     }
     

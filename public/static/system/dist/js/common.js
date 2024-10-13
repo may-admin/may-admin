@@ -33,15 +33,17 @@ $(function(){
         });
     });
     
-    //单图上传挂件上传按钮
-    $('body').off('change', '.widget-image-upload');
-    $('body').on('change', '.widget-image-upload', function(event){
+    //上传挂件【上传】按钮
+    $('body').off('change', '.widget-upload-btn');
+    $('body').on('change', '.widget-upload-btn', function(event){
         var _this = $(this);
         var _url = _this.data('url');
+        var _dir = _this.data('dir');
+        var _tag = _this.data('tag');
         
         var formData = new FormData();
-        formData.append('dir', 'image');
-        formData.append('tag', 'image');
+        formData.append('dir', _dir);
+        formData.append('tag', _tag);
         formData.append('imgFile', _this[0].files[0]);
         
         var _button_html = _this.next('.btn').html();
@@ -68,9 +70,20 @@ $(function(){
             },
             success: function(res) {
                 if(res.code == '0'){
-                    _this.closest('.up-box').prev('.widget-image-input').val(res.link);
-                    _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
-                    _this.closest('.up-box').find('.show-image-box img').attr('src', res.link);
+                    if(_tag == 'image'){   //单图上传
+                        _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
+                        _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
+                        _this.closest('.up-box').find('.show-image-box img').attr('src', res.link);
+                    }else if(_tag == 'images'){   //图组上传
+                        if(_this.closest('.up-box').prev('.widget-upload-input').val() == ''){
+                            _this.closest('.up-box').prev('.widget-upload-input').val(res.link);   //输入框添加数据
+                        }else{
+                            _this.closest('.up-box').prev('.widget-upload-input').val(_this.closest('.up-box').prev('.widget-upload-input').val()+','+res.link);
+                        }
+                        var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
+                        _html += '<a class="img-box" href="'+res.link+'" target="_blank"><img src="'+res.link+'" /></a></div>';
+                        _this.closest('.input-group').next('.sortables').append(_html);
+                    }
                     layer.msg(res.message, {icon: 1});
                 }else{
                     layer.msg(res.message, {icon: 2});
@@ -81,38 +94,68 @@ $(function(){
         });
     });
     
-    //单图上传挂件浏览选择按钮
-    $('body').off('click', '.widget-image-select');
-    $('body').on('click', '.widget-image-select', function(event){
+    //上传挂件【浏览】按钮
+    $('body').off('click', '.widget-upload-manage');
+    $('body').on('click', '.widget-upload-manage', function(event){
         var _this = $(this);
         var _url = _this.data('url');
-        var _back = _this.data('back-btn');
-        var _back_btn = $('.widget-image-manage[data-back-btn="'+_back+'"]');
-        _back_btn.closest('.up-box').prev('.widget-image-input').val(_url);
-        _back_btn.closest('.up-box').find('.show-image-box').attr('href', _url);
-        _back_btn.closest('.up-box').find('.show-image-box img').attr('src', _url);
-        $('.widgetImageModal').modal('hide');
-    });
-    
-    //上传挂件浏览按钮
-    $('body').off('click', '.widget-image-manage');
-    $('body').on('click', '.widget-image-manage', function(event){
-        var _this = $(this);
-        var _url = _this.data('url');
+        var _tag = _this.data('tag');
         
-        if($('.widgetImageModal').length == 0){
-            $('body').append('<div class="modal fade widgetImageModal"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"></div></div></div>');
+        if($('.widgetUploadModal').length == 0){
+            $('body').append('<div class="modal fade widgetUploadModal"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"></div></div></div>');
         }
-        $('.widgetImageModal').modal('show');
+        $('.widgetUploadModal').modal('show');
         $.ajax({
             type: 'post',
             url: _url,
             dataType: 'html',
-            data: {format: 'image', back: _this.data('back-btn')},
+            data: {format: 'image', back: _this.data('back-btn'), tag: _tag},
             success: function(html) {
-                $('.widgetImageModal .modal-content').html(html);
+                $('.widgetUploadModal .modal-content').html(html);
             }
         });
+    });
+    
+    //上传挂件【浏览-选择】按钮
+    $('body').off('click', '.widget-upload-select');
+    $('body').on('click', '.widget-upload-select', function(event){
+        var _this = $(this);
+        var _url = _this.data('url');
+        var _back = _this.data('back-btn');
+        var _tag = _this.data('tag');
+        
+        var _back_btn = $('.widget-upload-manage[data-back-btn="'+_back+'"]');
+        if(_tag == 'image'){   //单图选择
+            _back_btn.closest('.up-box').prev('.widget-upload-input').val(_url);
+            _back_btn.closest('.up-box').find('.show-image-box').attr('href', _url);
+            _back_btn.closest('.up-box').find('.show-image-box img').attr('src', _url);
+        }else if(_tag == 'images'){   //图组选择
+            if(_back_btn.closest('.up-box').prev('.widget-upload-input').val() == ''){
+                _back_btn.closest('.up-box').prev('.widget-upload-input').val(_url);   //输入框添加数据
+            }else{
+                _back_btn.closest('.up-box').prev('.widget-upload-input').val(_back_btn.closest('.up-box').prev('.widget-upload-input').val()+','+_url);
+            }
+            var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
+            _html += '<a class="img-box" href="'+_url+'" target="_blank"><img src="'+_url+'" /></a></div>';
+            _back_btn.closest('.input-group').next('.sortables').append(_html);
+        }
+        $('.widgetUploadModal').modal('hide');
+    });
+    
+    //上传挂件【图组-删除】按钮
+    $('body').off('click', '.sortables-upload-del');
+    $('body').on('click', '.sortables-upload-del', function(event){
+        var _this = $(this);
+        var _val = '';
+        var _sortables =_this.closest('.sortables');
+        
+        _this.closest('.items').remove();
+        _sortables.find('.img-box img').each(function(i, e){
+            var _this = $(this);
+            _val += _this.attr('src')+',';
+        })
+        _val = (_val.substring(_val.length - 1) == ',') ? _val.substring(0, _val.length - 1) : _val;
+        _sortables.prev('.input-group').find('.widget-upload-input').val(_val);
     });
     
     //全选-反选

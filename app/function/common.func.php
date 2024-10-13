@@ -109,3 +109,21 @@ function file_size_unit($filesize) {
     }
     return $filesize;
 }
+
+/**
+ * @Description: todo(文件格式图标)
+ * @param string $mime
+ * @return string
+ * @author 苏晓信 <654108442@qq.com>
+ * @date 2024年10月10日
+ * @throws
+ */
+function file_mime_icon($mime) {
+    if($mime == 'zip'){
+        return '<i class="fa-regular fa-file-zipper"></i>';
+    }elseif($mime == 'msword'){
+        return '<i class="fa-solid fa-file-word"></i>';
+    }else{
+        return '<i class="fa-solid fa-file"></i>';
+    }
+}
