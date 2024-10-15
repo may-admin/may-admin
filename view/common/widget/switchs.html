@@ -1,8 +1,9 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
+        <input type="hidden" name="{$wconfig.name}[]" value="" />
         <span class="checkbox-inline switch-box">
-            <input type="checkbox" name="{$wconfig.name}" id="switchs_{$wconfig.name}" value="1" {$wconfig.checked} {$wconfig.disabled} />
+            <input type="checkbox" name="{$wconfig.name}[]" id="switchs_{$wconfig.name}" value="1" {$wconfig.checked} {$wconfig.disabled} />
             <label for="switchs_{$wconfig.name}"><em></em></label>
         </span>
     </div>

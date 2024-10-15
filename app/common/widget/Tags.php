@@ -3,11 +3,11 @@ namespace app\common\widget;
 
 use think\facade\View;
 
-class Select
+class Tags
 {
     /**
      * @Title: index
-     * @Description: todo(普通Select挂件)
+     * @Description: todo(普通Tags挂件)
      * @param array $data       【编辑操作时旧数据集合】
      * @param array $wconfig    【配置项】
      * <pre>
@@ -41,12 +41,12 @@ class Select
         $wconfig['validate_col'] = isset($wconfig['validate_col']) ? $wconfig ['validate_col'] : '4';
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
         
-        if ( !isset($wconfig['from']) || ($wconfig['from'] != 'selectlist' && $wconfig['from'] != 'function') ){
-            return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">select来源 from 必须是 selectlist 或 function</span></div></div>';
-        }
-        if ( !isset($wconfig['fromcfg']) || empty($wconfig['fromcfg'])){
-            return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">select数据来源 fromcfg 不能为空</span></div></div>';
-        }
+        // if ( !isset($wconfig['from']) || ($wconfig['from'] != 'selectlist' && $wconfig['from'] != 'function') ){
+        //     return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">select来源 from 必须是 selectlist 或 function</span></div></div>';
+        // }
+        // if ( !isset($wconfig['fromcfg']) || empty($wconfig['fromcfg'])){
+        //     return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">select数据来源 fromcfg 不能为空</span></div></div>';
+        // }
         
         $optionListData = [];
         if ( $wconfig['from'] == 'selectlist' ){
@@ -73,6 +73,15 @@ class Select
                 return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">配置function函数：'.$wconfig['fromcfg'][0].' 不存在</span></div></div>';
             }
         }
+        
+        if(!empty($wconfig['widget_val'])){
+            $widget_val_option = [];
+            foreach($wconfig['widget_val'] as $v){
+                $widget_val_option[$v] = $v;
+            }
+            $optionListData = $optionListData + $widget_val_option;
+        }
+        
         $optionList = [];
         foreach ($optionListData as $k => $v){
             $optionList[$k]['value'] = $k;
@@ -91,8 +100,13 @@ class Select
             $wconfig['disabled'] = '';
         }
         
+        /* 是否多选 */
+        $wconfig['multiple'] = 'multiple="multiple"';
+        /* 是否标签 */
+        $wconfig['tags'] =  true;
+        
         View::assign('optionList', $optionList);
         View::assign('wconfig', $wconfig);
-        return View::fetch('common@widget/select');
+        return View::fetch('common@widget/tags');
     }
 }

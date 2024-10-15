@@ -79,7 +79,7 @@ class Config extends Admin
                             $val = implode(',', del_arr_empty($val));
                         }
                         $where = ['type' => $type, 'k' => $k];
-                        $this->cModel->where($where)->save(['v' => $val]);
+                        $this->cModel->where($where)->save(['v' => str_replace("'", "\'",$val)]);
                     }
                     $this->dbconfig();
                     return ajax_return(0, lang('action_success'), '');

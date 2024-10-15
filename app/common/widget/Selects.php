@@ -3,11 +3,11 @@ namespace app\common\widget;
 
 use think\facade\View;
 
-class Select
+class Selects
 {
     /**
      * @Title: index
-     * @Description: todo(普通Select挂件)
+     * @Description: todo(普通Selects挂件)
      * @param array $data       【编辑操作时旧数据集合】
      * @param array $wconfig    【配置项】
      * <pre>
@@ -91,8 +91,10 @@ class Select
             $wconfig['disabled'] = '';
         }
         
+        $wconfig['multiple'] = 'multiple="multiple"';
+        
         View::assign('optionList', $optionList);
         View::assign('wconfig', $wconfig);
-        return View::fetch('common@widget/select');
+        return View::fetch('common@widget/selects');
     }
 }

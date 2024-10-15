@@ -28,7 +28,7 @@
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
                             <td>{$vo.id}</td>
                             <td>{:list_write($vo, 'k')}</td>
-                            <td class="ellipsis" style="max-width:400px;" title="{$vo.v}">{:list_write($vo, 'v')}</td>
+                            <td>{$vo.v_text}</td>
                             <td>{:list_write($vo, 'infos')}</td>
                             <td>{:list_write($vo, 'type')}</td>
                             <td>{$vo.texttype}</td>
@@ -46,4 +46,9 @@
         </div>
     </div>
 </section>
+<script>
+$(function(){
+    $('.table .truncates').tooltip();
+})
+</script>
 {/block}
