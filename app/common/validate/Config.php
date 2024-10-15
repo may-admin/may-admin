@@ -28,8 +28,8 @@ class Config extends Validate
     ];
 
     protected $scene = [
-        'create' => ['k', 'v', 'type', 'infos', 'texttype', 'textvalue', 'sorts', 'status'],
-        'edit'   => ['k', 'v', 'type', 'infos', 'texttype', 'textvalue', 'sorts', 'status'],
+        'create' => ['k', 'type', 'infos', 'texttype', 'sorts', 'status'],
+        'edit'   => ['k', 'type', 'infos', 'texttype', 'sorts', 'status'],
         'k'      => ['k'],
         'v'      => ['v'],
         'infos'  => ['infos'],

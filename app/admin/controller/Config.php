@@ -79,7 +79,7 @@ class Config extends Admin
                             $val = implode(',', del_arr_empty($val));
                         }
                         $where = ['type' => $type, 'k' => $k];
-                        $this->cModel->where($where)->save(['v' => str_replace("'", "\'",$val)]);
+                        $this->cModel->where($where)->save(['v' => $val]);
                     }
                     $this->dbconfig();
                     return ajax_return(0, lang('action_success'), '');
@@ -104,16 +104,16 @@ class Config extends Admin
                 if (isset($v['v'][0]) && $v['v'][0] == '['){
                     $v['v'] = htmlspecialchars_decode($v['v']);
                 }else{
-                    $v['v'] = "'".$v['v']."'";
+                    $v['v'] = "\"".$v['v']."\"";
                 }
                 if ($type == $v['type']){
-                    $str .= "\r\n        '".$v['k']."' => ".$v['v'].",";
+                    $str .= "\r\n        \"".$v['k']."\" => ".$v['v'].",";
                 }else{
                     $type = $v['type'];
                     $str .= $close ? "\r\n    ]," : "";
                     $close = true;
-                    $str .= "\r\n    '".$v['type']."' => [";
-                    $str .= "\r\n        '".$v['k']."' => ".$v['v'].",";
+                    $str .= "\r\n    \"".$v['type']."\" => [";
+                    $str .= "\r\n        \"".$v['k']."\" => ".$v['v'].",";
                 }
             }
         }
