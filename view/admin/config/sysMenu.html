@@ -6,55 +6,57 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-                <div class="nav-tabs-custom">
-                    <div class="nav nav-tabs">
-                        <div class="nav-item">
-                            {volist name="dataList" id="vo" key="k"}
-                            <a data-bs-target="#tab{$vo.id}" data-bs-toggle="tab" {if $k == 1}class="active"{/if}>{$vo.title}</a>
-                            {/volist}
-                            <a data-bs-target="#tab2" data-bs-toggle="tab">{:lang('help')}</a>
-                        </div>
+            <div class="nav-tabs-custom">
+                <div class="nav nav-tabs">
+                    <div class="nav-item">
+                        {volist name="dataList" id="vo" key="k"}
+                        <a data-bs-target="#tab{$vo.id}" data-bs-toggle="tab" {if $k == 1}class="active"{/if}>{$vo.title}</a>
+                        {/volist}
+                        <a data-bs-target="#tab2" data-bs-toggle="tab">{:lang('help')}</a>
                     </div>
-                    
-                    <div class="tab-content">
-                        {volist name="dataList" id="vo2" key="k2"}
-                        <div class="tab-pane {if $k2 == 1}active{/if}" id="tab{$vo2.id}">
-                            <form class="form-horizontal" method="POST" action="{:url('Config/save')}" onsubmit="return false" >
-                                {:widget('common/Hidden/index', [$vo2, [
-                                    'name' => 'type',
-                                ]])}
-                                {volist name="vo2.config_lists" id="vo3"}
-                                {:widget('common/'.$vo3->texttype.'/index', [$vo3, [
-                                    'name' => $vo3->k,
-                                    'title' => $vo3->infos,
-                                    'placeholder' => $vo3->infos,
-                                    'validate' => $vo3->prompt,
-                                    'from' => 'selectlist',
-                                    'fromcfg' => $vo3->textvalue,
-                                ]])}
-                                {/volist}
-                                <div class="box-footer">
-                                    <div class="row">
-                                        <div class="col-sm-2"></div>
-                                        <div class="col-sm-6">
-                                            <div class="btn-group">
-                                                {:auth_action(CONTROLLER_NAME.'/save', 'submit', lang('submit'), '', 'info', '')}
-                                            </div>
+                </div>
+                
+                <div class="tab-content">
+                    {volist name="dataList" id="vo2" key="k2"}
+                    <div class="tab-pane {if $k2 == 1}active{/if}" id="tab{$vo2.id}">
+                        <form class="form-horizontal" method="POST" action="{:url('Config/save')}" onsubmit="return false" >
+                            {:widget('common/Hidden/index', [$vo2, [
+                                'name' => 'type',
+                            ]])}
+                            {volist name="vo2.config_lists" id="vo3"}
+                            {:widget('common/'.$vo3->texttype.'/index', [$vo3, [
+                                'name' => $vo3->k,
+                                'title' => $vo3->infos,
+                                'placeholder' => $vo3->infos,
+                                'validate' => $vo3->prompt,
+                                'from' => 'selectlist',
+                                'fromcfg' => $vo3->textvalue,
+                            ]])}
+                            {/volist}
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-6">
+                                        <div class="btn-group">
+                                            {:auth_action(CONTROLLER_NAME.'/save', 'submit', lang('submit'), '', 'info', '')}
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        {/volist}
-                        <div class="tab-pane" id="tab2">
-                            <div class="callout callout-danger">
-                                <p>特别注意：</p>
-                                <p>1、如果需要填写PHP数组请分别以“[”和“]”开始和结束，不能单独以“[”开始，否则会导致生成配置文件错误，导致程序错误</p>
-                                <p>如果不慎保存，请手动修复dbconfig.php配置文件或清空，并重新保存</p>
                             </div>
+                        </form>
+                    </div>
+                    {/volist}
+                    <div class="tab-pane" id="tab2">
+                        <div class="callout callout-info">
+                            <p>说明：</p>
+                            <p>1、上传配置，若修改<strong>文件上传目录</strong>，还需要手动编辑根目录<code>config/filesystem.php</code>配置文件中<strong>磁盘路径</strong>的<code>'public/uploads'</code>为对应得<code>'public/xxx'</code>值；</p>
+                            <p>若无法上传文件，手动添加<code>public</code>目录下对应文件夹，并添加写入权限。</p>
+                            <p>2、如果需要填写PHP数组请分别以<code>[</code>和<code>]</code>开始和结束，不能单独以<code>[</code>开始，否则会导致生成配置文件错误，导致程序错误；</p>
+                            <p>如果不慎保存，请手动修复根目录<code>config/dbconfig.php</code>配置文件或清空，并重新保存。</p>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </section>
