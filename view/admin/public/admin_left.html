@@ -19,6 +19,12 @@
                 {/if}
             </li>
             {/volist}
+            <li class="{if in_array('addon', $activeMenus)}active menu-open{/if}">
+                <a href="{:url('Addon/index')}">
+                    <i class="fa-solid fa-puzzle-piece"></i><span>{:lang('addon_list')}</span>
+                    <span class="pull-right-container"><i class="fa-solid fa-fire" style="margin-right:10px;color:red;"></i></span>
+                </a>
+            </li>
         </ul>
     </section>
 </aside>

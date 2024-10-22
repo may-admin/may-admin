@@ -229,3 +229,15 @@ div.fr-modal-body div.fr-image-list div.fr-image-container .fr-delete-img{displa
 .callout p:last-child{margin-bottom:0px;}
 code{font-size: inherit;color: inherit;font-family: inherit;border: 1px solid #dedede;margin: 0px 5px;padding: 2px 6px;word-break: break-all;white-space: pre;display: inline-block;border-radius: 4px;}
 strong{padding: 2px 5px;border-bottom: 2px solid #d9534f;color: rgb(32, 33, 36);display: inline-block;}
+
+.small-box{display: block;padding-bottom: 20px;height:100%;}
+.small-box .item{height:100%;border-radius: 3px;position: relative;box-shadow: 0 1px 1px rgba(0,0,0,0.1);color:#ffffff;}
+.small-box .inner{padding: 15px 15px 40px;}
+.small-box .more{position: absolute;left:0;bottom:0;right:0;text-align: center;padding: 4px 0;font-size:14px;color: rgba(255,255,255,0.8);display: block;background: rgba(0,0,0,0.1);}
+.small-box .more:hover{color: #fff;background: rgba(0,0,0,0.15)}
+.small-box h3{font-size: 20px;font-weight: bold;margin: 0 0 10px 0;white-space: nowrap;padding: 0}
+.small-box .info{font-size: 14px;display:flex;justify-content: space-between;}
+.small-box .info>div{flex:1;text-align:left;}
+.small-box .icon{position: absolute;top: 40%;right: 20px;transform: translateY(-50%);color: rgba(0,0,0,0.15)}
+.small-box .icon i{transition: all .3s;font-size: 40px;}
+.small-box:hover .icon i{transform: scale(1.1);}

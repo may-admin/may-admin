@@ -16,14 +16,18 @@ class AdminAuth
         $treeMenu = $this->treeMenu();
         View::assign('treeMenu', $treeMenu);
         
-        $authRuleModel = new AuthRule();
-        $rule = CONTROLLER_NAME.'/'.ACTION_NAME;
-        $data = $authRuleModel->where('name', $rule)->find();
-        $activeMenus = $this->activeMneu($data, $data['pid']);
-        View::assign('activeMenus', $activeMenus);
+        if( CONTROLLER_NAME != 'Addon' ){
+            $authRuleModel = new AuthRule();
+            $rule = CONTROLLER_NAME.'/'.ACTION_NAME;
+            $data = $authRuleModel->where('name', $rule)->find();
+            $activeMenus = $this->activeMneu($data, $data['pid']);
+            View::assign('activeMenus', $activeMenus);
+        }else{
+            View::assign('activeMenus', ['addon']);
+        }
         
         $auth = new Auth();
-        if (!$auth->check(CONTROLLER_NAME.'/'.ACTION_NAME, ADMINID) ){
+        if( CONTROLLER_NAME != 'Addon' && !$auth->check(CONTROLLER_NAME.'/'.ACTION_NAME, ADMINID) ){
             return redirect((string) url('login/loginOut'));
         }
         

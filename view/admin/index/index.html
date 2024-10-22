@@ -5,32 +5,55 @@
 {block name="pjax_container"}
 <section class="content">
     <div class="row">
-        <div class="col-lg-3 col-sm-6 col-12">
-            <div class="small-box bg-yellow">
-                <div class="inner"><h3>{$data.admin_total}</h3><p>{:lang('admin_total')}</p></div>
-                <div class="icon"><i class="fa fa-users"></i></div>
-                <a href="{:url('Admin/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="small-box">
+                <div class="item label-warning">
+                    <div class="inner">
+                        <h3>手册handbook</h3>
+                    </div>
+                    <div class="icon"><i class="fa-solid fa-book-open"></i></div>
+                    <a href="{:url('Admin/index')}" class="more">{:lang('more')} <i class="fa-solid fa-circle-right"></i></a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-12">
-            <div class="small-box bg-green">
-                <div class="inner"><h3>{$data.member_total}</h3><p>{:lang('member_total')}</p></div>
-                <div class="icon"><i class="fa fa-user-plus"></i></div>
-                <a href="javascript:void(0);" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="small-box">
+                <div class="item label-success">
+                    <div class="inner">
+                        <h3>代码code</h3>
+                    </div>
+                    <div class="icon"><i class="fa-solid fa-code"></i></div>
+                    <a href="javascript:void(0);" class="more">{:lang('more')} <i class="fa-solid fa-circle-right"></i></a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-12">
-            <div class="small-box bg-aqua">
-                <div class="inner"><h3>{$data.archive_total}</h3><p>{:lang('archive_total')}</p></div>
-                <div class="icon"><i class="fa fa-file-text"></i></div>
-                <a href="{:url('Archive/index')}" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="small-box">
+                <div class="item label-info">
+                    <div class="inner">
+                        <h3>附件统计files</h3>
+                        <div class="info">
+                            <div>附件数：30</div>
+                            <div>附件大小：100MB</div>
+                        </div>
+                    </div>
+                    <div class="icon"><i class="fa-regular fa-file"></i></div>
+                    <a href="{:url('Archive/index')}" class="more">{:lang('more')} <i class="fa-solid fa-circle-right"></i></a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-12">
-            <div class="small-box bg-red">
-                <div class="inner"><h3>{$data.comment_total}</h3><p>{:lang('comment_total')}</p></div>
-                <div class="icon"><i class="fa fa-commenting"></i></div>
-                <a href="javascript:void(0);" class="small-box-footer">{:lang('more')} <i class="fa fa-arrow-circle-right"></i></a>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="small-box">
+                <div class="item label-danger">
+                    <div class="inner">
+                        <h3>安装插件addon</h3>
+                        <div class="info">
+                            <div>插件数：2</div>
+                        </div>
+                    </div>
+                    <div class="icon"><i class="fa-brands fa-codepen"></i></div>
+                    <a href="javascript:void(0);" class="more">{:lang('more')} <i class="fa-solid fa-circle-right"></i></a>
+                </div>
             </div>
         </div>
         
