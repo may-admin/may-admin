@@ -34,7 +34,7 @@ return [
     'table_filesize'    => '大小',
     'table_mime'        => '类型',
     
-    'addon_list'        => '插件列表',
+    'addons_list'       => '插件列表',
     
     //其他
     'list_rows'         => '每页数量',
