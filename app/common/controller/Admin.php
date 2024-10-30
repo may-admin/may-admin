@@ -21,10 +21,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(基础单表列表显示)
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年10月25日
-     * @throws
+     * @Description: (基础单表列表显示)
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     public function index()
     {
@@ -48,10 +47,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(基础单表新增)
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年10月25日
-     * @throws
+     * @Description: (基础单表新增)
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     public function create()
     {
@@ -76,10 +74,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(基础单表编辑)
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年11月4日
-     * @throws
+     * @Description: (基础单表编辑)
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     public function edit()
     {
@@ -116,10 +113,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(基础单表删除)
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年11月4日
-     * @throws
+     * @Description: (基础单表删除)
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
      */
     public function delete()
     {
@@ -140,10 +136,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(列表搜索功能)
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年11月4日
-     * @throws
+     * @Description: (列表搜索功能)
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     final protected function _indexSearch()
     {
@@ -173,11 +168,9 @@ class Admin extends BaseController
     }
     
     /**
-     * @Description: todo(列表搜索功能条件获取)
+     * @Description: (列表搜索功能条件获取)
      * @return array
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年11月4日
-     * @throws
+     * @author 子青时节 <654108442@qq.com>
      */
     final protected function _getSearch()
     {

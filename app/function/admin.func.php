@@ -1,17 +1,15 @@
 <?php
 /**
- * @Description: todo(操作按钮权限)
+ * @Description: (操作按钮权限)
  * @param string $rule 权限节点
  * @param string $cationType 按钮样式
  * @param string $info 按钮文字
- * @param array || string  $param 参数
+ * @param string|string $param 参数
  * @param string $color 颜色
  * @param string $size 大小
  * @param string $icon 图标
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function auth_action($rule, $cationType='a', $info='infos', $param='', $color='primary', $size='xs', $icon='edit'){
     $auth = new \expand\Auth();
@@ -36,12 +34,10 @@ function auth_action($rule, $cationType='a', $info='infos', $param='', $color='p
 }
 
 /**
- * @Description: todo(权限节点)
- * @param string $module
+ * @Description: (权限节点)
+ * @param string $module 模块
  * @return array
- * @author 苏晓信 <654108442@qq.com>
- * @date 2019年5月12日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function auth_rule_select($module){
     $authRuleModel = new \app\common\model\AuthRule();
@@ -64,9 +60,9 @@ function auth_rule_select($module){
 
 /**
  * @Description: todo(分配权限节点)
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年11月9日
- * @throws
+ * @param string $module 模块
+ * @return array
+ * @author 子青时节 <654108442@qq.com>
  */
 function auth_rule_check($module){
     $authRuleModel = new \app\common\model\AuthRule();
@@ -81,12 +77,13 @@ function auth_rule_check($module){
 }
 
 /**
- * @Description: todo(权限组)
- * @author 苏晓信 <654108442@qq.com>
- * @date 2024年9月29日
- * @throws
+ * @Description: (权限组)
+ * @param string $module 模块
+ * @param boolean $please_select 是否请选择
+ * @return array
+ * @author 子青时节 <654108442@qq.com>
  */
-function auth_group($module, $please_select=false){
+function auth_group($module, $please_select = false){
     $authGroupModel = new \app\common\model\AuthGroup();
     $list = $authGroupModel->where([['module', '=', $module], ['status', '=', 1]])->order('level ASC,id ASC')->select();
     if($please_select){
@@ -101,12 +98,10 @@ function auth_group($module, $please_select=false){
 }
 
 /**
- * @Description: todo(列表table排序)
- * @param string $param
+ * @Description: (列表table排序)
+ * @param string $param 排序方式
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function table_sort($param){
     $url_path = request()->baseUrl();
@@ -141,15 +136,13 @@ function table_sort($param){
 }
 
 /**
- * @Description: todo(列表状态值切换)
- * @param int $id
- * @param string $value
- * @param string $field
- * @param string $action
+ * @Description: (列表状态值切换)
+ * @param int $id id
+ * @param string $value 字段值
+ * @param string $field 字段
+ * @param string $action 编辑
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2019年5月11日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function list_status($id, $value, $field='status', $action='edit'){
     if ($value == 1){
@@ -161,25 +154,23 @@ function list_status($id, $value, $field='status', $action='edit'){
 }
 
 /**
- * @Description: todo(列表编辑文本)
- * @param array $data
- * @param string $field
- * @param string $action
- * @author 苏晓信 <654108442@qq.com>
- * @date 2019年5月17日
- * @throws
+ * @Description: (列表编辑文本)
+ * @param array $data 列表数据
+ * @param string $field 字段
+ * @param string $action 编辑
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
  */
 function list_write($data, $field, $action='edit'){
     return "<span class=\"list-write\" data-id=\"".$data['id']."\" data-field=\"".$field."\" data-url=\"".url($action)."\" >".$data[$field]."</span>";
 }
 
 /**
- * @Description: todo(渲染输出widget挂件)
- * @param string $name
- * @param array $data
- * @author 苏晓信 <654108442@qq.com>
- * @date 2019年4月24日
- * @throws
+ * @Description: (渲染输出widget挂件)
+ * @param string $name 挂件名称
+ * @param array $data 数组数据
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
  */
 function widget($name, $data = []){
     $info   = pathinfo($name);

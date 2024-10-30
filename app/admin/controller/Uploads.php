@@ -52,11 +52,14 @@ class Uploads extends BaseController
     }
     
     /**
-     * kindeditor文件上传方法
+     * @Description: (文件上传方法)
+     * @param fileObject imgFile 上传文件name
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
      */
     public function upload()
     {
-        if (!in_array($this->up_type, array('image', 'flash', 'media', 'file'))) {   //kindeditor允许的文件目录名
+        if (!in_array($this->up_type, array('image', 'flash', 'media', 'file'))) {   //允许的文件目录名
             return json(['code' => 1, 'message' => '不允许目录', 'info' => '不允许目录']);
         }
         $file = request()->file('imgFile');
@@ -97,10 +100,10 @@ class Uploads extends BaseController
     }
     
     /**
-     * @Description: todo(上传头像并裁剪[ 200x200 ])
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年10月9日
-     * @throws
+     * @Description: (上传头像并裁剪[200x200])
+     * @param fileObject avatar_file 上传文件name
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
      */
     public function cropper()
     {
@@ -172,11 +175,12 @@ class Uploads extends BaseController
     }
     
     /**
-     * @Description: todo(ajaxManager文件管理方法)
-     * @return @json
-     * @author 苏晓信 <654108442@qq.com>
-     * @date 2018年10月9日
-     * @throws
+     * @Description: (ajaxManager文件管理方法)
+     * @param string format 格式
+     * @param string tag 标签
+     * @param string back 回调按钮标识
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     public function ajaxManager()
     {
@@ -194,6 +198,12 @@ class Uploads extends BaseController
         return View::fetch('upload_file/ajaxManager');
     }
     
+    /**
+     * @Description: (froala编辑器文件管理方法)
+     * @param string format 格式
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function froalaManager()
     {
         $format = input('param.format');
@@ -202,6 +212,13 @@ class Uploads extends BaseController
         return json($dataList);
     }
     
+    /**
+     * @Description: (froala编辑器文件删除)
+     * @param string data-id id
+     * @param string data-url url
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function froalaDelete()
     {
         $id = input('param.data-id');

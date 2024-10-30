@@ -1,13 +1,12 @@
 <?php
 /**
- * @Description: todo(ajax提交返回状态信息)
- * @param int $code
- * @param string $message
- * @param string $url
- * @param string|array $data
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @Description: (ajax提交返回状态信息)
+ * @param int $code 状态值[0:成功,1:失败]
+ * @param string $message 提示内容
+ * @param string $url 返回链接
+ * @param string|array $data 返回数据
+ * @return @json
+ * @author 子青时节 <654108442@qq.com>
  */
 function ajax_return($code, $message='', $url='', $data = []){
     if($code == '0'){
@@ -26,11 +25,9 @@ function ajax_return($code, $message='', $url='', $data = []){
 }
 
 /**
- * @Description: todo(分页额外参数)
+ * @Description: (分页额外参数)
  * @return array
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function page_param(){
     $param = request()->param();
@@ -54,13 +51,11 @@ function page_param(){
 }
 
 /**
- * @Description: todo(时间戳转换为时间格式 Y-m-d H:i:s)
- * @param int $time
- * @param string $format
+ * @Description: (时间戳转时间格式)
+ * @param int|string $time 原始时间
+ * @param string $format 时间格式
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function time_turn($time, $format='Y-m-d H:i:s'){
     if (empty($time) || $time == '' || $time == 0) {
@@ -73,12 +68,10 @@ function time_turn($time, $format='Y-m-d H:i:s'){
 }
 
 /**
- * @Description: todo(删除二维数组中的空值，保留0和false)
- * @param array $arr
+ * @Description: (删除二维数组中的空值，保留0和false)
+ * @param array $arr 数组
  * @return array
- * @author 苏晓信 <654108442@qq.com>
- * @date 2018年10月9日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function del_arr_empty($arr){
     foreach ($arr as $key => $value){
@@ -90,33 +83,25 @@ function del_arr_empty($arr){
 }
 
 /**
- * @Description: todo(文件大小转换单位)
- * @param string $filesize
+ * @Description: (字节转换单位)
+ * @param int $size 大小
+ * @param int $precision 小数位数
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2024年10月10日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
-function file_size_unit($filesize) {
-    if ($filesize >= 1073741824) {
-        $filesize = round($filesize / 1073741824 * 100) / 100 . 'GB';
-    }elseif($filesize >= 1048576){
-        $filesize = round($filesize / 1048576 * 100) / 100 . 'MB';
-    }elseif($filesize >= 1024){
-        $filesize = round($filesize / 1024 * 100) / 100 . 'KB';
-    }else{
-        $filesize = $filesize . 'B';
+function file_size_unit($size, $precision = 2) {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) {
+        $size /= 1024;
     }
-    return $filesize;
+    return round($size, $precision) . $units[$i];
 }
 
 /**
- * @Description: todo(文件格式图标)
- * @param string $mime
+ * @Description: (文件格式图标)
+ * @param string $mime 文件格式
  * @return string
- * @author 苏晓信 <654108442@qq.com>
- * @date 2024年10月10日
- * @throws
+ * @author 子青时节 <654108442@qq.com>
  */
 function file_mime_icon($mime) {
     if($mime == 'zip'){
@@ -129,10 +114,11 @@ function file_mime_icon($mime) {
 }
 
 /**
- * 删除文件夹
- * @param string $dirname  目录
- * @param bool   $withself 是否删除自身
+ * @Description: (删除文件夹)
+ * @param string $dirname 文件夹目录
+ * @param boolean $withself 是否删除自身文件夹目录
  * @return boolean
+ * @author 子青时节 <654108442@qq.com>
  */
 function deldir($dirname, $withself = true){
     if (!is_dir($dirname)) {
@@ -150,9 +136,11 @@ function deldir($dirname, $withself = true){
 }
 
 /**
- * 复制文件夹
- * @param string $source 源文件夹
- * @param string $dest   目标文件夹
+ * @Description: (复制文件夹目录)
+ * @param string $source 源文件夹目录
+ * @param string $dest 目标文件夹目录
+ * @return boolean
+ * @author 子青时节 <654108442@qq.com>
  */
 function copydirs($source, $dest){
     if (!is_dir($dest)) {
@@ -168,5 +156,5 @@ function copydirs($source, $dest){
             copy($item, $dest . $iterator->getSubPathName());
         }
     }
-    
+    return true;
 }
