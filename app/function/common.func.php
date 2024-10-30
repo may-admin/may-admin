@@ -127,3 +127,55 @@ function file_mime_icon($mime) {
         return '<i class="fa-solid fa-file"></i>';
     }
 }
+
+/**
+ * 删除文件夹
+ * @param string $dirname  目录
+ * @param bool   $withself 是否删除自身
+ * @return boolean
+ */
+function deldir($dirname, $withself = true){
+    if (!is_dir($dirname)) {
+        return false;
+    }
+    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirname, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($files as $fileinfo) {
+        $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+        $todo($fileinfo->getRealPath());
+    }
+    if ($withself) {
+        @rmdir($dirname);
+    }
+    return true;
+}
+
+/**
+ * 复制文件夹
+ * @param string $source 源文件夹
+ * @param string $dest   目标文件夹
+ */
+function copydirs($source, $dest){
+    if (!is_dir($dest)) {
+        mkdir($dest, 0755, true);
+    }
+    // echo '源文件夹:';
+    // var_dump($source);
+    // echo '目标文件夹:';
+    // var_dump($dest);
+    
+    
+    foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item) {
+        if ($item->isDir()) {
+            $sontDir = $dest . $iterator->getSubPathName() . DIRECTORY_SEPARATOR;
+            echo "创建目录？";
+            var_dump($sontDir);
+            if (!is_dir($sontDir)) {
+                mkdir($sontDir, 0755, true);
+            }
+        } else {
+            var_dump($item);
+            copy($item, $dest . $iterator->getSubPathName());
+        }
+    }
+    
+}

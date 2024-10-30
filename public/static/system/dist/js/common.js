@@ -158,6 +158,76 @@ $(function(){
         _sortables.prev('.input-group').find('.widget-upload-input').val(_val);
     });
     
+    //本地安装插件按钮
+    $('body').off('change', '#addon-upload-btn');
+    $('body').on('change', '#addon-upload-btn', function(event){
+        
+        var _this = $(this);
+        var _url = _this.data('url');
+        
+        var formData = new FormData();
+        formData.append('file', _this[0].files[0]);
+        
+        //var _button_html = _this.next('.btn').html();
+        
+        $.ajax({
+            type: 'post',
+            url: _url,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: formData,
+            /*
+            xhr: function() {
+                var xhr = $.ajaxSettings.xhr();
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function(event) {
+                        if(event.lengthComputable){
+                            var percentComplete = event.loaded / event.total;
+                            percentComplete = parseInt(percentComplete * 100) + '%';
+                            _this.next('.btn').html(percentComplete)
+                        }
+                    }, false);
+                }
+                return xhr;
+            },
+            */
+            success: function(res) {
+                console.log(res);
+                
+                if(res.code == '0'){
+                    
+                }else{
+                    layer.msg(res.message, {icon: 2});
+                }
+                
+                /*
+                if(res.code == '0'){
+                    if(_tag == 'image'){   //单图上传
+                        _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
+                        _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
+                        _this.closest('.up-box').find('.show-image-box img').attr('src', res.link);
+                    }else if(_tag == 'images'){   //图组上传
+                        if(_this.closest('.up-box').prev('.widget-upload-input').val() == ''){
+                            _this.closest('.up-box').prev('.widget-upload-input').val(res.link);   //输入框添加数据
+                        }else{
+                            _this.closest('.up-box').prev('.widget-upload-input').val(_this.closest('.up-box').prev('.widget-upload-input').val()+','+res.link);
+                        }
+                        var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
+                        _html += '<a class="img-box" href="'+res.link+'" target="_blank"><img src="'+res.link+'" /></a></div>';
+                        _this.closest('.input-group').next('.sortables').append(_html);
+                    }
+                    layer.msg(res.message, {icon: 1});
+                }else{
+                    layer.msg(res.message, {icon: 2});
+                }
+                _this.next('.btn').html(_button_html);
+                _this.val('');
+                */
+            }
+        });
+    });
+    
     //全选-反选
     $('body').off('click', '.table-check');
     $('body').on('click', '.table-check', function(event){
