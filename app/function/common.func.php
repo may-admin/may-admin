@@ -158,22 +158,13 @@ function copydirs($source, $dest){
     if (!is_dir($dest)) {
         mkdir($dest, 0755, true);
     }
-    // echo '源文件夹:';
-    // var_dump($source);
-    // echo '目标文件夹:';
-    // var_dump($dest);
-    
-    
     foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item) {
         if ($item->isDir()) {
             $sontDir = $dest . $iterator->getSubPathName() . DIRECTORY_SEPARATOR;
-            echo "创建目录？";
-            var_dump($sontDir);
             if (!is_dir($sontDir)) {
                 mkdir($sontDir, 0755, true);
             }
         } else {
-            var_dump($item);
             copy($item, $dest . $iterator->getSubPathName());
         }
     }
