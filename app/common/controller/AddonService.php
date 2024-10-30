@@ -14,7 +14,7 @@ use think\Exception;
 
 class AddonService extends BaseController
 {
-    // 文件上传备份目录
+    // 文件上传备份目录[/public/uploads/***]
     private $backup_dir = 'addons';
     
     // 根目录下插件目录
@@ -23,61 +23,6 @@ class AddonService extends BaseController
     // 允许检索插件复制目录【应该修改到110行】
     private $allow_copy_dir = ['app', 'config', 'extend', 'public', 'route', 'view'];
     
-    /**
-     * 安装插件
-     *
-     * @param string  $name    插件名称
-     * @param boolean $force   是否覆盖
-     * @param array   $extend  扩展参数
-     * @param array   $tmpFile 本地文件
-     * @return  boolean
-     * @throws  Exception
-     * @throws  AddonException
-     */
-    public function install($name, $force = false, $extend = [], $tmpFile = '')
-    {
-        $addonDir = $this->getAddonDir($name);
-        if (empty($name) || (is_dir($addonDir) && $force == false)) {
-            throw new Exception('Addon already exists');
-        }
-        
-        $extend['domain'] = request()->host(true);
-        
-        // 远程下载插件
-        $tmpFile = $tmpFile ?: $this->download($name, $extend);
-        
-        try {
-            // 解压插件压缩包到插件目录
-            $this->unzip($name, $tmpFile);
-            
-            // 检查插件是否完整
-            $this->check($name);
-            
-            // 检查插件是否存在重名冲突文件
-            if ($force == false) {
-                $this->noconflict($name);
-            }
-        } catch (Exception $e) {
-            @deldir($addonDir);
-            throw new Exception($e->getMessage());
-        } finally {
-            // 移除临时文件
-            @unlink($tmpFile);
-        }
-        
-        // 导入数据库
-        // $this->importSql($name);
-        
-        // 启用插件
-        $this->enable($name, true);
-
-return ;
-
-        $info['config'] = get_addon_config($name) ? 1 : 0;
-        $info['bootstrap'] = is_file(Service::getBootstrapFile($name));
-        $info['testdata'] = is_file(Service::getTestdataFile($name));
-        return $info;
-    }
     
     /**
      * 启用
@@ -94,10 +39,10 @@ return ;
         }
         
         if ($force == false) {
-            $this->noconflict($name);
+            $this->fileConflict($name);
         }
         //备份冲突文件
-        $conflictFiles = $this->getGlobalFiles($name, false);
+        $conflictFiles = $this->getFilesDiff($name, false);
         
         if ($conflictFiles) {
             $zip = new ZipFile();
@@ -166,136 +111,11 @@ return ;
         return true;
     }
     
-    /**
-     * 解压插件
-     *
-     * @param string $name 插件名称
-     * @param string $file 文件路径
-     * @return  string
-     * @throws  Exception
-     */
-    public function unzip($name, $file = '')
-    {
-        if (empty($name)) {
-            throw new Exception('Invalid parameters');
-        }
-        $addonsBackupDir = $this->getAddonsBackupDir();
-        $file = $file ?: $addonsBackupDir . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $name. '.zip';   //原备份目录还需要改
-        
-        // 打开插件压缩包
-        $zip = new ZipFile();
-        try {
-            $zip->openFile($file);
-        } catch (ZipException $e) {
-            $zip->close();
-            throw new Exception('Unable to open the zip file');
-        }
-        
-        $dir = $this->getAddonDir($name);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-        
-        // 解压插件压缩包
-        try {
-            $zip->extractTo($dir);
-        } catch (ZipException $e) {
-            throw new Exception('Unable to extract the file!');
-        } finally {
-            $zip->close();
-        }
-        return $dir;
-    }
     
-    /**
-     * 检测插件是否完整
-     *
-     * @param string $name 插件名称
-     * @return  boolean
-     * @throws  Exception
-     */
-    public function check($name)
-    {
-        $addonDir = $this->getAddonDir($name);
-        if (empty($name) || !is_dir($addonDir)) {
-            throw new Exception('Addon not exists');
-        }
-        if (!file_exists($addonDir.'config.ini')) {
-            throw new Exception('Addon config.ini does not exist');
-        }
-        // $addonClass = get_addon_class($name);
-        // if (!$addonClass) {
-        //     throw new Exception("The addon file does not exist");
-        // }
-        // $addon = new $addonClass();
-        // if (!$addon->checkInfo()) {
-        //     throw new Exception("The configuration file content is incorrect");
-        // }
-        return true;
-    }
     
-    /**
-     * 是否有冲突
-     *
-     * @param string $name 插件名称
-     * @return  boolean
-     * @throws  AddonException
-     */
-    public function noconflict($name)
-    {
-        // 检测冲突文件
-        $list = $this->getGlobalFiles($name, true);
-        if ($list) {
-            //发现冲突文件，抛出异常
-            throw new Exception($list);
-        }
-        return true;
-    }
+
     
-    /**
-     * 获取插件在全局的文件
-     *
-     * @param string  $name         插件名称
-     * @param boolean $onlyconflict 是否只返回冲突文件
-     * @return  array
-     */
-    public function getGlobalFiles($name, $onlyconflict = false)
-    {
-        $list = [];
-        $addonDir = $this->getAddonDir($name);
-        $checkDirList = $this->allow_copy_dir;
-        
-        // 扫描插件目录是否有覆盖的文件
-        foreach ($checkDirList as $dirName) {
-            //检测目录是否存在
-            if (!is_dir($addonDir . $dirName)) {
-                continue;
-            }
-            //匹配出所有的文件
-            $files = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($addonDir . $dirName, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST
-            );
-            
-            foreach ($files as $fileinfo) {
-                if ($fileinfo->isFile()) {
-                    $filePath = $fileinfo->getPathName();
-                    $path = str_replace($addonDir, '', $filePath);
-                    if ($onlyconflict) {
-                        $destPath = root_path() . $path;
-                        if (is_file($destPath)) {
-                            if (filesize($filePath) != filesize($destPath) || md5_file($filePath) != md5_file($destPath)) {
-                                $list[] = $path;
-                            }
-                        }
-                    } else {
-                        $list[] = $path;
-                    }
-                }
-            }
-        }
-        $list = array_filter(array_unique($list));
-        return $list;
-    }
+
     
     /**
      * 远程下载插件
@@ -342,10 +162,100 @@ return ;
     }
     
     /**
-     * 离线安装
-     * @param string $file   插件压缩包
-     * @param array  $extend 扩展参数
-     * @param string $force  是否覆盖
+     * 验证压缩包、依赖验证
+     * @param array $params
+     * @return bool
+     * @throws Exception
+     */
+    public function valid($params = [])
+    {
+        $json = $this->sendRequest('/addon/valid', $params, 'POST');
+        if ($json && isset($json['code'])) {
+            if ($json['code']) {
+                return true;
+            } else {
+                throw new Exception($json['msg'] ?? "Invalid addon package");
+            }
+        } else {
+            throw new Exception("Unknown data format");
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * @Description: (安装插件)
+     * @param string $name 插件名称
+     * @param boolean $force 是否覆盖
+     * @param array $extend 扩展参数
+     * @param string $tmpFile 本地文件
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function install($name, $force = false, $extend = [], $tmpFile = '')
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || (is_dir($addonDir) && $force == false)) {
+            throw new Exception('Addon already exists');
+        }
+        $extend['domain'] = request()->host(true);
+        // 远程下载插件
+        $tmpFile = $tmpFile ?: $this->download($name, $extend);   //还未使用到在线下载安装
+        try {
+            // 解压插件压缩包到插件目录
+            $this->unzip($name, $tmpFile);
+            
+            // 检查插件是否完整
+            $this->checkzip($name);
+            
+            // 检查插件是否存在文件重名冲突
+            if ($force == false) {
+                $this->fileConflict($name);
+            }
+        } catch (Exception $e) {
+            @deldir($addonDir);
+            throw new Exception($e->getMessage());
+        } finally {
+            // 移除临时文件
+            @unlink($tmpFile);
+        }
+        
+        // 导入数据库
+        // $this->importSql($name);
+        
+        // 启用插件
+        $this->enable($name, true);
+        
+        return ;
+        
+        $info['config'] = get_addon_config($name) ? 1 : 0;
+        $info['bootstrap'] = is_file(Service::getBootstrapFile($name));
+        $info['testdata'] = is_file(Service::getTestdataFile($name));
+        return $info;
+    }
+    
+    /**
+     * @Description: (离线安装)
+     * @param object $file 插件zip压缩包
+     * @param array $extend 扩展参数
+     * @param boolean $force 是否覆盖
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
      */
     public function localInstall($file, $extend = [], $force = false)
     {
@@ -355,7 +265,7 @@ return ;
         } catch (\think\exception\ValidateException $e) {
             throw new Exception($e->getMessage());
         }
-        $tmpFile = $this->getAddonsBackupDir() . $savename;   //绝对完整路径
+        $tmpFile = $this->getAddonsBackupDir() . $savename;   //上传插件压缩包绝对完整路径
         
         $info = [];
         $zip = new ZipFile();
@@ -415,7 +325,7 @@ return ;
                 echo "升级模式";
                 //$info = $this->upgrade($name, $extend, $tmpFile);
             }
-
+            
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } finally {
@@ -432,7 +342,125 @@ return ;
     }
     
     /**
-     * 获取插件备份目录
+     * @Description: (解压插件)
+     * @param string $name 插件名称
+     * @param string $file 文件路径
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function unzip($name, $file = '')
+    {
+        if (empty($name)) {
+            throw new Exception('Invalid parameters');
+        }
+        $addonsBackupDir = $this->getAddonsBackupDir();
+        $file = $file ?: $addonsBackupDir . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $name. '.zip';   //原备份目录还需要改
+        
+        // 打开插件压缩包
+        $zip = new ZipFile();
+        try {
+            $zip->openFile($file);
+        } catch (ZipException $e) {
+            $zip->close();
+            throw new Exception('Unable to open the zip file');
+        }
+        
+        $dir = $this->getAddonDir($name);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        
+        // 解压插件压缩包
+        try {
+            $zip->extractTo($dir);
+        } catch (ZipException $e) {
+            throw new Exception('Unable to extract the file!');
+        } finally {
+            $zip->close();
+        }
+        return $dir;
+    }
+    
+    /**
+     * @Description: (检测插件是否完整[目录是否存在以及目录下config.ini文件是否存在])
+     * @param string $name 插件名称
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function checkzip($name)
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || !is_dir($addonDir)) {
+            throw new Exception('Addon not exists');
+        }
+        if (!file_exists($addonDir.'config.ini')) {
+            throw new Exception('Addon config.ini does not exist');
+        }
+        return true;
+    }
+    
+    /**
+     * @Description: (检查插件是否存在文件重名冲突)
+     * @param string $name 插件名称
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function fileConflict($name)
+    {
+        // 检测冲突文件
+        $list = $this->getFilesDiff($name, true);
+        if ($list) {
+            //发现冲突文件，抛出异常
+            throw new Exception($list);
+        }
+        return true;
+    }
+    
+    /**
+     * @Description: (获取插件在全局的文件)
+     * @param string $name 插件名称
+     * @param boolean $diff 是否只返回冲突文件
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function getFilesDiff($name, $diff = false)
+    {
+        $list = [];
+        $addonDir = $this->getAddonDir($name);
+        $checkDirList = $this->allow_copy_dir;
+        // 扫描插件目录是否有覆盖的文件
+        foreach ($checkDirList as $dirName) {
+            //检测目录是否存在
+            if (!is_dir($addonDir . $dirName)) {
+                continue;
+            }
+            //匹配出所有的文件
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($addonDir . $dirName, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($files as $fileinfo) {
+                if ($fileinfo->isFile()) {
+                    $filePath = $fileinfo->getPathName();
+                    $path = str_replace($addonDir, '', $filePath);
+                    if ($diff) {
+                        $destPath = root_path() . $path;
+                        if (is_file($destPath)) {
+                            if (filesize($filePath) != filesize($destPath) || md5_file($filePath) != md5_file($destPath)) {
+                                $list[] = $path;
+                            }
+                        }
+                    } else {
+                        $list[] = $path;
+                    }
+                }
+            }
+        }
+        $list = array_filter(array_unique($list));
+        return $list;
+    }
+    
+    /**
+     * @Description: (获取插件备份目录[/public/uploads/])
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
     public function getAddonsBackupDir()
     {
@@ -444,21 +472,12 @@ return ;
     }
     
     /**
-     * 获取指定插件的目录
-     */
-    public function getAddonDir($name)
-    {
-        $dir = root_path() . $this->addon_dir . DIRECTORY_SEPARATOR . $name .DIRECTORY_SEPARATOR;
-        return $dir;
-    }
-    
-    /**
-     * 匹配配置文件中info信息
-     * @param ZipFile $zip
+     * @Description: (匹配配置文件中info信息)
+     * @param @ZipFile $zip
      * @return array|false
-     * @throws Exception
+     * @author 子青时节 <654108442@qq.com>
      */
-    protected function getZipConfigIni($zip)
+    public function getZipConfigIni($zip)
     {
         $config = [];
         // 读取插件信息
@@ -472,30 +491,24 @@ return ;
     }
     
     /**
-     * 验证压缩包、依赖验证
-     * @param array $params
-     * @return bool
-     * @throws Exception
+     * @Description: (获取指定插件的目录)
+     * @param string $name 插件名称
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
      */
-    public function valid($params = [])
+    public function getAddonDir($name)
     {
-        $json = $this->sendRequest('/addon/valid', $params, 'POST');
-        if ($json && isset($json['code'])) {
-            if ($json['code']) {
-                return true;
-            } else {
-                throw new Exception($json['msg'] ?? "Invalid addon package");
-            }
-        } else {
-            throw new Exception("Unknown data format");
-        }
+        $dir = root_path() . $this->addon_dir . DIRECTORY_SEPARATOR . $name .DIRECTORY_SEPARATOR;
+        return $dir;
     }
     
     /**
-     * 发送请求
-     * @return array
-     * @throws Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @Description: (发送请求)
+     * @param string $url 请求链接
+     * @param array $params 请求参数
+     * @param string $method 请求方法
+     * @return mixed
+     * @author 子青时节 <654108442@qq.com>
      */
     public function sendRequest($url, $params = [], $method = 'POST')
     {
@@ -514,8 +527,8 @@ return ;
     }
     
     /**
-     * 获取请求对象
-     * @return Client
+     * @Description: (获取请求对象)
+     * @author 子青时节 <654108442@qq.com>
      */
     public function getClient()
     {

@@ -53,7 +53,7 @@ class Uploads extends BaseController
     
     /**
      * @Description: (文件上传方法)
-     * @param fileObject imgFile 上传文件name
+     * @param object $imgFile 上传文件
      * @return @json
      * @author 子青时节 <654108442@qq.com>
      */
@@ -101,7 +101,7 @@ class Uploads extends BaseController
     
     /**
      * @Description: (上传头像并裁剪[200x200])
-     * @param fileObject avatar_file 上传文件name
+     * @param object $avatar_file 上传文件
      * @return @json
      * @author 子青时节 <654108442@qq.com>
      */

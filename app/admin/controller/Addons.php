@@ -28,7 +28,7 @@ class Addons extends Admins
     
     /**
      * @Description: (本地上传安装插件)
-     * @param fileObject addon_upload_file 上传文件name
+     * @param object $addon_upload_file 上传文件
      * @return @json
      * @author 子青时节 <654108442@qq.com>
      */
