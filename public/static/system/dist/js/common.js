@@ -166,7 +166,7 @@ $(function(){
         var _url = _this.data('url');
         
         var formData = new FormData();
-        formData.append('file', _this[0].files[0]);
+        formData.append('addon_upload_file', _this[0].files[0]);
         
         //var _button_html = _this.next('.btn').html();
         

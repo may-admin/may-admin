@@ -13,8 +13,8 @@ class Addons extends Admins
     public function index()
     {
         $get_param = del_arr_empty(input('get.'));
-        $list = AddonService::sendRequest('/addon/Addon/index', $get_param);
-        
+        //$list = AddonService::sendRequest('/addon/Addon/index', $get_param);
+        $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => []];   //用于无[插件管理插件]
         $option = [
             'path' => (string)url('Addons/index'),
             'query' => page_param()['query'],
@@ -26,24 +26,24 @@ class Addons extends Admins
         return View::fetch();
     }
     
-    // 本地安装
+    /**
+     * @Description: (本地上传安装插件)
+     * @param fileObject addon_upload_file 上传文件name
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function localInstall()
     {
-        //  /admin.php/addon/local
-        $file = request()->file('file');
-        
+        $file = request()->file('addon_upload_file');
         if ($file){
             try {
                 $extend = [];
                 $force = false;
-                
                 $info = AddonService::localInstall($file, $extend, $force);
             } catch (Exception $e) {
                 return ajax_return(1, $e->getMessage());
             }
-            
             var_dump($info);
-            
         }else{
             return ajax_return(1, '请选择文件');
         }
