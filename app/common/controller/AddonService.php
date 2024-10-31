@@ -24,92 +24,8 @@ class AddonService extends BaseController
     private $allow_copy_dir = ['app', 'config', 'extend', 'public', 'route', 'view'];
     
     
-    /**
-     * 启用
-     * @param string  $name  插件名称
-     * @param boolean $force 是否强制覆盖
-     * @return  boolean
-     */
-    public function enable($name, $force = false)
-    {
-        $addonDir = $this->getAddonDir($name);
-        
-        if (empty($name) || !is_dir($addonDir)) {
-            throw new Exception('Addon not exists');
-        }
-        
-        if ($force == false) {
-            $this->fileConflict($name);
-        }
-        //备份冲突文件
-        $conflictFiles = $this->getFilesDiff($name, false);
-        
-        if ($conflictFiles) {
-            $zip = new ZipFile();
-            try {
-                foreach ($conflictFiles as $v) {
-                    if(is_file(root_path() . $v)){
-                        $zip->addFile(root_path() . $v, $v);
-                    }
-                }
-                $addonsBackupDir =  $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
-                if(!is_dir($addonsBackupDir)){
-                    mkdir($addonsBackupDir, 0755, true);
-                }
-                $zip->saveAsFile($addonsBackupDir . $name . "-conflict-enable-" . date("Y_m_d_H_i_s") . ".zip");
-            } catch (Exception $e) {
-                
-            } finally {
-                $zip->close();
-            }
-        }
-        
-        // 复制application和public到全局
-        foreach ($this->allow_copy_dir as $dir) {
-            if (is_dir($addonDir . $dir . DIRECTORY_SEPARATOR)) {
-                copydirs($addonDir . $dir . DIRECTORY_SEPARATOR, root_path() . $dir . DIRECTORY_SEPARATOR);
-            }
-        }
-        
-        // $info = get_addon_info($name);
-        // $info['state'] = 1;
-        // unset($info['url']);
-        // set_addon_info($name, $info);
 
-        return true;
-    }
     
-    /**
-     * 导入SQL
-     *
-     * @param string $name     插件名称
-     * @param string $sql_name SQL文件名称
-     * @return  boolean
-     */
-    public function importSql($name, $sql_name = '')
-    {
-        $sql_name = empty($fileName) ? 'install.sql' : $sql_name;
-        $sql_file = $this->getAddonDir($name) . $sql_name;
-        if (is_file($sql_file)) {
-            $line_arr = file($sql_file);
-            $sql_str = '';
-            foreach ($line_arr as $line) {
-                if (substr($line, 0, 2) == '--' || $line == '' || substr($line, 0, 2) == '/*') {
-                    continue;
-                }
-                $sql_str .= $line;
-                if (substr(trim($line), -1, 1) == ';') {
-                    try {
-                        Db::execute($sql_str);
-                    } catch (\Exception $e) {
-                        //throw new Exception($e->getMessage());
-                    }
-                    $sql_str = '';
-                }
-            }
-        }
-        return true;
-    }
     
     
     
@@ -225,7 +141,7 @@ class AddonService extends BaseController
             
             // 检查插件是否存在文件重名冲突
             if ($force == false) {
-                $this->fileConflict($name);
+                $this->filesConflict($name);
             }
         } catch (Exception $e) {
             @deldir($addonDir);
@@ -236,17 +152,14 @@ class AddonService extends BaseController
         }
         
         // 导入数据库
-        // $this->importSql($name);
+        $this->importSql($name);
         
         // 启用插件
         $this->enable($name, true);
         
-        return ;
+        $ini = $this->getAddonConfigIni($name);
         
-        $info['config'] = get_addon_config($name) ? 1 : 0;
-        $info['bootstrap'] = is_file(Service::getBootstrapFile($name));
-        $info['testdata'] = is_file(Service::getTestdataFile($name));
-        return $info;
+        return $ini;
     }
     
     /**
@@ -313,7 +226,7 @@ class AddonService extends BaseController
             $extend['unknownsources'] = config('app_debug') && config('fastadmin.unknownsources');
             $extend['faversion'] = config('fastadmin.version');
             
-            $params = array_merge($config, $extend);
+            // $params = array_merge($config, $extend);
             // 压缩包验证、版本依赖判断，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
             //$this->valid($params);
             
@@ -332,13 +245,60 @@ class AddonService extends BaseController
             $zip->close();
             is_file($tmpFile) && unlink($tmpFile);
         }
+        return $info;
+    }
+    
+    /**
+     * @Description: (启用插件)
+     * @param string $name 插件名称
+     * @param boolean $force 是否强制覆盖
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function enable($name, $force = false)
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || !is_dir($addonDir)) {
+            throw new Exception('Addon not exists');
+        }
         
+        if ($force == false) {
+            $this->filesConflict($name);
+        }
+        // 备份冲突文件
+        $filesDiff = $this->getFilesDiff($name, false);
+        if ($filesDiff) {
+            $zip = new ZipFile();
+            try {
+                foreach ($filesDiff as $v) {
+                    if(is_file(root_path() . $v)){
+                        $zip->addFile(root_path() . $v, $v);
+                    }
+                }
+                $addonsBackupDir =  $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
+                if(!is_dir($addonsBackupDir)){
+                    mkdir($addonsBackupDir, 0755, true);
+                }
+                $zip->saveAsFile($addonsBackupDir . $name . "-enable-" . date("Y_m_d_H_i_s") . ".zip");
+            } catch (Exception $e) {
+                
+            } finally {
+                $zip->close();
+            }
+        }
         
+        // 允许复制目录至根目录
+        foreach ($this->allow_copy_dir as $dir) {
+            if (is_dir($addonDir . $dir . DIRECTORY_SEPARATOR)) {
+                copydirs($addonDir . $dir . DIRECTORY_SEPARATOR, root_path() . $dir . DIRECTORY_SEPARATOR);
+            }
+        }
         
-        // $info['config'] = get_addon_config($name) ? 1 : 0;
-        // $info['bootstrap'] = is_file(Service::getBootstrapFile($name));
-        // $info['testdata'] = is_file(Service::getTestdataFile($name));
-        // return $info;
+        $ini = $this->getAddonConfigIni($name);
+        $ini['status'] = 1;
+        $this->setAddonConfigIni($name, $ini);
+        
+        return true;
     }
     
     /**
@@ -405,13 +365,13 @@ class AddonService extends BaseController
      * @return boolean
      * @author 子青时节 <654108442@qq.com>
      */
-    public function fileConflict($name)
+    public function filesConflict($name)
     {
         // 检测冲突文件
         $list = $this->getFilesDiff($name, true);
         if ($list) {
             //发现冲突文件，抛出异常
-            throw new Exception($list);
+            throw new Exception(json_encode($list));
         }
         return true;
     }
@@ -458,6 +418,38 @@ class AddonService extends BaseController
     }
     
     /**
+     * @Description: (导入sql文件)
+     * @param string $name 插件名称
+     * @param string $sql_name sql文件名称
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function importSql($name, $sql_name = '')
+    {
+        $sql_name = empty($sql_name) ? 'install.sql' : $sql_name;
+        $sql_file = $this->getAddonDir($name) . $sql_name;
+        if (is_file($sql_file)) {
+            $line_arr = file($sql_file);
+            $sql_str = '';
+            foreach ($line_arr as $line) {
+                if (substr($line, 0, 2) == '--' || $line == '' || substr($line, 0, 2) == '/*') {
+                    continue;
+                }
+                $sql_str .= $line;
+                if (substr(trim($line), -1, 1) == ';') {
+                    try {
+                        Db::execute($sql_str);
+                    } catch (\Exception $e) {
+                        //throw new Exception($e->getMessage());
+                    }
+                    $sql_str = '';
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
      * @Description: (获取插件备份目录[/public/uploads/])
      * @return string
      * @author 子青时节 <654108442@qq.com>
@@ -472,7 +464,7 @@ class AddonService extends BaseController
     }
     
     /**
-     * @Description: (匹配配置文件中info信息)
+     * @Description: (匹配压缩包配置文件中info信息)
      * @param @ZipFile $zip
      * @return array|false
      * @author 子青时节 <654108442@qq.com>
@@ -480,7 +472,6 @@ class AddonService extends BaseController
     public function getZipConfigIni($zip)
     {
         $config = [];
-        // 读取插件信息
         try {
             $info = $zip->getEntryContents('config.ini');   //获取压缩包根目录的info.ini
             $config = parse_ini_string($info);
@@ -500,6 +491,40 @@ class AddonService extends BaseController
     {
         $dir = root_path() . $this->addon_dir . DIRECTORY_SEPARATOR . $name .DIRECTORY_SEPARATOR;
         return $dir;
+    }
+    
+    /**
+     * @Description: (获取插件配置文件config.ini信息)
+     * @param string $name 插件名称
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function getAddonConfigIni($name)
+    {
+        $addonDir = $this->getAddonDir($name);
+        return parse_ini_file($addonDir . 'config.ini');
+    }
+    
+    /**
+     * @Description: (设置插件配置文件config.ini信息)
+     * @param string $name 插件名称
+     * @param array $ini 配置数组
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function setAddonConfigIni($name, $ini)
+    {
+        $addonDir = $this->getAddonDir($name);
+        $res = array();
+        foreach ($ini as $key => $val) {
+            $res[] = "$key = " . (is_numeric($val) ? $val : $val);
+        }
+        if (file_put_contents($addonDir . 'config.ini', implode("\n", $res) . "\n", LOCK_EX)) {
+            
+        } else {
+            throw new Exception("文件没有写入权限");
+        }
+        return true;
     }
     
     /**

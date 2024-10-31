@@ -12,9 +12,12 @@ class Addons extends Admins
     
     public function index()
     {
-        $get_param = del_arr_empty(input('get.'));
-        //$list = AddonService::sendRequest('/addon/Addon/index', $get_param);
-        $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => []];   //用于无[插件管理插件]
+        if (class_exists('\app\common\model\Addon')){
+            $get_param = del_arr_empty(input('get.'));
+            $list = AddonService::sendRequest('/addon/Addon/index', $get_param);
+        }else{
+            $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => []];
+        }
         $option = [
             'path' => (string)url('Addons/index'),
             'query' => page_param()['query'],
@@ -43,7 +46,7 @@ class Addons extends Admins
             } catch (Exception $e) {
                 return ajax_return(1, $e->getMessage());
             }
-            var_dump($info);
+            return ajax_return(0, '安装成功', '', $info);
         }else{
             return ajax_return(1, '请选择文件');
         }
