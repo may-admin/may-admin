@@ -7,16 +7,30 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                先做本地插件安装
-                <br />
-                <input type="file" id="addon-upload-btn" data-url="{:url('Addons/localInstall')}" accept="zip">
-                <br />
+                <div class="box-header with-border">
+                    {volist name="category_arr" id="vo"}
+                    <a class="btn btn-default {$vo.active}" href="{$vo.url}" >{$vo.text}</a>
+                    {/volist}
+                </div>
+                <div class="box-header with-border">
+                    {volist name="type_arr" id="vo"}
+                    <a class="btn btn-default {$vo.active}" href="{$vo.url}" >{$vo.text}</a>
+                    {/volist}
+                </div>
+                <div class="box-header with-border">
+                    <div class="input-group-btn up-box">
+                        <div class="up-btn-box">
+                            <input type="file" id="addon-upload-btn" data-url="{:url('Addons/localInstall')}" accept=".zip,.rar">
+                            <button class="btn btn-danger" type="button"><i class="fa-solid fa-cloud-arrow-up"> 本地安装</i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered">
                         <tr>
                             <th>{:lang('title')}</th>
                             <th>{:lang('author')}</th>
-                            <th class="description">{:lang('description')}</th>
+                            <th class="description">{:lang('descs')}</th>
                             <th>{:lang('price')}</th>
                             <th>{:lang('downloads')}</th>
                             <th>{:lang('version')}</th>
@@ -26,12 +40,22 @@
                         <tr>
                             <td>{$vo.title}</td>
                             <td>{$vo.author}</td>
-                            <td class="description">{$vo.description}</td>
-                            <td>{$vo.price}</td>
+                            <td class="description">{$vo.descs}</td>
+                            <td>{$vo.price|price_label}</td>
                             <td>{$vo.downloads}</td>
-                            <td>{$vo.version}</td>
+                            <td>version</td>
                             <td>
-                                <a class="btn btn-primary btn-xs" href="###"><i class="fa-solid fa-cloud-arrow-down"></i> 安装</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs"><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                         {/volist}

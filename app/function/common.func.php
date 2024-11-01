@@ -68,6 +68,22 @@ function time_turn($time, $format='Y-m-d H:i:s'){
 }
 
 /**
+ * @Description: (价格转文本显示)
+ * @param int $price 价格
+ * @param string $unit 单位
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function price_label($price, $unit='￥'){
+    if($price > 0){
+        $res = '<span class="text-danger">'.$unit.$price.'</span>';
+    }else{
+        $res = '<span class="text-success">免费</span>';
+    }
+    return $res;
+}
+
+/**
  * @Description: (删除二维数组中的空值，保留0和false)
  * @param array $arr 数组
  * @return array

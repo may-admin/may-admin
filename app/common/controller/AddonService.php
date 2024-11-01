@@ -506,6 +506,22 @@ class AddonService extends BaseController
     }
     
     /**
+     * @Description: (获取所有安装插件配置文件config.ini信息)
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function getListAddonConfigIni()
+    {
+        $ini_arr = glob(root_path().$this->addon_dir.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'config.ini');
+        $res = [];
+        foreach ($ini_arr as $v){
+            $inis = parse_ini_file($v);
+            $res[$inis['name']] = $inis;
+        }
+        return $res;
+    }
+    
+    /**
      * @Description: (设置插件配置文件config.ini信息)
      * @param string $name 插件名称
      * @param array $ini 配置数组
@@ -522,7 +538,7 @@ class AddonService extends BaseController
         if (file_put_contents($addonDir . 'config.ini', implode("\n", $res) . "\n", LOCK_EX)) {
             
         } else {
-            throw new Exception("文件没有写入权限");
+            throw new Exception($name." config.ini file does not have write permission");
         }
         return true;
     }

@@ -2,10 +2,17 @@
 return [
     //数据库字段
     'id'                => 'ID',
-    'addon_category_id' => '插件分类ID',
+    'addon_category'    => '插件类别',
     'title'             => '插件名称',
     'name'              => '标识',
     'author'            => '作者',
+    'qq'                => 'QQ',
+    'image'             => '封面',
+    'images'            => '多图',
+    'descs'             => '描述',
+    'content'           => '内容',
+    'jump_url'          => '跳转链接',
+    'keywords'          => '关键字',
     'description'       => '描述',
     'price'             => '价格',
     'score'             => '评分',
