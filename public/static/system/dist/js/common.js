@@ -335,6 +335,33 @@ $(function(){
         });
     });
     
+    //开关status列表修改（只能进行0和1值的切换）
+    $('body').off('change', '.switchs_btn');
+    $('body').on('change', '.switchs_btn', function(event){
+        var _this = $(this);
+        var id = _this.data('id');
+        var field = _this.data('field');
+        var checked = _this.prop('checked');
+        var url = _this.data('url');
+        
+        var dataStr = jQuery.parseJSON( '{"id":"'+id+'","'+field+'":"'+checked+'"}' );   //字符串转json
+        $.ajax({
+            type : 'post',
+            url : url,
+            dataType : 'json',
+            data : dataStr,
+            success : function(res) {
+                console.log(res);
+                return;
+                if(res.code == '0'){
+                    layer.msg(res.message, {icon: 1});
+                }else{
+                    layer.msg(res.message, {icon: 2});
+                }
+            }
+        });
+    });
+    
     //列表编辑文本
     $('body').off('click', '.list-write');
     $('body').on('click', '.list-write', function(event){

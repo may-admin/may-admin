@@ -179,3 +179,59 @@ function widget($name, $data = []){
     $class = str_replace('common/', 'common\widget\\', $class);
     return app()->invokeMethod([$class, $action], $data);
 }
+
+/**
+ * @Description: (插件列表版本)
+ * @param string $data 列表数据
+ * @param array $local_addon_list 本地已安装插件
+ * @return array
+ * @author 子青时节 <654108442@qq.com>
+ */
+function addon_version($data, $local_addon_list){
+    $version = '';
+    $status_switchs = '';
+    $action_btns = '';
+    if(empty($data['jump_url'])){
+        if(isset($local_addon_list[$data['name']])){
+            $version .= '<span class="position-relative">'.$local_addon_list[$data['name']]['version'];
+            
+            $checked = $local_addon_list[$data['name']]['status'] == 1 ? 'checked="checked"' : '';
+            $status_switchs .= '<span class="checkbox-inline switch-box sm"><input type="checkbox" class="switchs_btn" id="switchs_addon'.$data['id'].'" data-id="'.$data['id'].'" data-field="'.$data['name'].'" data-url="'.url('Addons/statusToggle').'" '.$checked.' /><label for="switchs_addon'.$data['id'].'"><em></em></label></span>';
+            
+            if($local_addon_list[$data['name']]['version'] != $data['version_list'][0]['version']){
+                $version .= '<span class="position-absolute p-1 bg-danger rounded-circle"></span>';
+                
+                $action_btns .= '<div class="btn-group">';
+                $action_btns .= '<button type="button" class="btn btn-warning btn-xs"><i class="fa-solid fa-cloud-arrow-up"></i> 升级</button>';
+                $action_btns .= '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
+                $action_btns .= '<ul class="dropdown-menu">';
+                foreach($data['version_list'] as $v){
+                    $action_btns .= '<li><a class="dropdown-item" href="javascript:void(0);">'.$v['version'].'</a></li>';
+                }
+                $action_btns .= '</ul>';
+                $action_btns .= '</div>';
+            }
+            $version .= '</span>';
+            
+            $action_btns .= ' <a class="btn btn-danger btn-xs btn-confirm" href="javascript:void(0);"><i class="fa-solid fa-trash"></i> 卸载</a>';
+        }else{
+            $version .= $data['version_list'][0]['version'];
+            
+            $action_btns .= '<div class="btn-group">';
+            $action_btns .= '<button type="button" class="btn btn-primary btn-xs"><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>';
+            if(count($data['version_list']) > 1){
+                $action_btns .= '<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
+                $action_btns .= '<ul class="dropdown-menu">';
+                foreach($data['version_list'] as $v){
+                    $action_btns .= '<li><a class="dropdown-item" href="javascript:void(0);">'.$v['version'].'</a></li>';
+                }
+                $action_btns .= '</ul>';
+            }
+            $action_btns .= '</div>';
+        }
+    }else{
+        $version .= '-';
+        $action_btns .= '<a class="btn btn-success btn-xs" target="_blank" href="'.$data['jump_url'].'"><i class="fa-solid fa-eye"></i> 点击查看</a>';
+    }
+    return [$version, $status_switchs, $action_btns];
+}

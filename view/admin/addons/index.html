@@ -7,6 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
+                该开关、下载安装、卸载、升级
                 <div class="box-header with-border">
                     {volist name="category_arr" id="vo"}
                     <a class="btn btn-default {$vo.active}" href="{$vo.url}" >{$vo.text}</a>
@@ -34,7 +35,8 @@
                             <th>{:lang('price')}</th>
                             <th>{:lang('downloads')}</th>
                             <th>{:lang('version')}</th>
-                            <th>{:lang('action')}</th>
+                            <th>{:lang('status')}</th>
+                            <th class="text-end">{:lang('action')}</th>
                         </tr>
                         {volist name="dataList" id="vo"}
                         <tr>
@@ -43,20 +45,9 @@
                             <td class="description">{$vo.descs}</td>
                             <td>{$vo.price|price_label}</td>
                             <td>{$vo.downloads}</td>
-                            <td>version</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary btn-xs"><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>
-                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
-                            </td>
+                            <td>{$vo.version}</td>
+                            <td>{$vo.status_switchs}</td>
+                            <td class="text-end">{$vo.action_btns}</td>
                         </tr>
                         {/volist}
                     </table>

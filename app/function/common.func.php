@@ -77,6 +77,8 @@ function time_turn($time, $format='Y-m-d H:i:s'){
 function price_label($price, $unit='￥'){
     if($price > 0){
         $res = '<span class="text-danger">'.$unit.$price.'</span>';
+    }elseif($price == '-'){
+        $res = $price;
     }else{
         $res = '<span class="text-success">免费</span>';
     }

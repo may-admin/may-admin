@@ -26,6 +26,9 @@ class Addons extends Admins
                 $params['type'] = implode(',', $addon_arr);
             }
             $list = AddonService::sendRequest('/addon/Addon/index', $params);
+            foreach($list['data'] as $k => $v){
+                list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
+            }
         }else{
             $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => []];
         }
@@ -94,5 +97,22 @@ class Addons extends Admins
     public function install()
     {
         
+    }
+    
+    public function statusToggle()
+    {
+        if (request()->isPost()){
+            $data = input('post.', '', 'htmlspecialchars');
+            unset($data['id']);
+            $addon = '';
+            $val = '';
+            foreach ($data as $k => $v){
+                $addon = $k;
+                $val = $v == 'true' ? 1 : 0;
+            }
+            $ini = AddonService::getAddonConfigIni($addon);
+            $ini['status'] = $val;
+            AddonService::setAddonConfigIni($addon, $ini);
+        }
     }
 }
