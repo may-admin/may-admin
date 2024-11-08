@@ -83,8 +83,7 @@ class Addons extends Admins
         if ($file){
             try {
                 $extend = [];
-                $force = false;
-                $info = AddonService::localInstall($file, $extend, $force);
+                $info = AddonService::localInstall($file, $extend);
             } catch (Exception $e) {
                 return ajax_return(1, $e->getMessage());
             }

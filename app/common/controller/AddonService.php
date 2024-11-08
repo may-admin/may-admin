@@ -85,6 +85,9 @@ class AddonService extends BaseController
      */
     public function valid($params = [])
     {
+        echo "valid";
+        return;
+        /*
         $json = $this->sendRequest('/addon/valid', $params, 'POST');
         if ($json && isset($json['code'])) {
             if ($json['code']) {
@@ -95,6 +98,7 @@ class AddonService extends BaseController
         } else {
             throw new Exception("Unknown data format");
         }
+        */
     }
     
     
@@ -117,21 +121,17 @@ class AddonService extends BaseController
     /**
      * @Description: (安装插件)
      * @param string $name 插件名称
-     * @param boolean $force 是否覆盖
      * @param array $extend 扩展参数
      * @param string $tmpFile 本地文件
      * @return @json
      * @author 子青时节 <654108442@qq.com>
      */
-    public function install($name, $force = false, $extend = [], $tmpFile = '')
+    public function install($name, $extend = [], $tmpFile = '')
     {
         $addonDir = $this->getAddonDir($name);
-        if (empty($name) || (is_dir($addonDir) && $force == false)) {
+        if (empty($name) || is_dir($addonDir) ) {
             throw new Exception('Addon already exists');
         }
-        $extend['domain'] = request()->host(true);
-        // 远程下载插件
-        $tmpFile = $tmpFile ?: $this->download($name, $extend);   //还未使用到在线下载安装
         try {
             // 解压插件压缩包到插件目录
             $this->unzip($name, $tmpFile);
@@ -140,9 +140,7 @@ class AddonService extends BaseController
             $this->checkzip($name);
             
             // 检查插件是否存在文件重名冲突
-            if ($force == false) {
-                $this->filesConflict($name);
-            }
+            $this->filesConflict($name);
         } catch (Exception $e) {
             @deldir($addonDir);
             throw new Exception($e->getMessage());
@@ -155,7 +153,7 @@ class AddonService extends BaseController
         $this->importSql($name);
         
         // 启用插件
-        $this->enable($name, true);
+        $this->enable($name);
         
         $ini = $this->getAddonConfigIni($name);
         
@@ -166,11 +164,10 @@ class AddonService extends BaseController
      * @Description: (离线安装)
      * @param object $file 插件zip压缩包
      * @param array $extend 扩展参数
-     * @param boolean $force 是否覆盖
      * @return array
      * @author 子青时节 <654108442@qq.com>
      */
-    public function localInstall($file, $extend = [], $force = false)
+    public function localInstall($file, $extend = [])
     {
         try {
             validate(['file' => ['fileSize' => intval(10 * 1048576), 'fileExt' => 'zip,rar']])->check(['file' => $file]);
@@ -198,47 +195,21 @@ class AddonService extends BaseController
                 throw new Exception('Addon info file data incorrect');
             }
             
-            // 判断插件名称
-            if (!preg_match("/^[a-zA-Z0-9]+$/", $name)) {
-                throw new Exception('Addon name incorrect');
-            }
-            
-            // 判断新插件是否存在
-            $newAddonDir = $this->getAddonDir($name);
-            
-            if ($force == false && is_dir($newAddonDir)) {
-                throw new Exception('Addon already exists,title:' . $config['title'] . ',name:'.$name);
-            }
-            
             // 读取旧版本号
-            $oldversion = '';
-            if (is_dir($newAddonDir)) {
-                $oldConfig = parse_ini_file($newAddonDir . 'config.ini');
-                $oldversion = $oldConfig['version'] ?? '';
-            }
             
-            $extend['oldversion'] = $oldversion;
-            $extend['version'] = $config['version'];
+            // $extend['version'] = $config['version'];
             
             // 追加MD5和Data数据
-            $extend['md5'] = md5_file($tmpFile);
-            $extend['data'] = $zip->getArchiveComment();
-            $extend['unknownsources'] = config('app_debug') && config('fastadmin.unknownsources');
-            $extend['faversion'] = config('fastadmin.version');
+            // $extend['md5'] = md5_file($tmpFile);
+            // $extend['data'] = $zip->getArchiveComment();
+            // $extend['unknownsources'] = config('app_debug') && config('fastadmin.unknownsources');
+            // $extend['faversion'] = config('fastadmin.version');
             
             // $params = array_merge($config, $extend);
             // 压缩包验证、版本依赖判断，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
             //$this->valid($params);
             
-            if (!$oldversion) {
-                // 新装模式
-                $info = $this->install($name, $force, $extend, $tmpFile);
-            } else {
-                // 升级模式
-                echo "升级模式";
-                //$info = $this->upgrade($name, $extend, $tmpFile);
-            }
-            
+            $info = $this->install($name, $extend, $tmpFile);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } finally {
@@ -251,46 +222,23 @@ class AddonService extends BaseController
     /**
      * @Description: (启用插件)
      * @param string $name 插件名称
-     * @param boolean $force 是否强制覆盖
      * @return boolean
      * @author 子青时节 <654108442@qq.com>
      */
-    public function enable($name, $force = false)
+    public function enable($name)
     {
         $addonDir = $this->getAddonDir($name);
         if (empty($name) || !is_dir($addonDir)) {
             throw new Exception('Addon not exists');
         }
         
-        if ($force == false) {
-            $this->filesConflict($name);
-        }
-        // 备份冲突文件
-        $filesDiff = $this->getFilesDiff($name, false);
-        if ($filesDiff) {
-            $zip = new ZipFile();
-            try {
-                foreach ($filesDiff as $v) {
-                    if(is_file(root_path() . $v)){
-                        $zip->addFile(root_path() . $v, $v);
-                    }
-                }
-                $addonsBackupDir =  $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
-                if(!is_dir($addonsBackupDir)){
-                    mkdir($addonsBackupDir, 0755, true);
-                }
-                $zip->saveAsFile($addonsBackupDir . $name . "-enable-" . date("Y_m_d_H_i_s") . ".zip");
-            } catch (Exception $e) {
-                
-            } finally {
-                $zip->close();
-            }
-        }
+        // 检查插件是否存在文件重名冲突
+        $this->filesConflict($name);
         
         // 允许复制目录至根目录
         foreach ($this->allow_copy_dir as $dir) {
             if (is_dir($addonDir . $dir . DIRECTORY_SEPARATOR)) {
-                copydirs($addonDir . $dir . DIRECTORY_SEPARATOR, root_path() . $dir . DIRECTORY_SEPARATOR);
+                copydirs($addonDir.$dir.DIRECTORY_SEPARATOR, root_path().$dir.DIRECTORY_SEPARATOR);
             }
         }
         
@@ -313,8 +261,6 @@ class AddonService extends BaseController
         if (empty($name)) {
             throw new Exception('Invalid parameters');
         }
-        $addonsBackupDir = $this->getAddonsBackupDir();
-        $file = $file ?: $addonsBackupDir . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $name. '.zip';   //原备份目录还需要改
         
         // 打开插件压缩包
         $zip = new ZipFile();
@@ -388,7 +334,7 @@ class AddonService extends BaseController
         $list = [];
         $addonDir = $this->getAddonDir($name);
         $checkDirList = $this->allow_copy_dir;
-        // 扫描插件目录是否有覆盖的文件
+        // 扫描插件目录是否有重名的文件
         foreach ($checkDirList as $dirName) {
             //检测目录是否存在
             if (!is_dir($addonDir . $dirName)) {
@@ -512,13 +458,13 @@ class AddonService extends BaseController
      */
     public function getListAddonConfigIni()
     {
-        $ini_arr = glob(root_path().$this->addon_dir.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'config.ini');
-        $res = [];
-        foreach ($ini_arr as $v){
-            $inis = parse_ini_file($v);
-            $res[$inis['name']] = $inis;
-        }
-        return $res;
+        // $ini_arr = glob(root_path().$this->addon_dir.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'config.ini');
+        // $res = [];
+        // foreach ($ini_arr as $v){
+        //     $inis = parse_ini_file($v);
+        //     $res[$inis['name']] = $inis;
+        // }
+        // return $res;
     }
     
     /**
