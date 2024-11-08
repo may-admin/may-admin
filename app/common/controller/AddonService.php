@@ -458,13 +458,13 @@ class AddonService extends BaseController
      */
     public function getListAddonConfigIni()
     {
-        // $ini_arr = glob(root_path().$this->addon_dir.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'config.ini');
-        // $res = [];
-        // foreach ($ini_arr as $v){
-        //     $inis = parse_ini_file($v);
-        //     $res[$inis['name']] = $inis;
-        // }
-        // return $res;
+        $ini_arr = glob(root_path().$this->addon_dir.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'config.ini');
+        $res = [];
+        foreach ($ini_arr as $v){
+            $inis = parse_ini_file($v);
+            $res[$inis['name']] = $inis;
+        }
+        return $res;
     }
     
     /**
