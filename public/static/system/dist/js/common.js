@@ -194,36 +194,14 @@ $(function(){
             */
             success: function(res) {
                 console.log(res);
-                
                 if(res.code == '0'){
-                    
-                }else{
-                    layer.msg(res.message, {icon: 2});
-                }
-                
-                /*
-                if(res.code == '0'){
-                    if(_tag == 'image'){   //单图上传
-                        _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
-                        _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
-                        _this.closest('.up-box').find('.show-image-box img').attr('src', res.link);
-                    }else if(_tag == 'images'){   //图组上传
-                        if(_this.closest('.up-box').prev('.widget-upload-input').val() == ''){
-                            _this.closest('.up-box').prev('.widget-upload-input').val(res.link);   //输入框添加数据
-                        }else{
-                            _this.closest('.up-box').prev('.widget-upload-input').val(_this.closest('.up-box').prev('.widget-upload-input').val()+','+res.link);
-                        }
-                        var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
-                        _html += '<a class="img-box" href="'+res.link+'" target="_blank"><img src="'+res.link+'" /></a></div>';
-                        _this.closest('.input-group').next('.sortables').append(_html);
-                    }
                     layer.msg(res.message, {icon: 1});
+                    if(res.url != ''){
+                        $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'});
+                    }
                 }else{
                     layer.msg(res.message, {icon: 2});
                 }
-                _this.next('.btn').html(_button_html);
-                _this.val('');
-                */
             }
         });
     });
@@ -351,12 +329,15 @@ $(function(){
             dataType : 'json',
             data : dataStr,
             success : function(res) {
-                console.log(res);
-                return;
                 if(res.code == '0'){
                     layer.msg(res.message, {icon: 1});
                 }else{
                     layer.msg(res.message, {icon: 2});
+                    if(_this.prop('checked')){
+                        _this.prop('checked', false);
+                    }else{
+                        _this.prop('checked', true);
+                    }
                 }
             }
         });

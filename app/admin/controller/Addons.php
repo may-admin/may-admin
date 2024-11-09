@@ -30,7 +30,7 @@ class Addons extends Admins
                 list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
             }
         }else{
-            $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => []];
+            $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => [], 'category' => [], 'type' => []];
         }
         $option = [
             'path' => (string)url('Addons/index'),
@@ -65,6 +65,7 @@ class Addons extends Admins
             ];
         }
         
+        session('redirect_url', request()->url());
         View::assign('dataList', $dataList);
         View::assign('category_arr', $category_arr);
         View::assign('type_arr', $type_arr);
@@ -87,7 +88,9 @@ class Addons extends Admins
             } catch (Exception $e) {
                 return ajax_return(1, $e->getMessage());
             }
-            return ajax_return(0, '安装成功', '', $info);
+            
+            $url = session('redirect_url') ? session('redirect_url') : url('index');
+            return ajax_return(0, lang('action_success'), $url, $info);
         }else{
             return ajax_return(1, '请选择文件');
         }
@@ -103,15 +106,22 @@ class Addons extends Admins
         if (request()->isPost()){
             $data = input('post.', '', 'htmlspecialchars');
             unset($data['id']);
-            $addon = '';
+            $name = '';
             $val = '';
             foreach ($data as $k => $v){
-                $addon = $k;
-                $val = $v == 'true' ? 1 : 0;
+                $name = $k;
+                $val = $v;
             }
-            $ini = AddonService::getAddonConfigIni($addon);
-            $ini['status'] = $val;
-            AddonService::setAddonConfigIni($addon, $ini);
+            try {
+                if($val == 'true'){   // 启用插件
+                    AddonService::enable($name);
+                }elseif($val == 'false'){   // 禁用插件
+                    AddonService::disable($name);
+                }
+            } catch (Exception $e) {
+                return ajax_return(1, $e->getMessage());
+            }
+            return ajax_return(0, lang('action_success'), '');
         }
     }
 }

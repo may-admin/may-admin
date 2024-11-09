@@ -250,6 +250,46 @@ class AddonService extends BaseController
     }
     
     /**
+     * @Description: (禁用插件)
+     * @param string $name 插件名称
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function disable($name)
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || !is_dir($addonDir)) {
+            throw new Exception('Addon not exists');
+        }
+        
+        $root_path = root_path();
+        $version_diff = 0;
+        // 扫描与插件冲突的文件[升级或二开]
+        $list = $this->getFilesDiff($name, 'diff');
+        if(!empty($list)){
+            copyfiles($list, $root_path, $addonDir);
+            $version_diff = 1;   // 存在冲突的文件[升级或二开]
+        }
+        
+        // 扫描出插件中文件在根目录对应位置文件并删除
+        $list = $this->getFilesDiff($name, 'same');
+        if(!empty($list)){
+            foreach($list as $v){
+                unlink($root_path.$v);
+                $dir = pathinfo($root_path.$v, PATHINFO_DIRNAME);
+                remove_empty_folder($dir);
+            }
+        }
+        
+        $ini = $this->getAddonConfigIni($name);
+        $ini['status'] = 1;
+        $ini['version_diff'] = $ini['version_diff'] == '1' ? $ini['version_diff'] : $version_diff;
+        $this->setAddonConfigIni($name, $ini);
+        
+        return true;
+    }
+    
+    /**
      * @Description: (解压插件)
      * @param string $name 插件名称
      * @param string $file 文件路径
@@ -306,7 +346,7 @@ class AddonService extends BaseController
     }
     
     /**
-     * @Description: (检查插件是否存在文件重名冲突)
+     * @Description: (检查插件是否存在文件重名或冲突)
      * @param string $name 插件名称
      * @return boolean
      * @author 子青时节 <654108442@qq.com>
@@ -314,10 +354,12 @@ class AddonService extends BaseController
     public function filesConflict($name)
     {
         // 检测冲突文件
-        $list = $this->getFilesDiff($name, true);
-        if ($list) {
+        $list = $this->getFilesDiff($name, 'same');
+        if (!empty($list)) {
             //发现冲突文件，抛出异常
-            throw new Exception(json_encode($list));
+            //throw new Exception(json_encode($list));
+            $str = 'file conflict:'.implode(',', $list);
+            throw new Exception($str);
         }
         return true;
     }
@@ -325,11 +367,11 @@ class AddonService extends BaseController
     /**
      * @Description: (获取插件在全局的文件)
      * @param string $name 插件名称
-     * @param boolean $diff 是否只返回冲突文件
+     * @param string $type 类型['same':'相同文件名文件','diff':'文件内容不一致',为空则插件所有文件]
      * @return array
      * @author 子青时节 <654108442@qq.com>
      */
-    public function getFilesDiff($name, $diff = false)
+    public function getFilesDiff($name, $type = '')
     {
         $list = [];
         $addonDir = $this->getAddonDir($name);
@@ -346,10 +388,14 @@ class AddonService extends BaseController
                 if ($fileinfo->isFile()) {
                     $filePath = $fileinfo->getPathName();
                     $path = str_replace($addonDir, '', $filePath);
-                    if ($diff) {
+                    if (!empty($type)) {
                         $destPath = root_path() . $path;
                         if (is_file($destPath)) {
-                            if (filesize($filePath) != filesize($destPath) || md5_file($filePath) != md5_file($destPath)) {
+                            if($type == 'diff'){
+                                if (filesize($filePath) != filesize($destPath) || md5_file($filePath) != md5_file($destPath)) {
+                                    $list[] = $path;
+                                }
+                            }else{
                                 $list[] = $path;
                             }
                         }

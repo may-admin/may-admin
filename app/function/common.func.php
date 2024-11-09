@@ -176,3 +176,34 @@ function copydirs($source, $dest){
     }
     return true;
 }
+
+/**
+ * @Description: (复制多文件)
+ * @param array $files 文件数组[非绝对路径]
+ * @param string $source 源文件夹目录
+ * @param string $dest 目标文件夹目录
+ * @return boolean
+ * @author 子青时节 <654108442@qq.com>
+ */
+function copyfiles($files, $source, $dest){
+    foreach($files as $v){
+        copy($source.$v, $dest.$v);
+    }
+    return true;
+}
+
+/**
+ * @Description: (移除空目录)
+ * @param string $dir 源文件夹目录
+ * @author 子青时节 <654108442@qq.com>
+ */
+function remove_empty_folder($dir){
+    try {
+        $isDirEmpty = !(new \FilesystemIterator($dir))->valid();
+        if ($isDirEmpty) {
+            @rmdir($dir);
+            remove_empty_folder(dirname($dir));
+        }
+    } catch (\Exception $e) {
+    }
+}
