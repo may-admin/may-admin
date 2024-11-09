@@ -193,7 +193,6 @@ $(function(){
             },
             */
             success: function(res) {
-                console.log(res);
                 if(res.code == '0'){
                     layer.msg(res.message, {icon: 1});
                     if(res.url != ''){
