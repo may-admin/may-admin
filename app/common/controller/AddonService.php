@@ -282,7 +282,7 @@ class AddonService extends BaseController
         }
         
         $ini = $this->getAddonConfigIni($name);
-        $ini['status'] = 1;
+        $ini['status'] = 0;
         $ini['version_diff'] = $ini['version_diff'] == '1' ? $ini['version_diff'] : $version_diff;
         $this->setAddonConfigIni($name, $ini);
         
