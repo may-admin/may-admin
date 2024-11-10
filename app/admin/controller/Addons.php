@@ -101,6 +101,28 @@ class Addons extends Admins
         
     }
     
+    public function uninstall()
+    {
+        if (request()->isPost()){
+            $name = input('post.id', '', 'htmlspecialchars');
+            try {
+                AddonService::uninstall($name);
+            } catch (Exception $e) {
+                $code = substr($e->getMessage(), 0, 5);
+                if($code == 'code2'){
+                    $up = explode(',', $e->getMessage())[1];
+                    $url = session('redirect_url') ? session('redirect_url') : url('index');
+                    return ajax_return(2, '存在版本差异文件，插件已备份:<br />'.$up.'<br /><a href="'.$up.'" class="text-danger" target="_blank" >点击下载</a>', $url);
+                }else{
+                    return ajax_return(1, $e->getMessage());
+                }
+            }
+            
+            $url = session('redirect_url') ? session('redirect_url') : url('index');
+            return ajax_return(0, lang('action_success'), $url);
+        }
+    }
+    
     public function statusToggle()
     {
         if (request()->isPost()){

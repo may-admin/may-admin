@@ -40,14 +40,12 @@ $(function(){
         var _url = _this.data('url');
         var _dir = _this.data('dir');
         var _tag = _this.data('tag');
+        var _button_html = _this.next('.btn').html();
         
         var formData = new FormData();
         formData.append('dir', _dir);
         formData.append('tag', _tag);
         formData.append('imgFile', _this[0].files[0]);
-        
-        var _button_html = _this.next('.btn').html();
-        
         $.ajax({
             type: 'post',
             url: _url,
@@ -161,15 +159,12 @@ $(function(){
     //本地安装插件按钮
     $('body').off('change', '#addon-upload-btn');
     $('body').on('change', '#addon-upload-btn', function(event){
-        
         var _this = $(this);
         var _url = _this.data('url');
+        var _button_html = _this.next('.btn').html();
         
         var formData = new FormData();
         formData.append('addon_upload_file', _this[0].files[0]);
-        
-        //var _button_html = _this.next('.btn').html();
-        
         $.ajax({
             type: 'post',
             url: _url,
@@ -177,7 +172,6 @@ $(function(){
             contentType: false,
             dataType: 'json',
             data: formData,
-            /*
             xhr: function() {
                 var xhr = $.ajaxSettings.xhr();
                 if (xhr.upload) {
@@ -191,7 +185,6 @@ $(function(){
                 }
                 return xhr;
             },
-            */
             success: function(res) {
                 if(res.code == '0'){
                     layer.msg(res.message, {icon: 1});
@@ -199,8 +192,10 @@ $(function(){
                         $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'});
                     }
                 }else{
-                    layer.msg(res.message, {icon: 2});
+                    layer.alert(res.message, {icon: 2});
                 }
+                _this.next('.btn').html(_button_html);
+                _this.val('');
             }
         });
     });
@@ -331,7 +326,7 @@ $(function(){
                 if(res.code == '0'){
                     layer.msg(res.message, {icon: 1});
                 }else{
-                    layer.msg(res.message, {icon: 2});
+                    layer.alert(res.message, {icon: 2});
                     if(_this.prop('checked')){
                         _this.prop('checked', false);
                     }else{
@@ -385,6 +380,11 @@ $(function(){
                     success : function(res) {
                         if(res.code == '0'){
                             layer.msg(res.message, {icon: 1});
+                            if(res.url != ''){
+                                $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
+                            }
+                        }else if(res.code == '2'){
+                            layer.alert(res.message, {icon: 2});
                             if(res.url != ''){
                                 $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
                             }

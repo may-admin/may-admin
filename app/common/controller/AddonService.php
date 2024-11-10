@@ -123,7 +123,7 @@ class AddonService extends BaseController
      * @param string $name 插件名称
      * @param array $extend 扩展参数
      * @param string $tmpFile 本地文件
-     * @return @json
+     * @return array
      * @author 子青时节 <654108442@qq.com>
      */
     public function install($name, $extend = [], $tmpFile = '')
@@ -150,13 +150,12 @@ class AddonService extends BaseController
         }
         
         // 导入数据库
-        $this->importSql($name);
+        $this->runSql($name);
         
         // 启用插件
         $this->enable($name);
         
         $ini = $this->getAddonConfigIni($name);
-        
         return $ini;
     }
     
@@ -217,6 +216,73 @@ class AddonService extends BaseController
             is_file($tmpFile) && unlink($tmpFile);
         }
         return $info;
+    }
+    
+    /**
+     * @Description: (卸载插件)
+     * @param string $name 插件名称
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function uninstall($name)
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || !is_dir($addonDir) ) {
+            throw new Exception('Addon not exists');
+        }
+        
+        // 必须先禁用插件
+        $ini = $this->getAddonConfigIni($name);
+        if($ini['status'] == '1'){
+            throw new Exception('Addon must be disable');
+        }
+        
+        // 检查插件是否存在文件重名冲突
+        $this->filesConflict($name);
+        
+        // 存在版本文件差异
+        if($ini['version_diff'] == '1'){
+            $files = $this->getFilesDiff($name);
+            //插件根目录文件
+            $files_arr = array_diff(scandir($addonDir), array('.', '..'));
+            foreach($files_arr as $v){
+                if (!is_dir($addonDir.$v)) {
+                    $files[] = $v;
+                }
+            }
+            // 备份版本文件
+            if (!empty($files)) {
+                $zip = new ZipFile();
+                try {
+                    foreach ($files as $v) {
+                        if(is_file($addonDir . $v)){
+                            $zip->addFile($addonDir . $v, $v);
+                        }
+                    }
+                    $addonsBackupDir =  $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
+                    if(!is_dir($addonsBackupDir)){
+                        mkdir($addonsBackupDir, 0755, true);
+                    }
+                    $backup_file_path = $addonsBackupDir . $name . "-uninstall-" . date("Y_m_d_H_i_s") . ".zip";
+                    $zip->saveAsFile($backup_file_path);
+                } catch (Exception $e) {
+                    
+                } finally {
+                    $zip->close();
+                }
+            }
+        }
+        
+        // 卸载数据库
+        $this->runSql($name, 'uninstall.sql');
+        
+        // 删除插件目录
+        deldir($addonDir);
+        if($ini['version_diff'] == '1'){
+            throw new Exception('code2,/'.str_replace(public_path(), '', $backup_file_path));
+        }else{
+            return true;
+        }
     }
     
     /**
@@ -358,7 +424,7 @@ class AddonService extends BaseController
         if (!empty($list)) {
             //发现冲突文件，抛出异常
             //throw new Exception(json_encode($list));
-            $str = 'file conflict:'.implode(',', $list);
+            $str = 'file conflict:'.implode('<br />', $list);
             throw new Exception($str);
         }
         return true;
@@ -410,13 +476,13 @@ class AddonService extends BaseController
     }
     
     /**
-     * @Description: (导入sql文件)
+     * @Description: (运行sql文件)
      * @param string $name 插件名称
      * @param string $sql_name sql文件名称
      * @return boolean
      * @author 子青时节 <654108442@qq.com>
      */
-    public function importSql($name, $sql_name = '')
+    public function runSql($name, $sql_name = '')
     {
         $sql_name = empty($sql_name) ? 'install.sql' : $sql_name;
         $sql_file = $this->getAddonDir($name) . $sql_name;
