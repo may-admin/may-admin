@@ -33,7 +33,7 @@ return [
     'email_unique'          => '邮箱已经被使用',
     'mobile_require'        => '手机号码格式错误',
     'mobile_unique'         => '手机号码已经被使用',
-    'status_require'        => '状态必须为数字整数（0、1）',
+    'status_require'        => '状态必须为数字整数（0,1）',
     'old_password_require'  => '若需修改密码，则密码项都填写，否则则忽略密码项',
     'old_password_error'    => '旧密码错误',
 ];

@@ -213,7 +213,7 @@ function addon_version($data, $local_addon_list){
             }
             $version .= '</span>';
             
-            $action_btns .= ' <a class="btn btn-danger btn-xs btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/uninstall').'" data-id="'.$data['name'].'" data-title="卸载 - '.$data['title'].'" data-message="<p class=\'text-danger\'>将会删除插件所有文件且不可找回!!!</p><p class=\'text-danger\'>如有重要数据请先备份【数据库】后再操作!!!</p>" ><i class="fa-solid fa-trash"></i> 卸载</a>';
+            $action_btns .= ' <a class="btn btn-danger btn-xs btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/uninstall').'" data-id="'.$data['name'].'" data-title="卸载 - '.$data['title'].'" data-message="<p class=\'text-danger\'>当前插件所有文件、数据将被删除，且无法恢复!!!</p><p class=\'text-danger\'>如有重要数据请先备份【数据库】后再操作!!!</p>" ><i class="fa-solid fa-trash"></i> 卸载</a>';
         }else{
             $version .= $data['version_list'][0]['version'];
             

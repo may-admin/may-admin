@@ -14,5 +14,5 @@ return [
     //数据验证提示
     'title_require'         => '角色名称不能为空',
     'level_require'         => '排序必须为数字整数',
-    'status_require'        => '状态必须为数字整数（0、1）',
+    'status_require'        => '状态必须为数字整数（0,1）',
 ];
