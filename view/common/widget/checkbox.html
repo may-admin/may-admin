@@ -2,7 +2,7 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col} rule_node">
-        <input type="hidden" name="{$wconfig.name}[]" value="" />
+        <input type="checkbox" class="d-none" id="check_{$wconfig.name}" name="{$wconfig.name}" value="{$wconfig.widget_val}" checked="checked" />
         <label class="check-inline check-inline-all">
             <input type="checkbox" class="form-check-input check1" > {:lang('check_all')}
         </label>
@@ -13,7 +13,7 @@
         {if $rule_now_level == 3 && $vo['html'][0] == 1 }</div></div><div class="rule_node_box c3-1">{/if}
         {if $rule_now_level == 1 && $vo['html'][0] == 2 }<div class="rule_node_item c1-2">{/if}
         <label class="check-inline left{$vo.html[0]}">
-            <input type="checkbox" class="form-check-input {if $vo['html'][0] == 1 }check2{else /}check3{/if}" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled} > {$vo.html[1]}
+            <input type="checkbox" class="form-check-input {if $vo['html'][0] == 1 }check2{else /}check3{/if} check_{$wconfig.name}" value="{$vo.value}" {$vo.checked} {$wconfig.disabled} > {$vo.html[1]}
         </label>
         {php} $rule_now_level = $vo['html'][0]; {/php}
         {/volist}
@@ -62,15 +62,27 @@ function trueorfalse(obj) {
     return bool;
 }
 $('.check1').prop("checked", trueorfalse($('.rule_node .check2')));
+
+$('.check_{$wconfig.name},.check1').on('change', function (e) {
+        var _this = $(this);
+        var _array = [];
+        $('.check_{$wconfig.name}').each(function(i, e){
+            var _ths = $(this);
+            if(_ths.prop("checked") === true){
+                _array.push(_ths.val());
+            }
+        })
+        $('#check_{$wconfig.name}').val( _array.join(',') );
+    });
 </script>
 {else /}
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
-        <input type="checkbox" class="d-none" name="{$wconfig.name}[]" value="" checked="checked" />
+        <input type="checkbox" class="d-none" id="check_{$wconfig.name}" name="{$wconfig.name}" value="{$wconfig.widget_val}" checked="checked" />
         {volist name="optionList" id="vo"}
         <label class="check-inline">
-            <input type="checkbox" class="form-check-input" name="{$wconfig.name}[]" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
+            <input type="checkbox" class="form-check-input check_{$wconfig.name}" value="{$vo.value}" {$vo.checked} {$wconfig.disabled}> {$vo.html}
         </label>
         {/volist}
     </div>
@@ -80,4 +92,19 @@ $('.check1').prop("checked", trueorfalse($('.rule_node .check2')));
     </div>
     {/if}
 </div>
+<script type="text/javascript">
+$(function(){
+    $('.check_{$wconfig.name}').on('change', function (e) {
+        var _this = $(this);
+        var _array = [];
+        $('.check_{$wconfig.name}').each(function(i, e){
+            var _ths = $(this);
+            if(_ths.prop("checked") === true){
+                _array.push(_ths.val());
+            }
+        })
+        $('#check_{$wconfig.name}').val( _array.join(',') );
+    });
+})
+</script>
 {/if}

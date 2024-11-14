@@ -30,7 +30,7 @@ class Tags
      */
     public function index($data, $wconfig)
     {
-        if ( isset($data[$wconfig['name']]) && $data[$wconfig['name']] !== '' ){
+        if ( isset($data[$wconfig['name']]) ){
             $wconfig['widget_val'] = $data[$wconfig['name']];
         }else{
             $wconfig['widget_val'] = '';
