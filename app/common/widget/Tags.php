@@ -31,9 +31,9 @@ class Tags
     public function index($data, $wconfig)
     {
         if ( isset($data[$wconfig['name']]) && $data[$wconfig['name']] !== '' ){
-            $wconfig['widget_val'] = del_arr_empty(explode(',', $data[$wconfig['name']]));
+            $wconfig['widget_val'] = $data[$wconfig['name']];
         }else{
-            $wconfig['widget_val'] = [];
+            $wconfig['widget_val'] = '';
         }
         
         $wconfig['title_col'] = isset($wconfig['title_col']) ? $wconfig ['title_col'] : '2';
@@ -73,10 +73,10 @@ class Tags
                 return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">配置function函数：'.$wconfig['fromcfg'][0].' 不存在</span></div></div>';
             }
         }
-        
-        if(!empty($wconfig['widget_val'])){
+        $widget_val_arr = del_arr_empty(explode(',', $wconfig['widget_val']));
+        if(!empty($widget_val_arr)){
             $widget_val_option = [];
-            foreach($wconfig['widget_val'] as $v){
+            foreach($widget_val_arr as $v){
                 $widget_val_option[$v] = $v;
             }
             $optionListData = $optionListData + $widget_val_option;
@@ -86,7 +86,7 @@ class Tags
         foreach ($optionListData as $k => $v){
             $optionList[$k]['value'] = $k;
             $optionList[$k]['html'] = $v;
-            if ( in_array($k, $wconfig['widget_val']) ){
+            if ( in_array($k, $widget_val_arr) ){
                 $optionList[$k]['selected'] = 'selected="selected"';
             }else{
                 $optionList[$k]['selected'] = '';

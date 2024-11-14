@@ -30,10 +30,10 @@ class Selects
      */
     public function index($data, $wconfig)
     {
-        if ( isset($data[$wconfig['name']]) && $data[$wconfig['name']] !== '' ){
-            $wconfig['widget_val'] = del_arr_empty(explode(',', $data[$wconfig['name']]));
+        if ( isset($data[$wconfig['name']]) ){
+            $wconfig['widget_val'] = $data[$wconfig['name']];
         }else{
-            $wconfig['widget_val'] = [];
+            $wconfig['widget_val'] = '';
         }
         
         $wconfig['title_col'] = isset($wconfig['title_col']) ? $wconfig ['title_col'] : '2';
@@ -77,7 +77,8 @@ class Selects
         foreach ($optionListData as $k => $v){
             $optionList[$k]['value'] = $k;
             $optionList[$k]['html'] = $v;
-            if ( in_array($k, $wconfig['widget_val']) ){
+            $widget_val_arr = del_arr_empty(explode(',', $wconfig['widget_val']));
+            if ( in_array($k, $widget_val_arr) ){
                 $optionList[$k]['selected'] = 'selected="selected"';
             }else{
                 $optionList[$k]['selected'] = '';

@@ -1,8 +1,8 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
-        <input type="hidden" name="{$wconfig.name}[]" value="" />
-        <select class="form-control" id="select2_{:str_replace('.', '_', $wconfig.name)}" name="{$wconfig.name}[]" {$wconfig.multiple} {$wconfig.disabled} style="width:100%;">
+        <input type="hidden" name="{$wconfig.name}" value="{$wconfig.widget_val}" />
+        <select class="form-control" id="select2_{:str_replace('.', '_', $wconfig.name)}" {$wconfig.multiple} {$wconfig.disabled} style="width:100%;">
             {volist name="optionList" id="vo"}
             <option value="{$vo.value}" {$vo.selected} >{$vo.html}</option>
             {/volist}
@@ -20,5 +20,9 @@ $(function(){
         language: 'zh-CN',
         tags: '{$wconfig.tags}',
     });    //select2初始化
+    $('#select2_{:str_replace('.', '_', $wconfig.name)}').on('change', function (e) {
+        var _this = $(this);
+        _this.prev().val(_this.val().join(','));
+    });
 })
 </script>
