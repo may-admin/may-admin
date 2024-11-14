@@ -62,18 +62,6 @@ function trueorfalse(obj) {
     return bool;
 }
 $('.check1').prop("checked", trueorfalse($('.rule_node .check2')));
-
-$('.check_{$wconfig.name},.check1').on('change', function (e) {
-        var _this = $(this);
-        var _array = [];
-        $('.check_{$wconfig.name}').each(function(i, e){
-            var _ths = $(this);
-            if(_ths.prop("checked") === true){
-                _array.push(_ths.val());
-            }
-        })
-        $('#check_{$wconfig.name}').val( _array.join(',') );
-    });
 </script>
 {else /}
 <div class="form-group row">
@@ -92,9 +80,10 @@ $('.check_{$wconfig.name},.check1').on('change', function (e) {
     </div>
     {/if}
 </div>
+{/if}
 <script type="text/javascript">
 $(function(){
-    $('.check_{$wconfig.name}').on('change', function (e) {
+    $('.check_{$wconfig.name},.check1').on('change', function (e) {
         var _this = $(this);
         var _array = [];
         $('.check_{$wconfig.name}').each(function(i, e){
@@ -107,4 +96,3 @@ $(function(){
     });
 })
 </script>
-{/if}
