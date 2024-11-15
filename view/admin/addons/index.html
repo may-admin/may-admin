@@ -42,7 +42,7 @@
                         <tr>
                             <td>{$vo.title}</td>
                             <td>{$vo.author}</td>
-                            <td class="description">{$vo.infos}</td>
+                            <td class="description">{$vo.infos|htmlspecialchars_decode}</td>
                             <td>{$vo.price|price_label}</td>
                             <td>{$vo.downloads}</td>
                             <td>{$vo.version}</td>

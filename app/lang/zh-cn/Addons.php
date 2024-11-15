@@ -9,7 +9,7 @@ return [
     'qq'                => 'QQ',
     'image'             => '封面',
     'images'            => '多图',
-    'infos'             => '描述',
+    'infos'             => '说明',
     'content'           => '内容',
     'jump_url'          => '跳转链接',
     'keywords'          => '关键字',

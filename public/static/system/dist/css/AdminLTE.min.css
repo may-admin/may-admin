@@ -101,7 +101,8 @@ html,body{height:100%;font-size:14px;}.layout-boxed html,.layout-boxed body{heig
 
 .table-bordered{border:1px solid #f4f4f4;--bs-table-hover-bg:#f4f4f4;}
 .table-bordered>thead>tr>th,.table-bordered>tbody>tr>th,.table-bordered>tfoot>tr>th,.table-bordered>thead>tr>td,.table-bordered>tbody>tr>td,.table-bordered>tfoot>tr>td{border:1px solid #f4f4f4;vertical-align:middle;white-space: nowrap;}
-.table-bordered>thead>tr>th.description,.table-bordered>tbody>tr>th.description,.table-bordered>tfoot>tr>th.description,.table-bordered>thead>tr>td.description,.table-bordered>tbody>tr>td.description,.table-bordered>tfoot>tr>td.description{min-width:300px;max-width:600px;white-space: normal;}
+.table-bordered tr .description{min-width:300px;max-width:600px;white-space: normal;}
+.table-bordered tr .description p{margin-bottom:0;}
 .table-bordered>thead>tr>th,.table-bordered>thead>tr>td{border-bottom-width:2px}
 .table-bordered>tbody>tr>th{background-color:#f4f4f4;font-weight:normal}
 .table-bordered>tbody>tr>th>a.fa-solid{margin-left:4px;}
