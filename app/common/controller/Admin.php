@@ -192,7 +192,7 @@ class Admin extends BaseController
                 }
             }else{
                 foreach($v['data'] as $k2 => $v2){
-                    if($v2 !== null){
+                    if($v2 !== null && $v2 !== ''){
                         if($v['where'] == 'like'){
                             $map[] = [$k2, $v['where'], '%'.$v2.'%'];
                         }else{
