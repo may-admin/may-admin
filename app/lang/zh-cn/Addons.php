@@ -20,10 +20,9 @@ return [
     'real_downloads'    => '下载次数[真实]',
     'sales'             => '卖出数量',
     'real_sales'        => '卖出数量[真实]',
-    'release_time'      => '发布时间',
     'sorts'             => '排序',
     'status'            => '状态',
-    'create_time'       => '创建时间',
+    'create_time'       => '发布时间',
     'update_time'       => '编辑时间',
     
     'version'           => '版本',
