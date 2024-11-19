@@ -3,11 +3,11 @@ namespace app\common\widget;
 
 use think\facade\View;
 
-class Images
+class File
 {
     /**
      * @Title: index
-     * @Description: todo(普通Images挂件)
+     * @Description: todo(普通File挂件)
      * @param array $data       【编辑操作时旧数据集合】
      * @param array $wconfig    【配置项】
      * <pre>
@@ -56,11 +56,11 @@ class Images
         $wconfig['title_col'] = isset($wconfig['title_col']) ? $wconfig ['title_col'] : '2';
         $wconfig['content_col'] = isset($wconfig['content_col']) ? $wconfig ['content_col'] : '6';
         $wconfig['validate_col'] = isset($wconfig['validate_col']) ? $wconfig ['validate_col'] : '4';
-        $wconfig['type'] = isset($wconfig['type']) ? $wconfig ['type'] : 'images';
+        $wconfig['type'] = isset($wconfig['type']) ? $wconfig ['type'] : 'image';
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
         $wconfig['placeholder'] = isset($wconfig['placeholder']) ? $wconfig ['placeholder'] : '';
         
         View::assign('wconfig', $wconfig);
-        return View::fetch('common@widget/images');
+        return View::fetch('common@widget/file');
     }
 }

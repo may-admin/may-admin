@@ -11,9 +11,9 @@ return [
     ],
     "up" => [
         "upload_path" => "uploads",
-        "upload_size" => "2",
+        "upload_size" => "200",
         "image_format" => "jpg,jpeg,png",
-        "file_format" => "doc,docx,xls,xlsx,ppt,zip,rar",
+        "file_format" => "doc,docx,xls,xlsx,ppt,pptx,zip,rar,7z",
         "flash_format" => "swf,flv",
         "media_format" => "swf,flv,mp3,mp4,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb",
         "isprint" => "0",

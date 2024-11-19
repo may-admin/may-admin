@@ -122,12 +122,16 @@ function file_size_unit($size, $precision = 2) {
  * @author 子青时节 <654108442@qq.com>
  */
 function file_mime_icon($mime) {
-    if($mime == 'zip'){
-        return '<i class="fa-regular fa-file-zipper"></i>';
-    }elseif($mime == 'msword'){
-        return '<i class="fa-solid fa-file-word"></i>';
+    if(in_array($mime, ['zip', 'x-7z-compressed'])){
+        return '<i class="mime fa-regular fa-file-zipper"></i>';
+    }elseif(in_array($mime, ['msword', 'x-empty', 'vnd.ms-powerpoint', 'octet-stream', 'vnd.ms-excel', 'octet-stream'])){
+        return '<i class="mime fa-regular fa-file-word"></i>';
+    }elseif(in_array($mime, ['mpeg', 'x-m4a', 'x-ape', 'flac', 'x-wav'])){
+        return '<i class="mime fa-regular fa-file-audio"></i>';
+    }elseif(in_array($mime, ['mp4'])){
+        return '<i class="mime fa-regular fa-file-video"></i>';
     }else{
-        return '<i class="fa-solid fa-file"></i>';
+        return '<i class="mime fa-regular fa-file"></i>';
     }
 }
 

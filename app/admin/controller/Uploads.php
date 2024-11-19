@@ -84,7 +84,10 @@ class Uploads extends BaseController
                     $data['height'] = $file_info[1];
                 }
                 $data['filesize'] = filesize($file);
-                $data['mime'] =  explode('/', mime_content_type($this->public_path.$file_path))[1];
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mimeType = finfo_file($finfo, $this->public_path.$file_path);
+                finfo_close($finfo);
+                $data['mime'] =  explode('/', $mimeType)[1];
                 $data['sorts'] = 50;
                 
                 $uploadFileModel = new UploadFile();

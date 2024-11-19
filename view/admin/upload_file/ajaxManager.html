@@ -1,8 +1,8 @@
 <div class="table-responsive">
     <table class="table table-hover table-bordered table-last-fixed">
         <tr>
-            <th>{:lang('table_url')}</th>
             <th>{:lang('table_name')}</th>
+            <th>{:lang('table_url_text')}</th>
             <th>{:lang('table_tag')}</th>
             <th>{:lang('table_width')}</th>
             <th>{:lang('table_height')}</th>
@@ -12,8 +12,8 @@
         </tr>
         {volist name="dataList" id="vo"}
         <tr>
-            <td><a href="{$vo.url}" class="table-image" target="_blank"><img src="{$vo.url}" /></a></td>
-            <td><div class="truncates text-truncate" data-bs-toggle="tooltip" data-bs-title="{$vo.name}">{$vo.name}</div></td>
+            <td class="description"><div class="truncates text-truncate" data-bs-toggle="tooltip" data-bs-title="{$vo.name}">{$vo.name}</div></td>
+            <td>{$vo.url_text}</td>
             <td>{$vo.tag}</td>
             <td>{$vo.width}</td>
             <td>{$vo.height}</td>

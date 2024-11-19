@@ -81,6 +81,8 @@ $(function(){
                         var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
                         _html += '<a class="img-box" href="'+res.link+'" target="_blank"><img src="'+res.link+'" /></a></div>';
                         _this.closest('.input-group').next('.sortables').append(_html);
+                    }else if(_tag == 'file'){   //单图上传
+                        _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
                     }
                     layer.msg(res.message, {icon: 1});
                 }else{
@@ -98,6 +100,7 @@ $(function(){
         var _this = $(this);
         var _url = _this.data('url');
         var _tag = _this.data('tag');
+        var _format = _this.data('format');
         
         if($('.widgetUploadModal').length == 0){
             $('body').append('<div class="modal fade widgetUploadModal"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"></div></div></div>');
@@ -107,7 +110,7 @@ $(function(){
             type: 'post',
             url: _url,
             dataType: 'html',
-            data: {format: 'image', back: _this.data('back-btn'), tag: _tag},
+            data: {format: _format, back: _this.data('back-btn'), tag: _tag},
             success: function(html) {
                 $('.widgetUploadModal .modal-content').html(html);
             }
@@ -136,6 +139,8 @@ $(function(){
             var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
             _html += '<a class="img-box" href="'+_url+'" target="_blank"><img src="'+_url+'" /></a></div>';
             _back_btn.closest('.input-group').next('.sortables').append(_html);
+        }else if(_tag == 'file'){   //单图上传
+            _back_btn.closest('.up-box').prev('.widget-upload-input').val(_url);
         }
         $('.widgetUploadModal').modal('hide');
     });

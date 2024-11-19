@@ -26,7 +26,7 @@ return [
     'advanced_param'    => '高级参数',
     'base_avatar'       => '修改头像',
     
-    'table_url'         => '图片',
+    'table_url_text'    => '文件',
     'table_name'        => '名称',
     'table_tag'         => '标签',
     'table_width'       => '宽度',
