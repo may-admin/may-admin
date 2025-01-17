@@ -63,11 +63,12 @@ class Selects
                     if($k == 0){
                         $function_str .= "return ".$val."(";
                     }else if($k == count($wconfig['fromcfg']) - 1){
-                        $function_str .= "\"".$val."\");";
+                        $function_str .= "\"".$val."\"";
                     }else{
                         $function_str .= "\"".$val."\", ";
                     }
                 }
+                $function_str .= ");";
                 $optionListData = eval($function_str);
             }else{
                 return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">配置function函数：'.$wconfig['fromcfg'][0].' 不存在</span></div></div>';
