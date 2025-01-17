@@ -180,11 +180,13 @@ class Admin extends BaseController
                 $time = [];
                 $keys = array_keys($v['data']);
                 $last_key = end($keys);
-                foreach ($v['data'] as $k2 => $v2){
-                    if($k2 == $last_key){
-                        $time[] = !empty($v2) ? strtotime($v2) + 86399 : time();
-                    }else{
-                        $time[] = !empty($v2) ? strtotime($v2) : 0;
+                if(!empty($v['data'][$v['widget_conf']['start_name']]) || !empty($v['data'][$v['widget_conf']['end_name']])){
+                    foreach ($v['data'] as $k2 => $v2){
+                        if($k2 == $last_key){
+                            $time[] = !empty($v2) ? strtotime($v2) + 86399 : time();
+                        }else{
+                            $time[] = !empty($v2) ? strtotime($v2) : 0;
+                        }
                     }
                 }
                 if(!empty($time)){

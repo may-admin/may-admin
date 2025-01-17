@@ -36,10 +36,12 @@ class DateTime
             $wconfig['widget_val'] = '';
         }
         
+        $wconfig['format'] = isset($wconfig['format']) ? $wconfig ['format'] : 'Y-m-d H:i:S';
+        
         if (!empty($wconfig['widget_val'])){
-            $wconfig['widget_val'] = is_numeric($wconfig['widget_val']) ? date('Y-m-d H:i:s', $wconfig['widget_val']) : $wconfig['widget_val'];
-        }elseif (isset($wconfig['now_time']) && $wconfig['now_time'] === true){
-            $wconfig['widget_val'] = date('Y-m-d H:i:s', time());
+            $wconfig['widget_val'] = is_numeric($wconfig['widget_val']) ? date($wconfig['format'], $wconfig['widget_val']) : $wconfig['widget_val'];
+        }elseif (isset($wconfig['now_time']) && $wconfig['now_time'] != ''){
+            $wconfig['widget_val'] = date($wconfig['format'], strtotime($wconfig['now_time'].' day'));
         }
         
         /* 是否只读 */
@@ -59,7 +61,6 @@ class DateTime
         $wconfig['title_col'] = isset($wconfig['title_col']) ? $wconfig ['title_col'] : '2';
         $wconfig['content_col'] = isset($wconfig['content_col']) ? $wconfig ['content_col'] : '6';
         $wconfig['validate_col'] = isset($wconfig['validate_col']) ? $wconfig ['validate_col'] : '4';
-        $wconfig['format'] = isset($wconfig['format']) ? $wconfig ['format'] : 'Y-m-d H:i:S';
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
         $wconfig['placeholder'] = isset($wconfig['placeholder']) ? $wconfig ['placeholder'] : '';
         
