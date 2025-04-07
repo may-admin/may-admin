@@ -43,10 +43,9 @@ class Config extends Admin
     
     public function sysMenu()
     {
-        $authRuleModel = new AuthRule();
-        $sys_menu_id = $authRuleModel->where([['name', '=', 'Config/sysMenu']])->value('id');
+        $sys_menu_id = AuthRule::where([['name', '=', 'Config/sysMenu']])->value('id');
         
-        $dataList = $authRuleModel->field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts asc')->select();
+        $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts asc')->select();
         
         $auth = new Auth();
         foreach ($dataList as $k => $v){
