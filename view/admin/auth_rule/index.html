@@ -29,7 +29,7 @@
                                 {:list_write($vo, 'title')}
                             </td>
                             <td>{$vo.name}</td>
-                            <td>{$vo.level_text}</td>
+                            <td>{$vo.level|level_text}</td>
                             <td><i class="{$vo.icon}"></i></td>
                             <td>{:list_write($vo, 'sorts')}</td>
                             <td>{:list_status($vo['id'], $vo['ismenu'], 'ismenu')}</td>

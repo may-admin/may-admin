@@ -181,6 +181,18 @@ function widget($name, $data = []){
 }
 
 /**
+ * @Description: (渲染输出widget挂件)
+ * @param string $name 挂件名称
+ * @param array $data 数组数据
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function level_text($level){
+    $arr = config('selectlist.auth_level')['data'];
+    return $arr[$level];
+}
+
+/**
  * @Description: (插件列表版本)
  * @param string $data 列表数据
  * @param array $local_addon_list 本地已安装插件

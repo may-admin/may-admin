@@ -9,27 +9,27 @@ class Admin extends Model
     
     public function setPasswordAttr($value)
     {
-        return md5($value);
+        return !empty($value) ? md5($value) : 0;
     }
-    public function setAvatarAttr()
+    public function setAvatarAttr($value)
     {
-        return config('custom.default_avatar');
+        return !empty($value) ? $value : config('custom.default_avatar');
     }
-    public function setLoginsAttr()
+    public function setLoginsAttr($value)
     {
-        return '0';
+        return !empty($value) ? $value : 0;
     }
-    public function setRegIpAttr()
+    public function setRegIpAttr($value)
     {
-        return request()->ip();
+        return !empty($value) ? $value : request()->ip();
     }
-    public function setLastTimeAttr()
+    public function setLastTimeAttr($value)
     {
-        return time();
+        return !empty($value) ? $value : time();
     }
-    public function setLastIpAttr()
+    public function setLastIpAttr($value)
     {
-        return request()->ip();
+        return !empty($value) ? $value : request()->ip();
     }
     
     public function getSexTextAttr($value, $data)

@@ -45,7 +45,7 @@ class AdminAuth
                 ['status' ,'=', 1],
             ];
             $authRuleModel = new AuthRule();
-            $lists = $authRuleModel->where($where)->order('sorts ASC,id ASC')->select();
+            $lists = $authRuleModel->where($where)->order('sorts ASC,id ASC')->select()->toArray();
             //判断导航tree用户使用权限
             $auth = new Auth();
             foreach($lists as $k=>$val){
