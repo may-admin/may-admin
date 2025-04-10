@@ -42,12 +42,12 @@
                         <tr>
                             <td>{$vo.title}</td>
                             <td>{$vo.author}</td>
-                            <td class="description">{$vo.infos|htmlspecialchars_decode}</td>
-                            <td>{$vo.price|price_label}</td>
+                            <td class="description">{$vo.infos|raw|htmlspecialchars_decode}</td>
+                            <td>{$vo.price|price_label|raw}</td>
                             <td>{$vo.downloads}</td>
-                            <td>{$vo.version}</td>
-                            <td>{$vo.status_switchs}</td>
-                            <td class="text-end">{$vo.action_btns}</td>
+                            <td>{$vo.version|raw}</td>
+                            <td>{$vo.status_switchs|raw}</td>
+                            <td class="text-end">{$vo.action_btns|raw}</td>
                         </tr>
                         {/volist}
                     </table>
