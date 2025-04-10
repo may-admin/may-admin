@@ -37,6 +37,9 @@ class Addons extends Admins
         }
         
         $list = AddonService::sendRequest('/addon/Addon/index', $params);
+        if(empty($list)){
+            $list = ['total' => 0, 'per_page' => $params['list_rows'], 'current_page' => $params['page'], 'last_page' => 1, 'data' => [], 'category' => [], 'type' => []];
+        }
         foreach($list['data'] as $k => $v){
             list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
         }
