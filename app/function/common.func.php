@@ -29,7 +29,7 @@ function ajax_return($code, $message='', $url='', $data = []){
  * @return array
  * @author 子青时节 <654108442@qq.com>
  */
-function page_param(){
+function page_param($is_cache = true){
     $param = request()->param();
     $res = [];
     if (isset($param['_pjax'])){
@@ -40,7 +40,9 @@ function page_param(){
     }
     if(isset($param['list_rows'])){
         $res['list_rows'] = $param['list_rows'];
-        cache('list_rows', $param['list_rows']);
+        if($is_cache === true){
+            cache('list_rows', $param['list_rows']);
+        }
     }else{
         if(cache('list_rows')){
             $res['list_rows'] = cache('list_rows');
