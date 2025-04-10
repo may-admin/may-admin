@@ -51,7 +51,7 @@ class Config extends Admin
         foreach ($dataList as $k => $v){
             if ($auth->check($v['name'], ADMINID) ){
                 $type = explode('/', $v['name']);
-                $v->type = $type[1];
+                $v->types = $type[1];
                 $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts asc,id asc')->select();
                 foreach($config_lists as $v2){
                     $v2[$v2->k] = $v2->v;
@@ -69,8 +69,8 @@ class Config extends Admin
     {
         if (request()->isPost()){
             $data = input('post.', '', 'htmlspecialchars');
-            $type = $data['type'];  //取出类型
-            unset($data['type']);
+            $type = $data['types'];  //取出类型
+            unset($data['types']);
             if(!empty($type)){
                 if(is_array($data) && !empty($data)){
                     foreach ($data as $k=>$val) {

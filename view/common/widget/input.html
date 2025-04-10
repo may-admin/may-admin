@@ -1,7 +1,7 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
-        <input class="form-control" type="{$wconfig.inputtype}" name="{$wconfig.name}" value="{$wconfig.widget_val}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} />
+        <input class="form-control" type="{$wconfig.inputtype}" name="{$wconfig.name}" value="{$wconfig.widget_val|raw}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} />
     </div>
     {if $wconfig['validate_col'] > 0 }
     <div class="col-sm-{$wconfig.validate_col}">

@@ -2,7 +2,7 @@
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
         <div class="input-group">
-            <input class="form-control widget-upload-input" name="{$wconfig.name}" value="{$wconfig.widget_val}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} >
+            <input class="form-control widget-upload-input" name="{$wconfig.name}" value="{$wconfig.widget_val|raw}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} >
             <span class="input-group-btn up-box">
                 <div class="up-btn-box">
                     <input type="file" class="widget-upload-btn" data-url='{:url("Uploads/upload")}' data-dir="image" data-tag="images" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">

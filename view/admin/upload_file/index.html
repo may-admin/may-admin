@@ -26,7 +26,7 @@
                         <tr>
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
                             <td><div data-bs-toggle="tooltip" data-bs-title="{$vo.name}">{$vo.name}</div></td>
-                            <td>{$vo.url_text}</td>
+                            <td>{$vo.url_text|raw}</td>
                             <td>{$vo.tag}</td>
                             <td>{$vo.width}</td>
                             <td>{$vo.height}</td>

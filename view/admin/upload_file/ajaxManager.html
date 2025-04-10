@@ -13,7 +13,7 @@
         {volist name="dataList" id="vo"}
         <tr>
             <td class="description"><div class="truncates text-truncate" data-bs-toggle="tooltip" data-bs-title="{$vo.name}">{$vo.name}</div></td>
-            <td>{$vo.url_text}</td>
+            <td>{$vo.url_text|raw}</td>
             <td>{$vo.tag}</td>
             <td>{$vo.width}</td>
             <td>{$vo.height}</td>

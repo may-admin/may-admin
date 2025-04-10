@@ -21,7 +21,7 @@
                     <div class="tab-pane {if $k2 == 1}active{/if}" id="tab{$vo2.id}">
                         <form class="form-horizontal" method="POST" action="{:url('Config/save')}" onsubmit="return false" >
                             {:widget('common/Hidden/index', [$vo2, [
-                                'name' => 'type',
+                                'name' => 'types',
                             ]])}
                             {volist name="vo2.config_lists" id="vo3"}
                             {:widget('common/'.$vo3->texttype.'/index', [$vo3, [

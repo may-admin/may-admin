@@ -1,7 +1,7 @@
 <div class="form-group row">
     <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
     <div class="col-sm-{$wconfig.content_col}">
-        <textarea class="form-control" id="froala_{$wconfig.name}" name="{$wconfig.name}" >{$wconfig.widget_val}</textarea>
+        <textarea class="form-control" id="froala_{$wconfig.name}" name="{$wconfig.name}" >{$wconfig.widget_val|raw}</textarea>
     </div>
     {if $wconfig['validate_col'] > 0 }
     <div class="col-sm-{$wconfig.validate_col}">
