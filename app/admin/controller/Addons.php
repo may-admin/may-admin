@@ -15,29 +15,37 @@ class Addons extends Admins
         
         $local_addon_list = AddonService::getListAddonConfigIni();
         
-        if (class_exists('\app\common\model\Addon')){
-            $params = [];
-            isset($get_param['category']) ? $params['category'] = $get_param['category'] : '' ;
-            if(!isset($get_param['type'])){
-            }else if($get_param['type'] == 'free' || $get_param['type'] == 'price'){
-                $params['type'] = $get_param['type'];
-            }else if($get_param['type'] == 'install'){
-                $addon_arr = array_keys($local_addon_list);
-                $params['type'] = implode(',', $addon_arr);
-            }
-            $list = AddonService::sendRequest('/addon/Addon/index', $params);
-            foreach($list['data'] as $k => $v){
-                list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
-            }
-        }else{
-            $list = ['total' => 0, 'per_page' => 15, 'current_page' => 1, 'last_page' => 1, 'data' => [], 'category' => [], 'type' => []];
+        $params = [];
+        isset($get_param['category']) ? $params['category'] = $get_param['category'] : '' ;   //插件类别
+        if(!isset($get_param['type'])){   //免费、付费、已安装
+        }else if($get_param['type'] == 'free' || $get_param['type'] == 'price'){
+            $params['type'] = $get_param['type'];
+        }else if($get_param['type'] == 'install'){
+            $addon_arr = array_keys($local_addon_list);
+            $params['type'] = implode(',', $addon_arr);
         }
+        if(isset($get_param['page']) && intval($get_param['page']) > 0){   //当前页
+            $params['page'] = intval($get_param['page']);
+        }else{
+            $params['page'] = 1;
+        }
+        if(isset($get_param['list_rows']) && intval($get_param['list_rows']) > 0){   //每页数量
+            $params['list_rows'] = intval($get_param['list_rows']);
+            cache('list_rows', $params['list_rows']);
+        }else{
+            $params['list_rows'] = cache('list_rows') ? : 15;
+        }
+        
+        $list = AddonService::sendRequest('/addon/Addon/index', $params);
+        foreach($list['data'] as $k => $v){
+            list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
+        }
+        
         $option = [
             'path' => (string)url('Addons/index'),
             'query' => page_param()['query'],
         ];
-        $list_rows = cache('list_rows') ? : 15;
-        $dataList = new BootstrapAdmin($list['data'], $list_rows, $list['current_page'], $list['total'], $simple = false, $option = $option);
+        $dataList = new BootstrapAdmin($list['data'], $list['per_page'], $list['current_page'], $list['total'], $simple = false, $option = $option);
         
         $category_arr = [];
         foreach($list['category'] as $k => $v){
