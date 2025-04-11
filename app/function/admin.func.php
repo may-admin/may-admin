@@ -200,10 +200,12 @@ function level_text($level){
  * @author 子青时节 <654108442@qq.com>
  */
 function addon_version($data, $local_addon_list){
+    $last_version = '';
     $version = '';
     $status_switchs = '';
     $action_btns = '';
     if(empty($data['jump_url'])){
+        $last_version = $data['version_list'][0]['version'];
         if(isset($local_addon_list[$data['name']])){
             $version .= '<span class="position-relative">'.$local_addon_list[$data['name']]['version'];
             
@@ -214,11 +216,11 @@ function addon_version($data, $local_addon_list){
                 $version .= '<span class="position-absolute p-1 bg-danger rounded-circle"></span>';
                 
                 $action_btns .= '<div class="btn-group">';
-                $action_btns .= '<button type="button" class="btn btn-warning btn-xs"><i class="fa-solid fa-cloud-arrow-up"></i> 升级</button>';
+                $action_btns .= '<button type="button" class="btn btn-warning btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$last_version.'" data-title="升级 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-up"></i> 升级</button>';
                 $action_btns .= '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
                 $action_btns .= '<ul class="dropdown-menu">';
                 foreach($data['version_list'] as $v){
-                    $action_btns .= '<li><a class="dropdown-item" href="javascript:void(0);">'.$v['version'].'</a></li>';
+                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$v['version'].'" data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
                 }
                 $action_btns .= '</ul>';
                 $action_btns .= '</div>';
@@ -230,20 +232,21 @@ function addon_version($data, $local_addon_list){
             $version .= $data['version_list'][0]['version'];
             
             $action_btns .= '<div class="btn-group">';
-            $action_btns .= '<button type="button" class="btn btn-primary btn-xs"><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>';
+            $action_btns .= '<button type="button" class="btn btn-primary btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$last_version.'" data-title="安装 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>';
             if(count($data['version_list']) > 1){
                 $action_btns .= '<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
                 $action_btns .= '<ul class="dropdown-menu">';
                 foreach($data['version_list'] as $v){
-                    $action_btns .= '<li><a class="dropdown-item" href="javascript:void(0);">'.$v['version'].'</a></li>';
+                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$v['version'].'" data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
                 }
                 $action_btns .= '</ul>';
             }
             $action_btns .= '</div>';
         }
     }else{
+        $last_version = '-';
         $version .= '-';
         $action_btns .= '<a class="btn btn-success btn-xs" target="_blank" href="'.$data['jump_url'].'"><i class="fa-solid fa-eye"></i> 点击查看</a>';
     }
-    return [$version, $status_switchs, $action_btns];
+    return [$last_version, $version, $status_switchs, $action_btns];
 }

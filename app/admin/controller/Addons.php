@@ -41,7 +41,7 @@ class Addons extends Admins
             $list = ['total' => 0, 'per_page' => $params['list_rows'], 'current_page' => $params['page'], 'last_page' => 1, 'data' => [], 'category' => [], 'type' => []];
         }
         foreach($list['data'] as $k => $v){
-            list($list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
+            list($list['data'][$k]['last_version'], $list['data'][$k]['version'], $list['data'][$k]['status_switchs'], $list['data'][$k]['action_btns']) = addon_version($v, $local_addon_list);
         }
         
         $option = [
