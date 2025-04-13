@@ -11,7 +11,7 @@ return [
     ],
     "up" => [
         "upload_path" => "uploads",
-        "upload_size" => "200",
+        "upload_size" => "2",
         "image_format" => "jpg,jpeg,png",
         "file_format" => "doc,docx,xls,xlsx,ppt,pptx,zip,rar,7z",
         "flash_format" => "swf,flv",
