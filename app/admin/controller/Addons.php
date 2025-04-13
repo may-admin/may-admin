@@ -107,9 +107,24 @@ class Addons extends Admins
         }
     }
     
+    /**
+     * @Description: (远程下载安装插件)
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function install()
     {
-        
+        if (request()->isPost()){
+            $data = input('post.id', '', 'htmlspecialchars');
+            try {
+                AddonService::download($data['name'], $data);
+            } catch (Exception $e) {
+                return ajax_return(1, $e->getMessage());
+            }
+            
+            $url = session('redirect_url') ? session('redirect_url') : url('index');
+            return ajax_return(0, lang('action_success'), $url);
+        }
     }
     
     public function uninstall()

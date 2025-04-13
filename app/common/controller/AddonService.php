@@ -20,143 +20,68 @@ class AddonService extends BaseController
     // 根目录下插件目录
     private $addon_dir = 'addon';
     
-    // 允许检索插件复制目录【应该修改到110行】
+    // 允许检索插件复制目录
     private $allow_copy_dir = ['app', 'config', 'extend', 'public', 'route', 'view'];
     
-    
-
-    
-    
-    
-    
-
-    
-
-    
     /**
-     * 远程下载插件
-     *
-     * @param string $name   插件名称
-     * @param array  $extend 扩展参数
-     * @return  string
+     * @Description: (远程下载插件)
+     * @param string $name 插件名称
+     * @param array $extend 扩展参数
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
      */
-    public static function download($name, $extend = [])
+    public function download($name, $extend = [])
     {
-        echo "download";
-        return;
-        /*
-        $addonsTempDir = self::getAddonsBackupDir();
-        $tmpFile = $addonsTempDir . $name . ".zip";
+        $addonsBackupDir = $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
+        if(!is_dir($addonsBackupDir)){
+            mkdir($addonsBackupDir, 0755, true);
+        }
+        $tmpFile = $addonsBackupDir.$name.'.'.$extend['version'].".zip";
         try {
-            $client = self::getClient();
-            $response = $client->get('/addon/download', ['query' => array_merge(['name' => $name], $extend)]);
+            $client = $this->getClient();
+            $response = $client->get('/addon/Addon/download', ['query' => array_merge(['name' => $name], $extend)]);
             $body = $response->getBody();
             $content = $body->getContents();
             if (substr($content, 0, 1) === '{') {
-                $json = (array)json_decode($content, true);
-                //如果传回的是一个下载链接,则再次下载
-                if ($json['data'] && isset($json['data']['url'])) {
-                    $response = $client->get($json['data']['url']);
+                $res = json_decode($content, true);
+                if($res['code'] == '0' && isset($res['data']['url'])){   //如果传回的是一个下载链接,则再次下载
+                    $response = $client->get($res['data']['url']);
                     $body = $response->getBody();
                     $content = $body->getContents();
-                } else {
-                    //下载返回错误，抛出异常
-                    throw new AddonException($json['msg'], $json['code'], $json['data']);
+                }else{
+                    throw new Exception($res['message']);   //下载返回错误，抛出异常
                 }
             }
         } catch (TransferException $e) {
             throw new Exception("Addon package download failed");
         }
-
+        
+        $info = [];
         if ($write = fopen($tmpFile, 'w')) {
             fwrite($write, $content);
             fclose($write);
-            return $tmpFile;
-        }
-        throw new Exception("No permission to write temporary files");
-        */
-    }
-    
-    /**
-     * 验证压缩包、依赖验证
-     * @param array $params
-     * @return bool
-     * @throws Exception
-     */
-    public function valid($params = [])
-    {
-        echo "valid";
-        return;
-        /*
-        $json = $this->sendRequest('/addon/valid', $params, 'POST');
-        if ($json && isset($json['code'])) {
-            if ($json['code']) {
-                return true;
-            } else {
-                throw new Exception($json['msg'] ?? "Invalid addon package");
+            
+            $addonDir = $this->getAddonDir($name);
+            if (is_dir($addonDir)) {   //存在目录
+                if (file_exists($addonDir.'config.ini')) {   //存在配置文件
+                    // 必须先禁用插件
+                    $ini = $this->getAddonConfigIni($name);
+                    if(isset($ini['status']) && $ini['status'] == '1'){
+                        throw new Exception('Addon '.$name.' must be disable');
+                    }
+                }
+                
+                // 备份插件
+                $this->backup($name);
+                
+                // 删除插件目录
+                deldir($this->getAddonDir($name));
             }
-        } else {
-            throw new Exception("Unknown data format");
+            $info = $this->install($name, $extend, $tmpFile);
+        }else{
+            throw new Exception("No permission to write temporary files");
         }
-        */
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * @Description: (安装插件)
-     * @param string $name 插件名称
-     * @param array $extend 扩展参数
-     * @param string $tmpFile 本地文件
-     * @return array
-     * @author 子青时节 <654108442@qq.com>
-     */
-    public function install($name, $extend = [], $tmpFile = '')
-    {
-        $addonDir = $this->getAddonDir($name);
-        if (empty($name) || is_dir($addonDir) ) {
-            throw new Exception('Addon already exists');
-        }
-        try {
-            // 解压插件压缩包到插件目录
-            $this->unzip($name, $tmpFile);
-            
-            // 检查插件是否完整
-            $this->checkzip($name);
-            
-            // 检查插件是否存在文件重名冲突
-            $this->filesConflict($name);
-        } catch (Exception $e) {
-            @deldir($addonDir);
-            throw new Exception($e->getMessage());
-        } finally {
-            // 移除临时文件
-            @unlink($tmpFile);
-        }
-        
-        // 导入数据库
-        $this->runSql($name);
-        
-        // 启用插件
-        $this->enable($name);
-        
-        $ini = $this->getAddonConfigIni($name);
-        return $ini;
+        return $info;
     }
     
     /**
@@ -194,20 +119,6 @@ class AddonService extends BaseController
                 throw new Exception('Addon info file data incorrect');
             }
             
-            // 读取旧版本号
-            
-            // $extend['version'] = $config['version'];
-            
-            // 追加MD5和Data数据
-            // $extend['md5'] = md5_file($tmpFile);
-            // $extend['data'] = $zip->getArchiveComment();
-            // $extend['unknownsources'] = config('app_debug') && config('fastadmin.unknownsources');
-            // $extend['faversion'] = config('fastadmin.version');
-            
-            // $params = array_merge($config, $extend);
-            // 压缩包验证、版本依赖判断，应用插件需要授权使用，移除或绕过授权验证，保留追究法律责任的权利
-            //$this->valid($params);
-            
             $info = $this->install($name, $extend, $tmpFile);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -216,6 +127,47 @@ class AddonService extends BaseController
             is_file($tmpFile) && unlink($tmpFile);
         }
         return $info;
+    }
+    
+    /**
+     * @Description: (安装插件)
+     * @param string $name 插件名称
+     * @param array $extend 扩展参数
+     * @param string $tmpFile 本地文件
+     * @return array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function install($name, $extend = [], $tmpFile = '')
+    {
+        $addonDir = $this->getAddonDir($name);
+        if (empty($name) || is_dir($addonDir) ) {
+            throw new Exception('Addon already exists');
+        }
+        try {
+            // 解压插件压缩包到插件目录
+            $this->unzip($name, $tmpFile);
+            
+            // 检查插件是否完整
+            $this->checkAddon($name);
+            
+            // 检查插件是否存在文件重名冲突
+            $this->filesConflict($name);
+        } catch (Exception $e) {
+            @deldir($addonDir);
+            throw new Exception($e->getMessage());
+        } finally {
+            // 移除临时文件
+            @unlink($tmpFile);
+        }
+        
+        // 导入数据库
+        $this->runSql($name);
+        
+        // 启用插件
+        $this->enable($name);
+        
+        $ini = $this->getAddonConfigIni($name);
+        return $ini;
     }
     
     /**
@@ -233,7 +185,7 @@ class AddonService extends BaseController
         
         // 必须先禁用插件
         $ini = $this->getAddonConfigIni($name);
-        if($ini['status'] == '1'){
+        if(isset($ini['status']) && $ini['status'] == '1'){
             throw new Exception('Addon must be disable');
         }
         
@@ -242,35 +194,7 @@ class AddonService extends BaseController
         
         // 存在版本文件差异
         if($ini['version_diff'] == '1'){
-            $files = $this->getFilesDiff($name);
-            //插件根目录文件
-            $files_arr = array_diff(scandir($addonDir), array('.', '..'));
-            foreach($files_arr as $v){
-                if (!is_dir($addonDir.$v)) {
-                    $files[] = $v;
-                }
-            }
-            // 备份版本文件
-            if (!empty($files)) {
-                $zip = new ZipFile();
-                try {
-                    foreach ($files as $v) {
-                        if(is_file($addonDir . $v)){
-                            $zip->addFile($addonDir . $v, $v);
-                        }
-                    }
-                    $addonsBackupDir =  $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
-                    if(!is_dir($addonsBackupDir)){
-                        mkdir($addonsBackupDir, 0755, true);
-                    }
-                    $backup_file_path = $addonsBackupDir . $name . "-uninstall-" . date("Y_m_d_H_i_s") . ".zip";
-                    $zip->saveAsFile($backup_file_path);
-                } catch (Exception $e) {
-                    
-                } finally {
-                    $zip->close();
-                }
-            }
+            $backup_file_path = $this->backup($name);
         }
         
         // 卸载数据库
@@ -356,6 +280,32 @@ class AddonService extends BaseController
     }
     
     /**
+     * @Description: (备份插件)
+     * @param string $name 插件名称
+     * @return boolean
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function backup($name)
+    {
+        $addonsBackupDir = $this->getAddonsBackupDir() . $this->backup_dir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR;
+        if(!is_dir($addonsBackupDir)){
+            mkdir($addonsBackupDir, 0755, true);
+        }
+        $backup_file_path = $addonsBackupDir . $name . "-backup-" . date("Y_m_d_H_i_s") . ".zip";
+        $zipFile = new ZipFile();
+        try {
+            $zipFile
+            ->addDirRecursive($this->getAddonDir($name))
+            ->saveAsFile($backup_file_path)
+            ->close();
+        } catch (ZipException $e) {
+        } finally {
+            $zipFile->close();
+        }
+        return $backup_file_path;
+    }
+    
+    /**
      * @Description: (解压插件)
      * @param string $name 插件名称
      * @param string $file 文件路径
@@ -399,7 +349,7 @@ class AddonService extends BaseController
      * @return boolean
      * @author 子青时节 <654108442@qq.com>
      */
-    public function checkzip($name)
+    public function checkAddon($name)
     {
         $addonDir = $this->getAddonDir($name);
         if (empty($name) || !is_dir($addonDir)) {

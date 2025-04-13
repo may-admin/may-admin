@@ -216,11 +216,11 @@ function addon_version($data, $local_addon_list){
                 $version .= '<span class="position-absolute p-1 bg-danger rounded-circle"></span>';
                 
                 $action_btns .= '<div class="btn-group">';
-                $action_btns .= '<button type="button" class="btn btn-warning btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$last_version.'" data-title="升级 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-up"></i> 升级</button>';
+                $action_btns .= '<button type="button" class="btn btn-warning btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id=\''.json_encode(['name' => $data['name'], 'version' => $last_version]).'\' data-title="升级 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-up"></i> 升级</button>';
                 $action_btns .= '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
                 $action_btns .= '<ul class="dropdown-menu">';
                 foreach($data['version_list'] as $v){
-                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$v['version'].'" data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
+                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id=\''.json_encode(['name' => $data['name'], 'version' => $v['version']]).'\' data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
                 }
                 $action_btns .= '</ul>';
                 $action_btns .= '</div>';
@@ -232,12 +232,12 @@ function addon_version($data, $local_addon_list){
             $version .= $data['version_list'][0]['version'];
             
             $action_btns .= '<div class="btn-group">';
-            $action_btns .= '<button type="button" class="btn btn-primary btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$last_version.'" data-title="安装 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>';
+            $action_btns .= '<button type="button" class="btn btn-primary btn-xs btn-confirm" data-url="'.url('Addons/install').'" data-id=\''.json_encode(['name' => $data['name'], 'version' => $last_version]).'\' data-title="安装 - '.$data['title'].'-'.$last_version.'" ><i class="fa-solid fa-cloud-arrow-down"></i> 安装</button>';
             if(count($data['version_list']) > 1){
                 $action_btns .= '<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"></button>';
                 $action_btns .= '<ul class="dropdown-menu">';
                 foreach($data['version_list'] as $v){
-                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id="'.$data['name'].'-'.$v['version'].'" data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
+                    $action_btns .= '<li><a class="dropdown-item btn-confirm" href="javascript:void(0);" data-url="'.url('Addons/install').'" data-id=\''.json_encode(['name' => $data['name'], 'version' => $v['version']]).'\' data-title="安装 - '.$data['title'].'-'.$v['version'].'" >'.$v['version'].'</a></li>';
                 }
                 $action_btns .= '</ul>';
             }
