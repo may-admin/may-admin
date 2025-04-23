@@ -11,6 +11,7 @@ return [
     'create'            => '新增',
     'edit'              => '编辑',
     'delete'            => '删除',
+    'show'              => '查看',
     'select'            => '选择',
     'search'            => '搜索',
     'back'              => '返回',

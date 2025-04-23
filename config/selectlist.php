@@ -1,5 +1,10 @@
 <?php
 return [
+    'empty' => [
+        'title' => '空',
+        'status' => '1',
+        'data' => [],
+    ],
     'status' => [
         'title' => '状态',
         'status' => '1',
