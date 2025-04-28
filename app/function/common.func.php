@@ -70,6 +70,45 @@ function time_turn($time, $format='Y-m-d H:i:s'){
 }
 
 /**
+ * @Description: (selectlist配置转换)
+ * @param string $select 配置项
+ * @param string $please_select 请选择
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function selectlist_select($select = 'whether', $please_select = true){
+    if($please_select){
+        $option[''] = lang('please_select');
+    }else{
+        $option = [];
+    }
+    $arr = config('selectlist.'.$select)['data'];
+    return $option + $arr;
+}
+
+/**
+ * @Description: (selectlist配置转换)
+ * @param string $data 转换值
+ * @param string $select 配置项
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function selectlist_turn($data, $select){
+    $arr = config('selectlist.'.$select)['data'];
+    return $arr[$data];
+}
+
+/**
+ * @Description: (是否百分数)
+ * @param string $str 百分数
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function is_percentage($str) {
+    return preg_match('/^\d+(\.\d+)?%$/', $str) === 1;
+}
+
+/**
  * @Description: (价格转文本显示)
  * @param int $price 价格
  * @param string $unit 单位
