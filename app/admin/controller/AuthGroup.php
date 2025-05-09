@@ -28,7 +28,7 @@ class AuthGroup extends Admin
             $order = explode(',', input('get._sort'));
             $order = $order[0].' '.$order[1];
         }else{
-            $order = 'level asc,id desc';
+            $order = 'level desc,id desc';
         }
         $dataList = $this->cModel->where($where)->order($order)->paginate(page_param());
         
