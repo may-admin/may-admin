@@ -37,7 +37,7 @@ class Admin extends BaseController
             $order = explode(',', input('get._sort'));
             $order = $order[0].' '.$order[1];
         }else{
-            $order = 'sorts asc,id desc';
+            $order = 'sorts desc,id desc';
         }
         $dataList = $this->cModel->where($where)->order($order)->paginate(page_param());
         

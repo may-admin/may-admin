@@ -193,7 +193,7 @@ class Uploads extends BaseController
         $page_param = page_param();
         $page_param['modal_ajax'] = true;
         $page_param['list_rows'] = 10;
-        $dataList = $uploadFileModel->where([['format', '=', $format]])->order('sorts asc,id desc')->paginate($page_param, request()->isMobile());
+        $dataList = $uploadFileModel->where([['format', '=', $format]])->order('sorts desc,id desc')->paginate($page_param, request()->isMobile());
         
         View::assign('dataList', $dataList);
         View::assign('back', input('param.back'));
@@ -211,7 +211,7 @@ class Uploads extends BaseController
     {
         $format = input('param.format');
         $uploadFileModel = new UploadFile();
-        $dataList = $uploadFileModel->field('id,tag,url')->where([['format', '=', $format]])->order('sorts asc,id desc')->select();
+        $dataList = $uploadFileModel->field('id,tag,url')->where([['format', '=', $format]])->order('sorts desc,id desc')->select();
         return json($dataList);
     }
     

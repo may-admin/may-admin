@@ -32,7 +32,7 @@ class Config extends Admin
             $order = explode(',', input('get._sort'));
             $order = $order[0].' '.$order[1];
         }else{
-            $order = 'type asc,status desc,sorts asc,id desc';
+            $order = 'type asc,status desc,sorts desc,id desc';
         }
         $dataList = $this->cModel->where($where)->order($order)->paginate(page_param());
         
@@ -45,14 +45,14 @@ class Config extends Admin
     {
         $sys_menu_id = AuthRule::where([['name', '=', 'Config/sysMenu']])->value('id');
         
-        $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts asc')->select();
+        $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts desc')->select();
         
         $auth = new Auth();
         foreach ($dataList as $k => $v){
             if ($auth->check($v['name'], ADMINID) ){
                 $type = explode('/', $v['name']);
                 $v->types = $type[1];
-                $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts asc,id asc')->select();
+                $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts desc,id desc')->select();
                 foreach($config_lists as $v2){
                     $v2[$v2->k] = $v2->v;
                 }
@@ -94,7 +94,7 @@ class Config extends Admin
     private function dbconfig()
     {
         $dbconfig_path = app()->getConfigPath().'dbconfig.php';
-        $data = $this->cModel->field('k, v, type')->where([['status', '=', 1]])->order('type asc,sorts asc')->select();
+        $data = $this->cModel->field('k, v, type')->where([['status', '=', 1]])->order('type asc,sorts desc')->select();
         $type = "";
         $close = false;
         $str = "<?php\r\nreturn [";

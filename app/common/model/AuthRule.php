@@ -16,7 +16,7 @@ class AuthRule extends Model
             if ($status != ''){
                 $where[] = ['status', '=', $status];
             }
-            $list = $this->where($where)->order('sorts ASC,id ASC')->select()->toArray();
+            $list = $this->where($where)->order('sorts desc,id desc')->select()->toArray();
             $treeClass = new \expand\Tree();
             $treeClass::$treeList = [];
             $list = $treeClass->create($list);
