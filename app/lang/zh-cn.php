@@ -4,6 +4,7 @@ return [
     'action'            => '操作',
     'action_success'    => '操作成功',
     'action_fail'       => '操作失败',
+    'not_action'        => '不可操作',
     
     //按钮字段
     'list'              => '列表',
@@ -22,6 +23,7 @@ return [
     'preview'           => '预览',
     'code'              => '代码',
     'help'              => '帮助',
+    'default'           => '默认',
     
     'base_param'        => '基本参数',
     'advanced_param'    => '高级参数',
@@ -48,5 +50,6 @@ return [
     'please_select'     => '请选择',
     'top_arctype'       => '顶级分类',
     'choice_arctype'    => '选择分类',
+    'not_have'          => '无',
     'isbrowse'          => 'ID:44管理员被开启浏览模式',
 ];
