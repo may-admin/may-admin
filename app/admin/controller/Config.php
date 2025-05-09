@@ -32,7 +32,7 @@ class Config extends Admin
             $order = explode(',', input('get._sort'));
             $order = $order[0].' '.$order[1];
         }else{
-            $order = 'type asc,status desc,sorts desc,id desc';
+            $order = 'type desc,status desc,sorts desc,id desc';
         }
         $dataList = $this->cModel->where($where)->order($order)->paginate(page_param());
         
@@ -94,7 +94,7 @@ class Config extends Admin
     private function dbconfig()
     {
         $dbconfig_path = app()->getConfigPath().'dbconfig.php';
-        $data = $this->cModel->field('k, v, type')->where([['status', '=', 1]])->order('type asc,sorts desc')->select();
+        $data = $this->cModel->field('k, v, type')->where([['status', '=', 1]])->order('type desc,sorts desc')->select();
         $type = "";
         $close = false;
         $str = "<?php\r\nreturn [";

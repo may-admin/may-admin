@@ -85,7 +85,7 @@ function auth_rule_check($module){
  */
 function auth_group($module, $please_select = false){
     $authGroupModel = new \app\common\model\AuthGroup();
-    $list = $authGroupModel->where([['module', '=', $module], ['status', '=', 1]])->order('level ASC,id ASC')->select();
+    $list = $authGroupModel->where([['module', '=', $module], ['status', '=', 1]])->order('level desc,id desc')->select();
     if($please_select){
         $option[0] = lang('please_select');
     }else{

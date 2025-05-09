@@ -1,14 +1,5 @@
 <?php
 return [
-    "sys" => [
-        "login_title" => "MayAdmin",
-        "login_image" => "MayAdmin后台管理",
-        "login_bg" => "/static/global/common/img/avatar.png",
-        "top_big_logo" => "MayAdmin",
-        "top_small_logo" => "May",
-        "copyright" => "Copyright © 2017-2024 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;",
-        "version" => "Version 1.0.0",
-    ],
     "up" => [
         "upload_path" => "uploads",
         "upload_size" => "2",
@@ -21,5 +12,14 @@ return [
         "print_position" => "9",
         "print_blur" => "100",
         "file_url" => "",
+    ],
+    "sys" => [
+        "login_title" => "MayAdmin",
+        "login_image" => "MayAdmin后台管理",
+        "login_bg" => "/static/global/common/img/avatar.png",
+        "top_big_logo" => "MayAdmin",
+        "top_small_logo" => "May",
+        "copyright" => "Copyright © 2017-2024 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;",
+        "version" => "Version 1.0.0",
     ],
 ];
