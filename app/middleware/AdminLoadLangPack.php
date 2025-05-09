@@ -41,8 +41,8 @@ class AdminLoadLangPack
 
         //加载目录下多语言包【后台只加载中文包】
         $this->lang->load([
-            app()->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn'.DIRECTORY_SEPARATOR.request()->controller().'.php',
             app()->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn.php',
+            app()->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn'.DIRECTORY_SEPARATOR.request()->controller().'.php',
         ]);
 
         $this->saveToCookie($this->app->cookie, $langset);
