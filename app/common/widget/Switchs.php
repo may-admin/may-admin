@@ -13,6 +13,7 @@ class Switchs
      * <pre>
      *      name                组件标签name属性值，对应数据库字段【必须】
      *      title               组件标题【必须】
+     *      default_val         默认值，新增无数据时默认值【非必须】
      *      title_col           标题占比（默认2）【非必须】
      *      content_col         内容占比（默认6）【非必须】
      *      validate            提示信息【非必须】
@@ -30,6 +31,11 @@ class Switchs
             $wconfig['widget_val'] = $data[$wconfig['name']];
         }else{
             $wconfig['widget_val'] = '';
+        }
+        
+        /* 默认值 */
+        if ($wconfig['widget_val'] == '' && isset($wconfig['default_val']) && $wconfig['default_val'] != ''){
+            $wconfig['widget_val'] = $wconfig['default_val'];
         }
         
         if($wconfig['widget_val'] == '1'){

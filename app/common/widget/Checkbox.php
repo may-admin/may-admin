@@ -43,7 +43,7 @@ class Checkbox
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
         
         /* 默认值 */
-        if (empty($wconfig['widget_val']) && isset($wconfig['default_val']) && $wconfig['default_val'] != ''){
+        if ($wconfig['widget_val'] == '' && isset($wconfig['default_val']) && $wconfig['default_val'] != ''){
             $wconfig['widget_val'] = $wconfig['default_val'];
         }
         

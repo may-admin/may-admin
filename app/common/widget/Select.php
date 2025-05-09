@@ -13,6 +13,7 @@ class Select
      * <pre>
      *      name                组件标签name属性值，对应数据库字段【必须】
      *      title               组件标题【必须】
+     *      default_val         默认值，新增无数据时默认值【非必须】
      *      from                select选项来源【必须其中一项：selectlist,function】
      *      fromcfg             数据来源配置【必填，配合from使用】
      *          selectlist      来自selectlist配置【如sex,status】
@@ -40,6 +41,11 @@ class Select
         $wconfig['content_col'] = isset($wconfig['content_col']) ? $wconfig ['content_col'] : '6';
         $wconfig['validate_col'] = isset($wconfig['validate_col']) ? $wconfig ['validate_col'] : '4';
         $wconfig['validate'] = isset($wconfig['validate']) ? $wconfig ['validate'] : '';
+        
+        /* 默认值 */
+        if ($wconfig['widget_val'] == '' && isset($wconfig['default_val']) && $wconfig['default_val'] != ''){
+            $wconfig['widget_val'] = $wconfig['default_val'];
+        }
         
         if ( !isset($wconfig['from']) || ($wconfig['from'] != 'selectlist' && $wconfig['from'] != 'function') ){
             return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">select来源 from 必须是 selectlist 或 function</span></div></div>';
