@@ -1,9 +1,7 @@
 <?php
 namespace app\common\model;
 
-use think\Model;
-
-class UploadFile extends Model
+class UploadFile extends BaseModel
 {
     public function getUrlTextAttr($value, $data)
     {

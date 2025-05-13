@@ -1,8 +1,6 @@
 <?php
 namespace app\common\model;
 
-use think\Model;
-
-class AuthGroup extends Model
+class AuthGroup extends BaseModel
 {
 }

@@ -1,9 +1,7 @@
 <?php
 namespace app\common\model;
 
-use think\Model;
-
-class AuthRule extends Model
+class AuthRule extends BaseModel
 {
     public function treeList($module = '', $status = '')
     {
