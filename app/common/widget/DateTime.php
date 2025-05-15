@@ -13,9 +13,9 @@ class DateTime
      * <pre>
      *      name                组件标签name属性值，对应数据库字段【必须】
      *      title               组件标题【必须】
+     *      default_val         是否使用当前时间，优先级低于默认值【非必须,int true or false】
      *      placeholder         提示内容【非必须】
      *      format              时间格式【非必须，默认：Y-m-d H:i:s】
-     *      now_time            是否使用当前时间，优先级低于默认值【非必须,int true or false】
      *      title_col           标题占比（默认2）【非必须】
      *      content_col         内容占比（默认6）【非必须】
      *      validate            提示信息【非必须】
@@ -40,9 +40,9 @@ class DateTime
         
         if (!empty($wconfig['widget_val'])){
             $wconfig['widget_val'] = is_numeric($wconfig['widget_val']) ? date($wconfig['format'], $wconfig['widget_val']) : $wconfig['widget_val'];
-        }elseif (isset($wconfig['now_time']) && $wconfig['now_time'] !== false){
-            $wconfig['now_time'] = $wconfig['now_time'] === true ? 0 : $wconfig['now_time'];
-            $wconfig['widget_val'] = date($wconfig['format'], strtotime($wconfig['now_time'].' day'));
+        }elseif (isset($wconfig['default_val']) && $wconfig['default_val'] !== false){
+            $wconfig['default_val'] = $wconfig['default_val'] === true ? 0 : $wconfig['default_val'];
+            $wconfig['widget_val'] = date($wconfig['format'], strtotime($wconfig['default_val'].' day'));
         }
         
         /* 是否只读 */
