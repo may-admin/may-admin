@@ -1,6 +1,6 @@
 {extend name="public/base" /}
 
-{block name="title"}<title>{if $data}{:lang('edit')}{else /}{:lang('create')}{/if} - {:config('dbconfig.sys.login_title')}</title>{/block}
+{block name="title"}<title>{:lang('edit')} - {:config('dbconfig.sys.login_title')}</title>{/block}
 
 {block name="pjax_container"}
 <section class="content">
