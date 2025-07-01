@@ -207,6 +207,7 @@ div.fr-modal-body div.fr-image-list div.fr-image-container .fr-delete-img{displa
 
 .input-group .input-group-addon{height: 34px;line-height: 34px;padding: 0 10px;border: 1px solid #ccc;}
 
+.pagination{flex-wrap: wrap;}
 .pagination .page-item span.page-link{color:#666666;}
 .pagination .page-item.active span.page-link{background-color:#00c1de;color:#ffffff;border-color:#00c1de;}
 .pagination select{height:33.5px;line-height:33.5px;padding:0 5px;border:1px solid #ddd;border-left:none;display:inline-block;float:left;}

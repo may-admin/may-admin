@@ -15,9 +15,7 @@ $(function () {
                         window.location.href = res.url; 
                     }else{
                         layer.msg(res.message, {icon: 2});
-                        if(res.code == '2'){
-                            $('#captcha').click();
-                        }
+                        $('#captcha').click();
                         _this.removeClass('disabled').prop("disabled", false);
                         _this.html(_this.data('loading-html'));
                     }
