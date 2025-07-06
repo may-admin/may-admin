@@ -41,11 +41,11 @@ function page_param($is_cache = true){
     if(isset($param['list_rows'])){
         $res['list_rows'] = $param['list_rows'];
         if($is_cache === true){
-            cache('list_rows', $param['list_rows']);
+            cache('list_rows_'.ADMINID, $param['list_rows']);
         }
     }else{
-        if(cache('list_rows')){
-            $res['list_rows'] = cache('list_rows');
+        if(cache('list_rows_'.ADMINID)){
+            $res['list_rows'] = cache('list_rows_'.ADMINID);
         }
     }
     $res['query'] = $param;

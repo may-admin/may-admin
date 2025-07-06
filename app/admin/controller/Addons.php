@@ -31,9 +31,9 @@ class Addons extends Admins
         }
         if(isset($get_param['list_rows']) && intval($get_param['list_rows']) > 0){   //每页数量
             $params['list_rows'] = intval($get_param['list_rows']);
-            cache('list_rows', $params['list_rows']);
+            cache('list_rows_'.ADMINID, $params['list_rows']);
         }else{
-            $params['list_rows'] = cache('list_rows') ? : 15;
+            $params['list_rows'] = cache('list_rows_'.ADMINID) ? : 15;
         }
         
         $list = AddonService::sendRequest('/addon/Addon/index', $params);
