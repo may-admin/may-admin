@@ -85,7 +85,7 @@ class BootstrapAdmin extends Paginator
             $arr = explode('=', $v);
             if($arr[0] != 'list_rows'){ $query_str .= $v.'&'; }
         }
-        $url_str = request()->baseUrl(true).$query_str.'list_rows=';
+        $url_str = request()->baseUrl(false).$query_str.'list_rows=';
         
         $str = "<li class='page-item'><span class='page-link'>".lang('list_rows')."</span></li>";
         $str .= "<select>";
