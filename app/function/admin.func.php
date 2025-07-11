@@ -182,9 +182,8 @@ function widget($name, $data = []){
 }
 
 /**
- * @Description: (渲染输出widget挂件)
- * @param string $name 挂件名称
- * @param array $data 数组数据
+ * @Description: (节点类型[转换了数组])
+ * @param int $level
  * @return string
  * @author 子青时节 <654108442@qq.com>
  */

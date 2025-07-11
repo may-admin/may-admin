@@ -41,11 +41,17 @@ function page_param($is_cache = true){
     if(isset($param['list_rows'])){
         $res['list_rows'] = $param['list_rows'];
         if($is_cache === true){
-            cache('list_rows_'.ADMINID, $param['list_rows']);
+            if(defined('ADMINID')){
+                cache('list_rows_'.ADMINID, $param['list_rows']);
+            }else{
+                cache('list_rows', $param['list_rows']);
+            }
         }
     }else{
-        if(cache('list_rows_'.ADMINID)){
+        if(defined('ADMINID') && cache('list_rows_'.ADMINID)){
             $res['list_rows'] = cache('list_rows_'.ADMINID);
+        }elseif(cache('list_rows')){
+            $res['list_rows'] = cache('list_rows');
         }
     }
     $res['query'] = $param;
@@ -77,11 +83,7 @@ function time_turn($time, $format='Y-m-d H:i:s'){
  * @author 子青时节 <654108442@qq.com>
  */
 function selectlist_select($select = 'whether', $please_select = true){
-    if($please_select){
-        $option[''] = lang('please_select');
-    }else{
-        $option = [];
-    }
+    $option = $please_select ? ['' => lang('please_select')] : [];
     $arr = config('selectlist.'.$select)['data'];
     return $option + $arr;
 }
