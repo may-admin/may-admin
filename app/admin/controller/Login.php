@@ -76,12 +76,12 @@ class Login extends BaseController
                     //设置session,cookie
                     session('admin_id', $adminData['id']);
                     if (!empty($adminData['name'])){
-                        cookie('admin_name', $adminData['name']);
+                        cookie('admin_name', $adminData['name'], 86400);
                     }else{
-                        cookie('admin_name', $adminData['username']);
+                        cookie('admin_name', $adminData['username'], 86400);
                     }
-                    cookie('admin_username', $adminData['username']);
-                    cookie('admin_avatar', $adminData['avatar']);
+                    cookie('admin_username', $adminData['username'], 86400);
+                    cookie('admin_avatar', $adminData['avatar'], 86400);
                     
                     return ajax_return(0, lang('login_success'), url('index/index'));
                 }

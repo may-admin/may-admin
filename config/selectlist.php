@@ -38,6 +38,14 @@ return [
             '0' => '否',
         ],
     ],
+    'switch' => [
+        'title' => '是否',
+        'status' => '1',
+        'data' => [
+            '1' => '开',
+            '0' => '关',
+        ],
+    ],
     'texttype' => [
         'title' => '文本类型',
         'status' => '1',
@@ -125,7 +133,7 @@ return [
             'Tags' => [
                 'html' => 'Tags [标签]',
                 'sets' => 'varchar(250) NULL',
-                'is_search' => '1',
+                'is_search' => '0',
                 'is_textvalue' => '0',
             ],
             'DateTime' => [
@@ -155,12 +163,14 @@ return [
             'selectlist_select,whether,true' => '是否',
             'selectlist_select,sex,true' => '性别',
             'selectlist_select,status,true' => '状态',
+            'selectlist_select,switch,true' => '开关',
         ],
     ],
     'validate_rule' => [
         'title' => '验证规则',
         'status' => '1',
         'data' => [
+            'require' => '必填',
             'number' => '纯数字 [不包含负数和小数点]',
             'integer' => '整数',
             'float' => '浮点数字',

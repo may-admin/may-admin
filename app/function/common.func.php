@@ -79,13 +79,18 @@ function time_turn($time, $format='Y-m-d H:i:s'){
  * @Description: (selectlist配置转换)
  * @param string $select 配置项
  * @param string $please_select 请选择
+ * @param string $value 配置值
  * @return string
  * @author 子青时节 <654108442@qq.com>
  */
-function selectlist_select($select = 'whether', $please_select = true){
+function selectlist_select($select = 'whether', $please_select = true, $value = ''){
     $option = $please_select ? ['' => lang('please_select')] : [];
     $arr = config('selectlist.'.$select)['data'];
-    return $option + $arr;
+    $res = $option + $arr;
+    if(!empty($value)){
+        $res = $res[$value];
+    }
+    return $res;
 }
 
 /**
@@ -98,6 +103,21 @@ function selectlist_select($select = 'whether', $please_select = true){
 function selectlist_turn($data, $select){
     $arr = config('selectlist.'.$select)['data'];
     return $arr[$data];
+}
+
+/**
+ * @Description: (随机数量字符)
+ * @param int $num 整数
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function rand_str($num = 6){
+    $res = '';
+    $str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    while(strlen($res)<$num) {
+        $res .= $str[rand(0, strlen($str)-1)];
+    }
+    return $res;
 }
 
 /**
