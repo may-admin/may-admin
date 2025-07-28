@@ -87,8 +87,13 @@ function selectlist_select($select = 'whether', $please_select = true, $value = 
     $option = $please_select ? ['' => lang('please_select')] : [];
     $arr = config('selectlist.'.$select)['data'];
     $res = $option + $arr;
-    if(!empty($value)){
-        $res = $res[$value];
+    if($value != ''){
+        $value_arr = explode(',', $value);
+        $res_arr = [];
+        foreach($value_arr as $v){
+            $res_arr[] = isset($res[$v]) ? $res[$v] : '';
+        }
+        $res = implode(',', $res_arr);
     }
     return $res;
 }

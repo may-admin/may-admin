@@ -12,6 +12,7 @@ class Hidden
      * @param array $wconfig    【配置项】
      * <pre>
      *      name                组件标签name属性值，对应数据库字段【必须】
+     *      default_val         默认值，新增无数据时默认值【非必须】
      * </pre>
      * @return string
      * @author 苏晓信 <654108442@qq.com>
@@ -24,6 +25,11 @@ class Hidden
             $wconfig['widget_val'] = $data[$wconfig['name']];
         }else{
             $wconfig['widget_val'] = '';
+        }
+        
+        /* 默认值 */
+        if ($wconfig['widget_val'] == '' && isset($wconfig['default_val']) && $wconfig['default_val'] != ''){
+            $wconfig['widget_val'] = $wconfig['default_val'];
         }
         
         View::assign('wconfig', $wconfig);
