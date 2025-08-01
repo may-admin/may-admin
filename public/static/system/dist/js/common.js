@@ -410,10 +410,10 @@ $(function(){
         _this.addClass('active');
         _this.closest('li.treeview').addClass('active');
     });
-    $('body').off('click', '.sidebar-menu > li:eq(0),.sidebar-menu > li:eq(-1)');
-    $('body').on('click', '.sidebar-menu > li:eq(0),.sidebar-menu > li:eq(-1)', function(event){
+    $('body').off('click', '.sidebar-menu li.topview');
+    $('body').on('click', '.sidebar-menu li.topview', function(event){
         $('.sidebar-menu li').removeClass('active');
-        var _this = $(this).addClass('active');
+        $(this).addClass('active');
     });
 })
 

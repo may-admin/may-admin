@@ -58,6 +58,16 @@ class AdminAuth
             $treeMenu = $treeClass->treeMenu($lists);
             cache('DB_ADMIN_TREE_MENU_'.ADMINID, $treeMenu);
         }
+        $addon_api_url = config('addon.api_url');
+        if(!empty($addon_api_url)){
+            $treeMenu[] = [
+                'id' => 'addons',
+                'name' => 'Addons/index',
+                'title' => lang('addons_list'),
+                'icon' => 'fa-solid fa-puzzle-piece',
+                '_child' => [],
+            ];
+        }
         return $treeMenu;
     }
     

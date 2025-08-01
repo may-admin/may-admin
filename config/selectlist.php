@@ -134,7 +134,7 @@ return [
                 'html' => 'Tags [标签]',
                 'sets' => 'varchar(250) NULL',
                 'is_search' => '0',
-                'is_textvalue' => '0',
+                'is_textvalue' => '1',
             ],
             'DateTime' => [
                 'html' => 'DateTime [日期和时间]',
@@ -160,6 +160,7 @@ return [
         'title' => '文本选项值',
         'status' => '1',
         'data' => [
+            'selectlist_select,empty,false' => '空',
             'selectlist_select,whether,true' => '是否',
             'selectlist_select,sex,true' => '性别',
             'selectlist_select,status,true' => '状态',

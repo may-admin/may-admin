@@ -3,11 +3,14 @@
     <section class="sidebar">
         <ul class="sidebar-menu" data-widget="tree">
             {volist name="treeMenu" id="vo"}
-            <li class="{if !empty($vo['_child'])}treeview {/if} {if in_array($vo['id'], $activeMenus)}active menu-open{/if}">
+            <li class="{if !empty($vo['_child'])}treeview {else /}topview {/if} {if in_array($vo['id'], $activeMenus)}active menu-open{/if}">
                 <a href="{if !empty($vo['_child'])}javascript:void(0);{else /}{:url($vo.name)}{/if}">
                     <i class="{$vo.icon}"></i><span>{$vo.title}</span>
                     {if !empty($vo['_child'])}
                     <span class="pull-right-container"><i class="fa-solid fa-angle-left"></i></span>
+                    {/if}
+                    {if $vo['id'] == 'addons'}
+                    <span class="pull-right-container"><i class="fa-solid fa-fire" style="margin-right:10px;color:red;"></i></span>
                     {/if}
                 </a>
                 {if !empty($vo['_child'])}
@@ -19,12 +22,6 @@
                 {/if}
             </li>
             {/volist}
-            <li class="{if in_array('addons', $activeMenus)}active menu-open{/if}">
-                <a href="{:url('Addons/index')}">
-                    <i class="fa-solid fa-puzzle-piece"></i><span>{:lang('addons_list')}</span>
-                    <span class="pull-right-container"><i class="fa-solid fa-fire" style="margin-right:10px;color:red;"></i></span>
-                </a>
-            </li>
         </ul>
     </section>
 </aside>

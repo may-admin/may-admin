@@ -19,7 +19,7 @@ return [
         "login_bg" => "/static/global/common/img/avatar.png",
         "top_big_logo" => "MayAdmin",
         "top_small_logo" => "May",
-        "copyright" => "Copyright © 2017-2024 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;",
-        "version" => "Version 1.0.0",
+        "copyright" => "Copyright © 2017-2025 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;",
+        "version" => "MayAdmin 1.0.0",
     ],
 ];
