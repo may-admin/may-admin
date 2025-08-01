@@ -72,7 +72,10 @@ class Uploads extends BaseController
                 $savename = \think\facade\Filesystem::putFile($this->up_type, $file);
                 $file_path = $this->root_url.$savename;
                 $file_path = $this->config['file_url'].str_replace('\\', '/', $file_path);
-                
+                if(config('dbconfig.up.isprint') == '1' && !empty(config('dbconfig.up.print_image')) && $this->up_type == 'image'){
+                    $image = \think\Image::open($this->public_path.$this->root_url.$savename);
+                    $image->water($this->public_path.config('dbconfig.up.print_image'), config('dbconfig.up.print_position'), config('dbconfig.up.print_blur'))->save($this->public_path.$this->root_url.$savename);
+                }
                 $data = [];
                 $data['format'] = $this->up_type;
                 $data['name'] = $file->getOriginalName();
