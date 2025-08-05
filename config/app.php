@@ -19,10 +19,11 @@ return [
     'deny_app_list'    => ['common', 'middleware'],
 
     // 异常页面的模板文件
-    'exception_tmpl'   => app()->getThinkPath() . 'tpl/think_exception.tpl',
+    // 'exception_tmpl'   => app()->getThinkPath() . 'tpl/think_exception.tpl',
+    'exception_tmpl'   => app()->getRootPath() . 'view/common/tpl/think_exception.tpl',
 
     // 错误显示信息,非调试模式有效
-    'error_message'    => '页面错误！请稍后再试～',
+    'error_message'    => '<div class="page_404"><div class="title">404</div><div class="desc">您正在访问的页面被移动、移除、重命名或不存在</div></div>',
     // 显示错误信息
     'show_error_msg'   => false,
 ];
