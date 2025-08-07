@@ -3,7 +3,6 @@ namespace app\common\controller;
 
 use app\BaseController;
 use think\facade\View;
-use think\facade\Db;
 
 class Admin extends BaseController
 {
