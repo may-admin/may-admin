@@ -93,7 +93,7 @@ if (!function_exists('echo_value')) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>系统发生错误</title>
+    <title>404</title>
     <meta name="robots" content="noindex,nofollow" />
     <style>
         /* Base */

@@ -48,7 +48,7 @@ return [
     'sign_out'          => '退出',
     'edit_self'         => '个人资料',
     'please_select'     => '请选择',
-    'top_category'      => '顶级分类',
+    'top_category'      => '顶级栏目',
     'not_have'          => '无',
     'isbrowse'          => 'ID:44管理员被开启浏览模式',
 ];
