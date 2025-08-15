@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -15,7 +15,6 @@ use think\Paginator;
 
 class BootstrapAdmin extends Paginator
 {
-
     /**
      * 上一页按钮
      * @param string $text
@@ -23,7 +22,6 @@ class BootstrapAdmin extends Paginator
      */
     protected function getPreviousButton(string $text = "&laquo;"): string
     {
-
         if ($this->currentPage() <= 1) {
             return $this->getDisabledTextWrapper($text);
         }
@@ -98,8 +96,6 @@ class BootstrapAdmin extends Paginator
         }
         $str .= "</select>";
         return $str;
-        
-        
     }
 
     /**
@@ -118,21 +114,21 @@ class BootstrapAdmin extends Paginator
             'last'   => null,
         ];
 
-        $side   = 3;
+        $side = 3;
         $window = $side * 2;
 
         if ($this->lastPage < $window + 6) {
             $block['first'] = $this->getUrlRange(1, $this->lastPage);
         } elseif ($this->currentPage <= $window) {
             $block['first'] = $this->getUrlRange(1, $window + 2);
-            $block['last']  = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
         } elseif ($this->currentPage > ($this->lastPage - $window)) {
             $block['first'] = $this->getUrlRange(1, 2);
-            $block['last']  = $this->getUrlRange($this->lastPage - ($window + 2), $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - ($window + 2), $this->lastPage);
         } else {
-            $block['first']  = $this->getUrlRange(1, 2);
+            $block['first'] = $this->getUrlRange(1, 2);
             $block['slider'] = $this->getUrlRange($this->currentPage - $side, $this->currentPage + $side);
-            $block['last']   = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
         }
 
         $html = '';
@@ -160,7 +156,6 @@ class BootstrapAdmin extends Paginator
      */
     public function render()
     {
-        // dd($this->options['modal_ajax']);
         if ($this->hasPages()) {
             if ($this->simple) {
                 return sprintf(
@@ -168,7 +163,7 @@ class BootstrapAdmin extends Paginator
                     $this->getPreviousButton(),
                     $this->getNextButton()
                 );
-            }elseif(isset($this->options['modal_ajax']) && $this->options['modal_ajax'] === true){
+            }elseif(isset($this->options['modal_ajax']) && ($this->options['modal_ajax'] === true || $this->options['modal_ajax'] === 'detail')){
                 return sprintf(
                     '<ul class="pagination">%s %s %s %s</ul>',
                     $this->info(),
@@ -192,7 +187,6 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 生成一个可点击的按钮
-     *
      * @param  string $url
      * @param  string $page
      * @return string
@@ -208,8 +202,7 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 生成一个禁用的按钮
-     *
-     * @param  string $text
+     * @param string $text
      * @return string
      */
     protected function getDisabledTextWrapper(string $text): string
@@ -219,8 +212,7 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 生成一个激活的按钮
-     *
-     * @param  string $text
+     * @param string $text
      * @return string
      */
     protected function getActivePageWrapper(string $text): string
@@ -230,7 +222,6 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 生成省略号按钮
-     *
      * @return string
      */
     protected function getDots(): string
@@ -240,8 +231,7 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 批量生成页码按钮.
-     *
-     * @param  array $urls
+     * @param array $urls
      * @return string
      */
     protected function getUrlLinks(array $urls): string
@@ -257,9 +247,8 @@ class BootstrapAdmin extends Paginator
 
     /**
      * 生成普通页码按钮
-     *
-     * @param  string $url
-     * @param  string    $page
+     * @param string $url
+     * @param string $page
      * @return string
      */
     protected function getPageLinkWrapper(string $url, string $page): string
