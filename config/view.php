@@ -18,6 +18,8 @@ return [
     'taglib_begin'  => '{',
     // 标签库标签结束标记
     'taglib_end'    => '}',
+    // 默认过滤方法 用于普通标签输出
+    'default_filter'=> '',
     // 预先加载的标签库
     'taglib_build_in'   => 'cx,app\common\taglib\MayCms',
 ];

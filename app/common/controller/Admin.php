@@ -2,6 +2,7 @@
 namespace app\common\controller;
 
 use app\BaseController;
+use think\facade\Db;
 use think\facade\View;
 
 class Admin extends BaseController
@@ -196,6 +197,11 @@ class Admin extends BaseController
                     if($v2 !== null && $v2 !== ''){
                         if($v['where'] == 'like'){
                             $map[] = [$k2, $v['where'], '%'.$v2.'%'];
+                        }elseif($v['where'] == 'find_in_set'){
+                            $v_arr = explode(',', $v2);
+                            foreach($v_arr as $v3){
+                                $map[] = ['', 'exp', Db::raw("FIND_IN_SET('".$v3."', ".$k2.")")];
+                            }
                         }else{
                             $map[] = [$k2, $v['where'], $v2];
                         }

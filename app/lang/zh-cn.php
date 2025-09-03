@@ -42,6 +42,7 @@ return [
     //其他
     'list_rows'         => '每页数量',
     'page_total'        => '条数据',
+    'no_more_data'      => '无更多数据',
     'web_home'          => '首页',
     'clean_cache'       => '清除缓存',
     'lock_btn'          => '锁屏',
@@ -51,4 +52,5 @@ return [
     'top_category'      => '顶级栏目',
     'not_have'          => '无',
     'isbrowse'          => 'ID:44管理员被开启浏览模式',
+    'zh_tw_text'        => '繁體',
 ];
