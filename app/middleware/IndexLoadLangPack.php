@@ -33,18 +33,18 @@ class IndexLoadLangPack
     public function handle(Request $request, Closure $next): Response
     {
         // 自动侦测当前语言
-        if (defined(LANGS_LANG)) {
-            $langset = LANGS_LANG;
-        } else {
-            $langset = $this->detect($request);
-        }
+        $langset = $this->detect($request);
+
+        //加载多语言包【先加载】
+        $this->lang->load([
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
+        ]);
 
         if ($this->lang->defaultLangSet() != $langset) {
             $this->lang->switchLangSet($langset);
         }
-        
-        
-        
+
+
         $this->saveToCookie($this->app->cookie, $langset);
 
         return $next($request);
@@ -70,7 +70,7 @@ class IndexLoadLangPack
         } elseif ($request->cookie($this->config['cookie_var'])) {
             // Cookie中设置了语言变量
             $langSet = $request->cookie($this->config['cookie_var']);
-        } elseif ($request->server('HTTP_ACCEPT_LANGUAGE')) {
+        } elseif ($this->config['auto_detect_browser'] && $request->server('HTTP_ACCEPT_LANGUAGE')) {
             // 自动侦测浏览器语言
             $langSet = $request->server('HTTP_ACCEPT_LANGUAGE');
         }

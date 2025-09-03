@@ -41,8 +41,8 @@ class AdminLoadLangPack
 
         //加载目录下多语言包【后台只加载中文包】
         $this->lang->load([
-            app()->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn.php',
-            app()->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn'.DIRECTORY_SEPARATOR.request()->controller().'.php',
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn.php',
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.'zh-cn'.DIRECTORY_SEPARATOR.request()->controller().'.php',
         ]);
 
         $this->saveToCookie($this->app->cookie, $langset);
@@ -70,7 +70,7 @@ class AdminLoadLangPack
         } elseif ($request->cookie($this->config['cookie_var'])) {
             // Cookie中设置了语言变量
             $langSet = $request->cookie($this->config['cookie_var']);
-        } elseif ($request->server('HTTP_ACCEPT_LANGUAGE')) {
+        } elseif ($this->config['auto_detect_browser'] && $request->server('HTTP_ACCEPT_LANGUAGE')) {
             // 自动侦测浏览器语言
             $langSet = $request->server('HTTP_ACCEPT_LANGUAGE');
         }
