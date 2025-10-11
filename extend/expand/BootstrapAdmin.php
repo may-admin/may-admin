@@ -163,9 +163,17 @@ class BootstrapAdmin extends Paginator
                     $this->getPreviousButton(),
                     $this->getNextButton()
                 );
-            }elseif(isset($this->options['modal_ajax']) && ($this->options['modal_ajax'] === true || $this->options['modal_ajax'] === 'detail')){
+            }elseif(isset($this->options['modal_ajax']) && $this->options['modal_ajax'] === true){
                 return sprintf(
                     '<ul class="pagination">%s %s %s %s</ul>',
+                    $this->info(),
+                    $this->getPreviousButton(),
+                    $this->getLinks(),
+                    $this->getNextButton()
+                );
+            }elseif(isset($this->options['modal_ajax']) && $this->options['modal_ajax'] === 'detail'){
+                return sprintf(
+                    '%s %s %s %s',
                     $this->info(),
                     $this->getPreviousButton(),
                     $this->getLinks(),

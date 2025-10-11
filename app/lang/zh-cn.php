@@ -53,4 +53,14 @@ return [
     'not_have'          => '无',
     'isbrowse'          => 'ID:44管理员被开启浏览模式',
     'zh_tw_text'        => '繁體',
+    
+    'language'          => '语言',
+    'search'            => '搜索',
+    'search_placeholder'=> '输入关键词搜索...',
+    'pre'               => '上一篇',
+    'next'              => '下一篇',
+    'detail_no_more'    => '没有了',
+    'data_no_more'      => '暂时没有数据!',
+    
+    'location'          => '当前位置',
 ];

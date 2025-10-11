@@ -53,4 +53,14 @@ return [
     'not_have'          => 'No',
     'isbrowse'          => 'ID:44 Browse Mode',
     'zh_tw_text'        => '繁體',
+    
+    'language'          => 'Language',
+    'search'            => 'Search',
+    'search_placeholder'=> 'Please Enter Keywords...',
+    'pre'               => 'Pre',
+    'next'              => 'Next',
+    'detail_no_more'    => 'No More',
+    'data_no_more'      => 'No Data!',
+    
+    'location'          => 'Location',
 ];

@@ -35,6 +35,9 @@ function page_param($is_cache = true){
     if (isset($param['_pjax'])){
         unset($param['_pjax']);
     }
+    if (isset($param['may_cms_dirs'])){
+        unset($param['may_cms_dirs']);
+    }
     if(isset($param['page'])){
         $res['page'] = $param['page'];
     }
