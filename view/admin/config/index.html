@@ -15,8 +15,8 @@
                             <th width="36"><input type="checkbox" class="form-check-input table-check-toggle"></th>
                             <th>{:lang('id')}{:table_sort('id')}</th>
                             <th>{:lang('k')}</th>
-                            <th>{:lang('v')}</th>
-                            <th>{:lang('infos')}</th>
+                            <th class="description">{:lang('v')}</th>
+                            <th class="description">{:lang('infos')}</th>
                             <th>{:lang('type')}{:table_sort('type')}</th>
                             <th>{:lang('texttype')}{:table_sort('texttype')}</th>
                             <th>{:lang('sorts')}{:table_sort('sorts')}</th>
@@ -28,8 +28,8 @@
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
                             <td>{$vo.id}</td>
                             <td>{:list_write($vo, 'k')}</td>
-                            <td class="description" ><div class="text-truncate" title="{$vo.v}">{$vo.v|raw}</div></td>
-                            <td>{:list_write($vo, 'infos')}</td>
+                            <td class="description"><div class="text-truncate" title="{$vo.v}">{$vo.v|raw}</div></td>
+                            <td class="description"><div class="text-truncate" title="{$vo.infos}">{:list_write($vo, 'infos')}</div></td>
                             <td>{:list_write($vo, 'type')}</td>
                             <td>{$vo.texttype}</td>
                             <td>{:list_write($vo, 'sorts')}</td>

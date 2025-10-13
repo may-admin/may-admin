@@ -139,7 +139,7 @@ html,body{height:100%;font-size:14px;}.layout-boxed html,.layout-boxed body{heig
 
 .form-group{margin-bottom:15px;}
 
-.list-write{border:1px solid transparent;padding:1px 0;cursor:pointer;border-bottom:1px dashed #00c1de;}
+.list-write{border:1px solid transparent;cursor:pointer;border-bottom:1px dashed #00c1de;}
 .list-write:hover{border:1px dashed #00c1de;color:#00c1de;}
 .list-write-input{width:80px;padding:0;line-height:normal;}
 

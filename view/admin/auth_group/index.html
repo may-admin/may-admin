@@ -15,7 +15,7 @@
                             <th width="32"><input type="checkbox" class="form-check-input table-check-toggle"></th>
                             <th>{:lang('id')}{:table_sort('id')}</th>
                             <th>{:lang('title')}{:table_sort('title')}</th>
-                            <th>{:lang('notation')}</th>
+                            <th class="description">{:lang('notation')}</th>
                             <th>{:lang('module')}</th>
                             <th>{:lang('level')}{:table_sort('level')}</th>
                             <th>{:lang('status')}{:table_sort('status')}</th>
@@ -26,7 +26,7 @@
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
                             <td>{$vo.id}</td>
                             <td>{:list_write($vo, 'title')}</td>
-                            <td>{$vo.notation}</td>
+                            <td class="description"><div class="text-truncate" title="{$vo.notation}">{$vo.notation}</div></td>
                             <td>{$vo.module}</td>
                             <td>{$vo.level}</td>
                             <td>{:list_status($vo['id'], $vo['status'])}</td>
