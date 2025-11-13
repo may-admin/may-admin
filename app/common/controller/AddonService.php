@@ -439,11 +439,12 @@ class AddonService extends BaseController
         if (is_file($sql_file)) {
             $line_arr = file($sql_file);
             $sql_str = '';
+            $prefix = config('database.connections.mysql.prefix');
             foreach ($line_arr as $line) {
                 if (substr($line, 0, 2) == '--' || $line == '' || substr($line, 0, 2) == '/*') {
                     continue;
                 }
-                $sql_str .= $line;
+                $sql_str .= str_replace("`may_", "`{$prefix}", $line);
                 if (substr(trim($line), -1, 1) == ';') {
                     try {
                         Db::execute($sql_str);
