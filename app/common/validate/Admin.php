@@ -6,7 +6,7 @@ use think\Validate;
 class Admin extends Validate
 {
     protected $rule = [
-        'username' => 'require|alphaDash|length:6,50|unique:admin',
+        'username' => 'require|alphaDash|length:5,50|unique:admin',
         'password' => 'require|/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/|length:6,32',
         'repassword' => 'require|confirm:password',
         'name' => 'chsDash|length:1,20',

@@ -282,3 +282,29 @@ function remove_empty_folder($dir){
     } catch (\Exception $e) {
     }
 }
+
+/**
+ * @Description: (判断文件或文件夹是否可写)
+ * @param string $file 文件或目录
+ * @author 子青时节 <654108442@qq.com>
+ */
+function is_really_writable($file){
+    if (DIRECTORY_SEPARATOR === '/') {
+        return is_writable($file);
+    }
+    if (is_dir($file)) {
+        $file = rtrim($file, '/') . '/' . md5(mt_rand());
+        if (($fp = @fopen($file, 'ab')) === false) {
+            return false;
+        }
+        fclose($fp);
+        @chmod($file, 0777);
+        @unlink($file);
+
+        return true;
+    } elseif (!is_file($file) or ($fp = @fopen($file, 'ab')) === false) {
+        return false;
+    }
+    fclose($fp);
+    return true;
+}

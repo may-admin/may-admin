@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>MayAdmin后台安装</title>
+{load href="/static/global/font-awesome/css/all.min.css" /}
+{load href="/static/global/bootstrap/css/bootstrap.min.css" /}
+{load href="/static/system/dist/css/install.css" /}
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="head-title">MayAdmin后台安装</div>
+        <div class="head-desc">使用过程中遇到任何问题可参考文档 <a href="https://doc.sxxblog.com/category/question.html" target="_blank">常见问题</a></div>
+        <div class="head-error" {if empty($data)}style="display:none;"{/if} >
+            {if !empty($data)}{$data}{/if}
+        </div>
+        
+        <form method="POST" action="" onsubmit="return false">
+            <div class="box">
+                <div class="row">
+                    <div class="col-3 col-form-label">数据库地址</div>
+                    <div class="col-9 position-relative">
+                        <input type="text" class="form-control" name="hostname" value="127.0.0.1" placeholder="请输入数据库地址" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">数据库名称</div>
+                    <div class="col-9 position-relative">
+                        <input type="text" class="form-control" name="database" value="" placeholder="请输入数据库名称" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">数据表前缀</div>
+                    <div class="col-9 position-relative">
+                        <input type="text" class="form-control" name="prefix" value="may_" placeholder="请输入数据表前缀" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">数据库账号</div>
+                    <div class="col-9 position-relative">
+                        <input type="text" class="form-control" name="username" value="root" placeholder="请输入数据库账号" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">数据库密码</div>
+                    <div class="col-9 position-relative">
+                        <input type="password" class="form-control" name="password" value="" placeholder="请输入数据库密码" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">数据库端口</div>
+                    <div class="col-9 position-relative">
+                        <input type="number" class="form-control" name="hostport" value="3306" placeholder="请输入数据库端口" >
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box">
+                <div class="row">
+                    <div class="col-3 col-form-label">管理员账号</div>
+                    <div class="col-9 position-relative">
+                        <input type="text" class="form-control" name="admin_username" value="" placeholder="请输入管理员账号" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">管理员密码</div>
+                    <div class="col-9 position-relative">
+                        <input type="password" class="form-control" name="admin_password" value="" placeholder="请输入管理员密码" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label">密码确认</div>
+                    <div class="col-9 position-relative">
+                        <input type="password" class="form-control" name="admin_repassword" value="" placeholder="请输入密码确认" >
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-install">
+                <button class="btn btn-info submits {if !empty($data)}disabled{/if}" {if !empty($data)}disabled{/if} type="submit" data-loading-text="&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; 确认安装">确认安装</button>
+            </div>
+        </form>
+    </div>
+</div>
+{load href="/static/global/bootstrap/js/bootstrap.bundle.min.js" /}
+{load href="/static/global/jquery/jquery-3.7.1.min.js" /}
+{load href="/static/global/jquery/jquery.form.js" /}
+{load href="/static/global/layer/layer.js" /}
+<script>
+$(function(){
+    $('body').off('click', '.submits');
+    $('body').on('click', '.submits', function(event){
+        var _this = $(this);
+        _this.addClass('disabled').prop("disabled", true);
+        _this.data('loading-html', _this.html());
+        _this.html(_this.data('loading-text'));
+        var form = _this.closest('form');
+        if(form.length){
+            var ajax_option={
+                dataType:'json',
+                success:function(res){
+                    if(res.code == '0'){
+                        layer.msg(res.message, {icon: 1});
+                        setTimeout(function() {
+                            window.location.href = res.url;
+                        }, 3000);
+                    }else if(res.code == '2'){
+                        layer.msg(res.message.info, {icon: 2});
+                        $("input[name='"+res.message.name+"']").focus();
+                    }else{
+                        $('.head-error').html(res.message).show();
+                    }
+                    _this.removeClass('disabled').prop("disabled", false);
+                    _this.html(_this.data('loading-html'));
+                }
+            }
+            form.ajaxSubmit(ajax_option);
+        }
+    });
+})
+</script>
+</body>
+</html>

@@ -24,7 +24,7 @@ return [
     'auth_group_title'  => '角色',
     
     //数据验证提示
-    'username_require'      => '用户名长度6-50（只允许字母、数字、_和-）',
+    'username_require'      => '用户名长度5-50（只允许字母、数字、_和-）',
     'username_unique'       => '用户名已经被使用',
     'password_require'      => '密码长度6-32（必须包含大写字母，小写字母和数字）',
     'repassword_require'    => '确认密码错误',

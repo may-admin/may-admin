@@ -12,18 +12,12 @@
 // [ 应用入口文件 ]
 namespace think;
 
-// 判断是否安装
-if(!is_file(__DIR__ . '/../app/admin/command/install/install.lock')){
-    header("location:./install.php");
-    exit;
-}
-
 require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
 $http = (new App())->http;
 
-$response = $http->run();
+$response = $http->name('install')->run();
 
 $response->send();
 
