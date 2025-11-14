@@ -147,7 +147,7 @@ INSERT INTO `may_auth_rule` (`id`, `pid`, `module`, `level`, `name`, `title`, `t
 (19, 17, 'admin', 3, 'Admin/edit', '编辑', 1, 1, 0, NULL, '', 4, 1699178086, 1746774641),
 (20, 17, 'admin', 3, 'Admin/delete', '删除', 1, 1, 0, NULL, '', 3, 1699178086, 1699178444),
 (21, 17, 'admin', 3, 'Admin/authGroup', '授权角色', 1, 1, 0, NULL, '', 2, 1699178086, 1746774638),
-(22, 17, 'admin', 3, 'Admin/editSelf', '个人资料', 1, 1, 0, NULL, '', 1, 1699178086, 1746774636),
+(22, 1, 'admin', 2, 'Admin/editSelf', '个人资料', 1, 1, 0, NULL, '', 1, 1699178086, 1746774636),
 (23, 12, 'admin', 2, 'AuthGroup/index', '角色列表', 1, 1, 1, NULL, 'fa-solid fa-address-card', 1, 1699178086, 1746774604),
 (24, 23, 'admin', 3, 'AuthGroup/create', '新增', 1, 1, 0, NULL, '', 3, 1699178086, 1746774663),
 (25, 23, 'admin', 3, 'AuthGroup/edit', '编辑', 1, 1, 0, NULL, '', 2, 1699178086, 1699178469),
