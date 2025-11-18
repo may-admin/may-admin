@@ -61,6 +61,7 @@ return [
     'next'              => 'Next',
     'detail_no_more'    => 'No More',
     'data_no_more'      => 'No Data!',
+    'more'              => 'More',
     
     'location'          => 'Location',
 ];

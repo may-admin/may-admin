@@ -61,6 +61,7 @@ return [
     'next'              => '下一篇',
     'detail_no_more'    => '没有了',
     'data_no_more'      => '暂时没有数据!',
+    'more'              => '查看更多',
     
     'location'          => '当前位置',
 ];
