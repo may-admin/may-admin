@@ -12,7 +12,11 @@ return [
     'sorts'             => '排序',
     'status'            => '状态',
     
-    'dbconfig_error'    => '配置文件生成失败，请检查！',
+    'dbconfig_error'        => '配置文件生成失败，请检查！',
+    'textvalue_validate'    => '键值:键名
+键值:键名
+键值:键名
+.....',
     
     //数据验证提示
     'k_require'             => '键不能为空',

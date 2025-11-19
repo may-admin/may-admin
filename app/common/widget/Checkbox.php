@@ -47,8 +47,8 @@ class Checkbox
             $wconfig['widget_val'] = $wconfig['default_val'];
         }
         
-        if ( !isset($wconfig['from']) || ($wconfig['from'] != 'selectlist' && $wconfig['from'] != 'function') ){
-            return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">checkbox来源 from 必须是 selectlist 或 function</span></div></div>';
+        if ( !isset($wconfig['from']) || !in_array($wconfig['from'], ['selectlist', 'function', 'options']) ){
+            return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">checkbox来源 from 必须是 selectlist 、 function 或 options</span></div></div>';
         }
         if ( !isset($wconfig['fromcfg']) || empty($wconfig['fromcfg'])){
             return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">checkbox数据来源 fromcfg 不能为空</span></div></div>';
@@ -74,6 +74,8 @@ class Checkbox
             }else{
                 return '<div class="form-group"><label class="col-sm-'.$wconfig['title_col'].' control-label">'.$wconfig['title'].'</label><div class="col-sm-'.$wconfig['content_col'].'"><span class="help-block">配置function函数：'.$wconfig['fromcfg'][0].' 不存在</span></div></div>';
             }
+        }elseif( $wconfig['from'] == 'options' ){
+            $optionListData = isset($wconfig['fromcfg']) && !empty($wconfig['fromcfg']) ? $wconfig['fromcfg'] : [];
         }
         $optionList = [];
         foreach ($optionListData as $k => $v){

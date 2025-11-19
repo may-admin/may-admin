@@ -174,7 +174,7 @@ CREATE TABLE `may_config` (
   `sorts` bigint(20) DEFAULT NULL COMMENT '排序',
   `status` tinyint(1) NOT NULL COMMENT '是否显示',
   `texttype` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文本类型',
-  `textvalue` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文本选项值',
+  `textvalue` text COLLATE utf8mb4_unicode_ci COMMENT '文本选项值',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL COMMENT '编辑时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置字段';

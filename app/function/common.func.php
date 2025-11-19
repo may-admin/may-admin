@@ -114,6 +114,27 @@ function selectlist_turn($data, $select){
 }
 
 /**
+ * @Description: (字符串转挂件选项)
+ * @param string $str 数组
+ * @return array
+ * @author 子青时节 <654108442@qq.com>
+ */
+function option_arr($str){
+    $res = [];
+    if(!empty($str)){
+        $option_str = str_replace("\r\n", "\n", $str);
+        $option_arr = del_arr_empty(explode("\n", $option_str));
+        foreach($option_arr as $v){
+            $arr = explode(":", $v);
+            if(count($arr) == 2){
+                $res[$arr[0]] = $arr[1];
+            }
+        }
+    }
+    return $res;
+}
+
+/**
  * @Description: (随机数量字符)
  * @param int $num 整数
  * @return string

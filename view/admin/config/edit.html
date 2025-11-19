@@ -50,10 +50,11 @@
                                 'from' => 'selectlist',
                                 'fromcfg' => 'texttype',
                             ]])}
-                            {:widget('common/Input/index', [$data, [
+                            {:widget('common/Textarea/index', [$data, [
                                 'name' => 'textvalue',
                                 'title' => lang('textvalue'),
-                                'placeholder' => lang('textvalue'),
+                                'placeholder' => lang('textvalue_validate'),
+                                'validate' => lang('textvalue_validate'),
                             ]])}
                             {:widget('common/Input/index', [$data, [
                                 'name' => 'sorts',
