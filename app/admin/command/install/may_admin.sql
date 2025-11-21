@@ -29,18 +29,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `may_admin` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键ID',
-  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
-  `password` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码',
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机',
+  `username` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+  `password` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码',
+  `name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机',
   `sex` tinyint(1) NOT NULL DEFAULT '1' COMMENT '性别',
-  `qq` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'QQ',
-  `avatar` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `qq` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'QQ',
+  `avatar` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
   `logins` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '登录次数',
-  `reg_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT '注册IP',
+  `reg_ip` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT '注册IP',
   `last_time` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '最后登录时间',
-  `last_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT '最后登录IP',
+  `last_ip` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT '最后登录IP',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '编辑时间'
@@ -61,12 +61,12 @@ INSERT INTO `may_admin` (`id`, `username`, `password`, `name`, `email`, `mobile`
 
 CREATE TABLE `may_auth_group` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键ID',
-  `module` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '所属模块',
+  `module` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '所属模块',
   `level` bigint(20) NOT NULL COMMENT '角色等级',
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户组中文名称',
+  `title` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户组中文名称',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：为1正常，为0禁用',
   `rules` text COLLATE utf8mb4_unicode_ci COMMENT '用户组拥有的规则id， 多个规则","隔开',
-  `notation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组别描述',
+  `notation` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组别描述',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL COMMENT '编辑时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限组';
@@ -87,7 +87,7 @@ INSERT INTO `may_auth_group` (`id`, `module`, `level`, `title`, `status`, `rules
 
 CREATE TABLE `may_auth_group_access` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键ID',
-  `module` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '所属模块',
+  `module` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '所属模块',
   `uid` bigint(20) UNSIGNED NOT NULL COMMENT '用户id',
   `group_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户组id',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
@@ -110,15 +110,15 @@ INSERT INTO `may_auth_group_access` (`id`, `module`, `uid`, `group_id`, `create_
 CREATE TABLE `may_auth_rule` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键',
   `pid` bigint(20) UNSIGNED NOT NULL COMMENT '父id',
-  `module` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '权限节点所属模块',
+  `module` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin' COMMENT '权限节点所属模块',
   `level` tinyint(1) NOT NULL COMMENT '1-项目;2-模块;3-操作',
-  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '规则唯一标识',
-  `title` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '规则中文名称',
+  `name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '规则唯一标识',
+  `title` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '规则中文名称',
   `type` tinyint(1) NOT NULL DEFAULT '1',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
   `ismenu` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否导航',
-  `condition` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '规则表达式，为空表示存在就验证，不为空表示按照条件验证',
-  `icon` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '节点图标',
+  `condition` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '规则表达式，为空表示存在就验证，不为空表示按照条件验证',
+  `icon` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '节点图标',
   `sorts` bigint(20) DEFAULT '50' COMMENT '排序',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL COMMENT '编辑时间'
@@ -166,14 +166,14 @@ INSERT INTO `may_auth_rule` (`id`, `pid`, `module`, `level`, `name`, `title`, `t
 
 CREATE TABLE `may_config` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键',
-  `k` char(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '键',
+  `k` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '键',
   `v` text COLLATE utf8mb4_unicode_ci COMMENT '值',
-  `type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型',
+  `type` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型',
   `infos` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
   `prompt` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提示',
   `sorts` bigint(20) DEFAULT NULL COMMENT '排序',
   `status` tinyint(1) NOT NULL COMMENT '是否显示',
-  `texttype` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文本类型',
+  `texttype` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文本类型',
   `textvalue` text COLLATE utf8mb4_unicode_ci COMMENT '文本选项值',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL COMMENT '编辑时间'
