@@ -18,6 +18,15 @@ $(function(){
         imageDefaultWidth: 0,   //图片默认宽度
         quickInsertEnabled: false,   //快捷插入
         wordCounterCount: false,   //右下word统计
+        codeBeautifierOptions: {
+            end_with_newline: true,
+            indent_inner_html: true,
+            extra_liners: "['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'ul', 'ol', 'table', 'dl']",
+            brace_style: 'expand',
+            indent_char: ' ',
+            indent_size: 4,
+            wrap_line_length: 0
+        },
         imageUploadURL: '{:url("Uploads/upload")}',
         imageUploadParam: 'imgFile',   //
         imageUploadParams: {dir: 'image', tag: 'editor'},
@@ -32,6 +41,16 @@ $(function(){
         fileUploadParam: 'imgFile',
         fileUploadParams: {dir: 'file', tag: 'editor'},
         events: {
+            'commands.after': function (cmd, param1, param2) {
+                if(cmd == 'html' && $('#html-'+this.id).hasClass('fr-active')){
+                    layer.msg('视图模式编辑完后，需切回正常模式，否则内容无法保存！！！', {icon: 7});
+                }
+            },
+            'blur': function () {
+                // if(this.codeView.isActive()){
+                //     this.html.set( this.codeView.get() )
+                // }
+            },
             'image.error': function (error, response) {
                 var res = JSON.parse(response);
                 layer.msg(res.message, {icon: 2});
