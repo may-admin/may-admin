@@ -10,4 +10,24 @@
 {load href="/static/global/common/js/html5shiv.min.js" /}
 {load href="/static/global/common/js/respond.min.js" /}
 <![endif]-->
+<script>
+function _loadHeadScript(url, func){
+    if (!document.querySelector('script[src="'+url+'"]')) {   //未加载
+        var script = document.createElement('script');
+        script.src = url;
+        document.head.appendChild(script);
+        script.onload = script.onreadystatechange = function() {
+            if (!this.readyState || this.readyState === 'loaded') {
+                if (func) {
+                    func();
+                }
+            }
+        };
+    } else {   //已加载
+        if (func) {
+            func();
+        }
+    }
+}
+</script>
 {/if}

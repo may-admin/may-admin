@@ -9,8 +9,10 @@
     </div>
     {/if}
 </div>
+{load href="/static/global/froala-editor/css/froala_editor.pkgd.min.css" /}
 <script>
-$(function(){
+_loadHeadScript('/static/global/froala-editor/js/froala_editor.pkgd.min.js?v={$wconfig.name}', _init_FroalaEditor_{$wconfig.name});
+function _init_FroalaEditor_{$wconfig.name}(){
     new FroalaEditor("#froala_{$wconfig.name}", {
         language: 'zh_cn',   //多语言
         height: 200,   //高度
@@ -30,10 +32,10 @@ $(function(){
         imageUploadURL: '{:url("Uploads/upload")}',
         imageUploadParam: 'imgFile',   //
         imageUploadParams: {dir: 'image', tag: 'editor'},
-        imageManagerLoadURL: '{:url("Uploads/froalaManager")}',
+        imageManagerLoadURL: '{:url("Uploads/froalaeditorManager")}',
         imageManagerLoadParams: {format: 'image'},
         imageManagerPageSize: 12,
-        imageManagerDeleteURL: '{:url("Uploads/froalaDelete")}',
+        imageManagerDeleteURL: '{:url("Uploads/froalaeditorDelete")}',
         videoUploadURL: '{:url("Uploads/upload")}',
         videoUploadParam: 'imgFile',
         videoUploadParams: {dir: 'media', tag: 'editor'},
@@ -65,5 +67,5 @@ $(function(){
             },
         }
     })
-})
+}
 </script>

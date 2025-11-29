@@ -59,6 +59,7 @@ return [
             'Image' => 'Image [单图]',
             'Images' => 'Images [图组]',
             'File' => 'File [单文件]',
+            'KindEditor' => 'KindEditor [KindEditor编辑器]',
             'FroalaEditor' => 'FroalaEditor [FroalaEditor编辑器]',
             'Tags' => 'Tags [标签]',
             'DateTime' => 'DateTime [日期和时间]',

@@ -1,0 +1,35 @@
+<div class="form-group row">
+    <label class="col-sm-{$wconfig.title_col} control-label">{$wconfig.title}</label>
+    <div class="col-sm-{$wconfig.content_col}">
+        <textarea class="form-control" name="{$wconfig.name}" >{$wconfig.widget_val|raw}</textarea>
+    </div>
+    {if $wconfig['validate_col'] > 0 }
+    <div class="col-sm-{$wconfig.validate_col}">
+        <span class="help-block">{$wconfig.validate}</span>
+    </div>
+    {/if}
+</div>
+<script>
+_loadHeadScript('/static/global/kindeditor/kindeditor-all.js?v={$wconfig.name}', _init_kindeditor_{$wconfig.name});
+function _init_kindeditor_{$wconfig.name}(){
+    KindEditor.create('textarea[name="{$wconfig.name}"]',{
+        basePath: '/static/global/kindeditor/',                 //编辑器插件目录
+        indentChar: '    ',
+        cssPath: [
+            '/static/global/bootstrap/css/bootstrap.min.css',
+            '/static/system/dist/css/AdminLTE.min.css',
+        ],                                                      //引入样式
+        width: '100%',                                          //宽度
+        height: '320px',                                        //高度
+        resizeType: '0',                                        //禁止拖动
+        allowFileManager: true,                                 //允许对上传图片进行管理
+        uploadJson: '{:url("Uploads/upload")}',                 //文件上传地址
+        fileManagerJson: '{:url("Uploads/kindeditorManager")}', //文件管理地址
+        deleteJson: '{:url("Uploads/kindeditorDelete")}',       //文件删除地址
+        // urlType: 'domain',                                      //带域名的路径
+        formatUploadUrl: true,                                  //自动格式化上传后的URL
+        autoHeightMode: false,                                  //开启自动高度模式
+        afterBlur: function () { this.sync(); }                 //同步编辑器数据
+    });
+}
+</script>
