@@ -214,6 +214,8 @@ CREATE TABLE `may_upload_file` (
   `format` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT 'image' COMMENT '文件格式',
   `name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `tag` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT 'thumb' COMMENT '标签',
+  `dir` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT 'thumb' COMMENT '目录',
+  `date` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT 'thumb' COMMENT '日期',
   `url` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '链接',
   `width` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '图片宽',
   `height` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '图片高',
