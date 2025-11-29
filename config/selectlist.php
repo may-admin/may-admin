@@ -125,6 +125,12 @@ return [
                 'is_search' => '0',
                 'is_textvalue' => '0',
             ],
+            'KindEditor' => [
+                'html' => 'KindEditor [KindEditor编辑器]',
+                'sets' => 'text NULL',
+                'is_search' => '0',
+                'is_textvalue' => '0',
+            ],
             'FroalaEditor' => [
                 'html' => 'FroalaEditor [FroalaEditor编辑器]',
                 'sets' => 'text NULL',
