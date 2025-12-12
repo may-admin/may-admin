@@ -241,8 +241,8 @@ div.fr-modal-body div.fr-image-list div.fr-image-container .fr-delete-img{displa
 .callout h3,.callout h4{font-weight:bold;}
 .callout p{margin-bottom:8px;}
 .callout p:last-child{margin-bottom:0px;}
-code{font-size: inherit;color: inherit;font-family: inherit;border: 1px solid #dedede;margin: 0px 5px;padding: 2px 6px;word-break: break-all;white-space: pre;display: inline-block;border-radius: 4px;}
-strong{padding: 2px 5px;border-bottom: 2px solid #d9534f;color: #333333;display: inline-block;}
+.highlights code{font-size: inherit;color: inherit;font-family: inherit;border: 1px solid #dedede;margin: 0px 5px;padding: 2px 6px;word-break: break-all;white-space: pre;display: inline-block;border-radius: 4px;}
+.highlights strong{padding: 2px 5px;border-bottom: 2px solid #d9534f;color: #333333;display: inline-block;}
 
 .small-box{display: block;padding-bottom: 20px;height:100%;}
 .small-box .item{height:100%;border-radius: 3px;position: relative;box-shadow: 0 1px 1px rgba(0,0,0,0.1);color:#ffffff;}

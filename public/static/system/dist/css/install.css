@@ -23,9 +23,6 @@ input,select,img,textarea:focus{outline: none;}
 .btn-install{margin-top: 20px;text-align: center;}
 .btn-install .btn{border-radius: 3px;--bs-btn-bg: #00c1de;--bs-btn-border-color: #00c1de;--bs-btn-color: #ffffff;--bs-btn-hover-color: #ffffff;--bs-btn-active-color: #ffffff;--bs-btn-disabled-color: #ffffff;--bs-btn-font-size: 14px;}
 
-
-
-
 @media (min-width:576px){
     .container{max-width: 524px;}
 }
