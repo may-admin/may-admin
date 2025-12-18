@@ -72,6 +72,41 @@ class Config extends Admin
         return View::fetch();
     }
     
+    /**
+     * @Description: (配置方法【实现功能跟sysMenu一样】)
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function __call($name, $arguments) {
+        $sys_menu_id = AuthRule::where([['name', '=', 'Config/'.$name]])->value('id');
+        
+        $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts desc')->select();
+        
+        $auth = new Auth();
+        foreach ($dataList as $k => $v){
+            if ($auth->check($v['name'], ADMINID) ){
+                $type = explode('/', $v['name']);
+                $v->types = $type[1];
+                $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts desc,id desc')->select();
+                foreach($config_lists as $v2){
+                    $v2[$v2->k] = $v2->v;
+                    if(strpos($v2['textvalue'], ':') !== false){
+                        $v2['from'] = 'options';
+                        $v2['fromcfg'] = option_arr($v2->textvalue);
+                    }else{
+                        $v2['from'] = 'selectlist';
+                        $v2['fromcfg'] = $v2->textvalue;
+                    }
+                }
+                $v->config_lists = $config_lists;
+            }else{
+                unset($dataList[$k]);
+            }
+        }
+        View::assign('dataList', $dataList);
+        return View::fetch('sysMenu');
+    }
+    
     public function save()
     {
         if (request()->isPost()){
