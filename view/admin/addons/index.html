@@ -20,6 +20,9 @@
                 <div class="box-header with-border">
                     <div class="input-group-btn up-box">
                         <div class="up-btn-box">
+                            <a class="btn btn-warning" href="{:url('Addons/index', ['local' => 'lists'])}"><i class="fa-solid fa-list"></i> 本地安装列表</i></a>
+                        </div>
+                        <div class="up-btn-box">
                             <input type="file" id="addon-upload-btn" data-url="{:url('Addons/localInstall')}" accept=".zip,.rar">
                             <button class="btn btn-danger" type="button"><i class="fa-solid fa-cloud-arrow-up"> 本地安装</i></button>
                         </div>
@@ -52,7 +55,9 @@
                     </table>
                 </div>
                 <div class="box-footer clearfix">
+                    {if !is_array($dataList) && !empty($dataList)}
                     {$dataList->render()|raw}
+                    {/if}
                 </div>
             </div>
         </div>

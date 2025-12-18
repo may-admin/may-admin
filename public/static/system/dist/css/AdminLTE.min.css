@@ -200,7 +200,8 @@ textarea.form-control{min-height:100px;resize:none}
 .input-group-btn.up-box{font-size:0;}
 .input-group-btn.up-box .show-image-box{display:flex;height:34px;width:60px;float:left;justify-content:center;align-items:center;background-color:#f5f5f5;}
 .input-group-btn.up-box .show-image-box img{max-width:60px;max-height:34px;}
-.input-group-btn.up-box .up-btn-box{display:inline-block;position:relative;}
+.input-group-btn.up-box .up-btn-box{display:inline-block;position:relative;margin-left: 5px;}
+.input-group-btn.up-box .up-btn-box:first-child{margin-left: 0;}
 .input-group-btn.up-box .up-btn-box input{display:block;width:100%;height:100%;position:absolute;z-index:3;opacity: 0;cursor:pointer;}
 
 div.fr-modal-body div.fr-image-list div.fr-image-container .fr-delete-img{display:none !important;}
