@@ -86,15 +86,11 @@ class Admin extends Admins
                     return ajax_return(1, $validate->getError());
                 }
             }else{
-                if(!empty($data['old_password']) || !empty($data['password']) || !empty($data['repassword'])){
-                    $password = $this->cModel->where('id', $data['id'])->value('password');
-                    if (md5($data['old_password']) != $password){
-                        return ajax_return(1, lang('old_password_error'));
-                    }
+                if(!empty($data['password']) || !empty($data['repassword'])){
                     if (!$validate->scene('edit_password')->check($data)) {
                         return ajax_return(1, $validate->getError());
                     }
-                    unset($data['old_password'], $data['repassword']);
+                    unset($data['repassword']);
                 }else{
                     unset($data['old_password'], $data['password'], $data['repassword']);
                     if (!$validate->scene('edit')->check($data)) {

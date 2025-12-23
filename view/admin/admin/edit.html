@@ -25,13 +25,6 @@
                                 'title' => lang('username'),
                             ]])}
                             {:widget('common/Input/index', [$data, [
-                                'name' => 'old_password',
-                                'title' => lang('old_password'),
-                                'placeholder' => lang('old_password'),
-                                'validate' => lang('old_password_require'),
-                                'inputtype' => 'password',
-                            ]])}
-                            {:widget('common/Input/index', [$data, [
                                 'name' => 'password',
                                 'title' => lang('password'),
                                 'placeholder' => lang('password'),
@@ -42,6 +35,7 @@
                                 'name' => 'repassword',
                                 'title' => lang('repassword'),
                                 'placeholder' => lang('repassword'),
+                                'validate' => lang('old_password_require'),
                                 'inputtype' => 'password',
                             ]])}
                             {:widget('common/Input/index', [$data, [
