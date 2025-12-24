@@ -173,6 +173,10 @@ class Index extends BaseController
         if(!is_really_writable(root_path())){
             throw new Exception("当前站点目录权限不足，无法写入");
         }
+        $install_lock_path = base_path().'admin'.DIRECTORY_SEPARATOR.'command'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR;
+        if(!is_really_writable($install_lock_path)){
+            throw new Exception("当前站点安装锁定目录权限不足，无法写入<br />".$install_lock_path);
+        }
         return true;
     }
 }
