@@ -55,7 +55,7 @@ class Admin extends Admins
             if (!$validate->scene('create')->check($data)) {
                 return ajax_return(1, $validate->getError());
             }
-            $result = $this->cModel->save($data);
+            $result = $this->cModel->save($data);   //这里不能删空数据[模型默认设置值]
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
                 return ajax_return(0, lang('action_success'), $url);
@@ -124,12 +124,18 @@ class Admin extends Admins
             if (isset($id) && !empty($id)){
                 $id_arr = explode(',', $id);
                 $where[] = ['id', 'in', $id_arr];
+                $avatars = $this->cModel->field('avatar')->where([['id', 'in', $id_arr], ['avatar', '<>', config('custom.default_avatar')]])->select();
                 $result = $this->cModel->where($where)->delete();
                 
                 $where2[] = [['uid', 'in', $id_arr], ['module', '=', 'admin']];
                 $authGroupAccessModel = new AuthGroupAccess();
                 $authGroupAccessModel->where($where2)->delete();
                 if ($result){
+                    foreach($avatars as $v){
+                        if(file_exists(public_path().$v['avatar'])){    //删除头像
+                            unlink(public_path().$v['avatar']);
+                        }
+                    }
                     $url = session('redirect_url') ? session('redirect_url') : url('index');
                     return ajax_return(0, lang('action_success'), $url);
                 }else{

@@ -118,9 +118,13 @@ function table_sort($param){
                 $sort = 'desc';
             }elseif ($sortArr[1] == 'desc'){
                 $faStr = 'fa-sort-desc';
-                $sort = 'asc';
+                $sort = '';
             }
-            $get['_sort'] = $param.','.$sort;
+            if(!empty($sort)){
+                $get['_sort'] = $param.','.$sort;
+            }else{
+                unset($get['_sort']);
+            }
         }else{   //非当前排序
             $get['_sort'] = $param.',asc';
         }

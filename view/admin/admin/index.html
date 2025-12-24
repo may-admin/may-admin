@@ -14,11 +14,16 @@
                         <tr>
                             <th width="32"><input type="checkbox" class="form-check-input table-check-toggle"></th>
                             <th>{:lang('id')}{:table_sort('id')}</th>
-                            <th>{:lang('avatar')}</th>
-                            <th>{:lang('username')}{:table_sort('username')}<br />{:lang('name')}{:table_sort('name')}<br />{:lang('auth_group_title')}</th>
-                            <th>{:lang('mobile')}{:table_sort('mobile')}<br />{:lang('email')}{:table_sort('email')}<br />{:lang('sex')}{:table_sort('sex')}</th>
-                            <th>{:lang('create_time')}{:table_sort('create_time')} / {:lang('reg_ip')}{:table_sort('reg_ip')}</th>
-                            <th>{:lang('last_time')}{:table_sort('last_time')} / {:lang('last_ip')}{:table_sort('last_ip')}</th>
+                            <th>{:lang('username')}{:table_sort('username')}</th>
+                            <th>{:lang('name')}{:table_sort('name')}</th>
+                            <th>{:lang('auth_group_title')}</th>
+                            <th>{:lang('mobile')}{:table_sort('mobile')}</th>
+                            <th>{:lang('email')}{:table_sort('email')}</th>
+                            <th>{:lang('sex')}{:table_sort('sex')}</th>
+                            <th>{:lang('create_time')}{:table_sort('create_time')}</th>
+                            <th>{:lang('reg_ip')}{:table_sort('reg_ip')}</th>
+                            <th>{:lang('last_time')}{:table_sort('last_time')}</th>
+                            <th>{:lang('last_ip')}{:table_sort('last_ip')}</th>
                             <th>{:lang('logins')}{:table_sort('logins')}</th>
                             <th>{:lang('status')}{:table_sort('status')}</th>
                             <th width="204">{:lang('action')}</th>
@@ -27,11 +32,16 @@
                         <tr>
                             <td><input type="checkbox" name="id[]" value="{$vo.id}" class="form-check-input table-check"></td>
                             <td>{$vo.id}</td>
-                            <td><img src="{$vo.avatar}" style="width:50px;border-radius:50%;" /></td>
-                            <td>{$vo.username}<br />{:list_write($vo, 'name')}<br /><span class="label label-danger">{$vo.title}</span></td>
-                            <td>{:list_write($vo, 'mobile')}<br />{:list_write($vo, 'email')}<br />{$vo.sex_text}</td>
-                            <td>{$vo.create_time|time_turn}<br />{$vo.reg_ip}</td>
-                            <td>{$vo.last_time|time_turn}<br />{$vo.last_ip}</td>
+                            <td>{$vo.username}</td>
+                            <td>{:list_write($vo, 'name')}</td>
+                            <td><span class="label label-danger">{$vo.title}</span></td>
+                            <td>{:list_write($vo, 'mobile')}</td>
+                            <td>{:list_write($vo, 'email')}</td>
+                            <td>{$vo.sex_text}</td>
+                            <td>{$vo.create_time|time_turn}</td>
+                            <td>{$vo.reg_ip}</td>
+                            <td>{$vo.last_time|time_turn}</td>
+                            <td>{$vo.last_ip}</td>
                             <td>{$vo.logins}</td>
                             <td>{:list_status($vo['id'], $vo['status'])}</td>
                             <td>

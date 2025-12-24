@@ -31,7 +31,7 @@ class Admin extends Validate
     protected $scene = [
         'create' => ['username', 'password', 'repassword', 'name', 'mobile', 'email', 'status'],
         'edit_password' => ['password', 'repassword', 'name', 'mobile', 'email', 'status'],
-        'edit'   => ['name', 'email', 'mobile', 'status'],
+        'edit'   => ['name', 'mobile', 'email', 'status'],
         'name'   => ['name'],
         'mobile' => ['mobile'],
         'email'  => ['email'],

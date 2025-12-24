@@ -1,6 +1,6 @@
 {if !empty($searchConf) }
 <div class="box-header with-border" >
-    <form class="form-horizontal" method="GET" action="{:url(CONTROLLER_NAME.'/index')}" pjax-search="">
+    <form class="form-horizontal" method="GET" action="{:url(CONTROLLER_NAME.'/'.ACTION_NAME)}" pjax-search="">
         <div class="row">
             {volist name="searchConf" id="vo"}
             <div class="col-lg-3 col-md-6">
