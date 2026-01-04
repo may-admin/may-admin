@@ -592,6 +592,7 @@ class AddonService extends BaseController
                 'X-REQUESTED-WITH' => 'XMLHttpRequest',
                 'Referer'          => dirname(request()->root(true)),
                 'User-Agent'       => 'MayAdmin',
+                'X-Forwarded-For'  => $_SERVER['REMOTE_ADDR'],
             ]
         ];
         static $client;

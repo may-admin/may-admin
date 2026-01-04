@@ -205,6 +205,27 @@ $(function(){
         });
     });
     
+    //会员信息弹框
+    $('body').off('click', '#addon-member-btn');
+    $('body').on('click', '#addon-member-btn', function(event){
+        var _this = $(this);
+        var _url = _this.data('url');
+        $.ajax({
+            type: 'get',
+            url: _url,
+            dataType: 'html',
+            success: function(html) {
+                layer.open({
+                    type: 1,
+                    area: '380px',
+                    title: '会员信息',
+                    shadeClose: false,
+                    content: html
+                });
+            }
+        });
+    });
+    
     //全选-反选
     $('body').off('click', '.table-check');
     $('body').on('click', '.table-check', function(event){
@@ -258,6 +279,9 @@ $(function(){
                 dataType:'json',
                 success:function(res){
                     if(res.code == '0'){
+                        if(_this.hasClass('layer-dialog')){
+                            layer.closeAll();
+                        }
                         layer.msg(res.message, {icon: 1});
                         if(res.url != ''){
                             $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'});

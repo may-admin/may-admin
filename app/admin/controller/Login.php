@@ -102,6 +102,7 @@ class Login extends BaseController
     public function loginOut()
     {
         session('admin_id', null);
+        session('addon_member_info', null);
         cookie('admin_name', null);
         cookie('admin_username', null);
         cookie('admin_avatar', null);
@@ -119,6 +120,7 @@ class Login extends BaseController
     public function loginLock()
     {
         session('admin_id', null);
+        session('addon_member_info', null);
         return redirect((string) url('login/index'));
     }
     

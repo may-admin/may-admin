@@ -25,6 +25,38 @@ function ajax_return($code, $message='', $url='', $data = []){
 }
 
 /**
+ * @Description: (获取真实ip)
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function get_real_ip(){
+    $headers = [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'HTTP_CF_CONNECTING_IP', // Cloudflare支持
+        'HTTP_ALI_CDN_REAL_IP',  // 阿里云CDN
+        'HTTP_CDN_SRC_IP'        // 腾讯云CDN
+    ];
+    foreach($headers as $header){
+        if(!empty($_SERVER[$header])){
+            $ipChain = explode(',', $_SERVER[$header]);
+            // 逆向安全扫描
+            for($i = count($ipChain) - 1; $i >= 0; $i--){
+                $ip = trim($ipChain[$i]);
+                if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)){
+                    return $ip;
+                }
+            }
+        }
+    }
+    return $_SERVER['REMOTE_ADDR'];
+}
+
+/**
  * @Description: (分页额外参数)
  * @return array
  * @author 子青时节 <654108442@qq.com>
@@ -147,6 +179,28 @@ function rand_str($num = 6){
         $res .= $str[rand(0, strlen($str)-1)];
     }
     return $res;
+}
+
+/**
+ * @Description: (token生成)
+ * @param string $str 整数
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function token_str($str = ''){
+    if(!empty($str)){
+        $res = sha1(md5(uniqid(md5(microtime(true)),true)).$str);
+    }else{
+        $res = sha1(md5(uniqid(md5(microtime(true)),true)).rand_str(6));
+    }
+    return $res;
+}
+
+/**
+ * @Description: (缓存配置文件方法)
+ */
+function redis_token($data){
+    return $data;
 }
 
 /**

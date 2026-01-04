@@ -9,6 +9,14 @@ use think\Exception;
 
 class Addons extends Admins
 {
+    /**
+     * @Description: (获取插件列表)
+     * @param string $local 扩展参数
+     * @param string $category 插件类别
+     * @param string $type 免费/收费
+     * @return string
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function index()
     {
         $get_param = del_arr_empty(input('get.'));
@@ -132,6 +140,7 @@ class Addons extends Admins
     
     /**
      * @Description: (远程下载安装插件)
+     * @param int $id 插件id
      * @return @json
      * @author 子青时节 <654108442@qq.com>
      */
@@ -139,6 +148,8 @@ class Addons extends Admins
     {
         if (request()->isPost()){
             $data = input('post.id', '', 'htmlspecialchars');
+            $addon_member_info = session('addon_member_info');
+            $data['token'] = !empty($addon_member_info['token']) ? $addon_member_info['token'] : '';
             try {
                 AddonService::download($data['name'], $data);
             } catch (Exception $e) {
@@ -150,6 +161,12 @@ class Addons extends Admins
         }
     }
     
+    /**
+     * @Description: (卸载插件)
+     * @param int $id 插件id
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function uninstall()
     {
         if (request()->isPost()){
@@ -172,6 +189,11 @@ class Addons extends Admins
         }
     }
     
+    /**
+     * @Description: (启用禁用插件)
+     * @return @json
+     * @author 子青时节 <654108442@qq.com>
+     */
     public function statusToggle()
     {
         if (request()->isPost()){
@@ -193,6 +215,54 @@ class Addons extends Admins
                 return ajax_return(1, $e->getMessage());
             }
             return ajax_return(0, lang('action_success'), '');
+        }
+    }
+    
+    /**
+     * @Description: (插件用户登录)
+     * @param string $username 登录用户名
+     * @param string $password 密码
+     * @return string|array
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function memberInfo()
+    {
+        if(request()->isPost()){
+            $username = input('post.username', '', 'htmlspecialchars');
+            $password = input('post.password', '', 'htmlspecialchars');
+            
+            if(empty($username) || empty($password)){
+                return ajax_return(1, '登录账户或密码不能为空');
+            }
+            $params = [
+                'username' => $username,
+                'password' => $password,
+            ];
+            $res = AddonService::sendRequest('/addon/Addon/memberLogin', $params);
+            if($res['code'] == '0'){
+                session('addon_member_info', $res['data']);
+            }
+            return json($res);
+        }else{
+            $addon_member_info = session('addon_member_info');
+            if(!empty($addon_member_info)){
+                View::assign('addon_member_info', $addon_member_info);
+                return View::fetch();
+            }else{
+                return View::fetch('memberLogin');
+            }
+        }
+    }
+    
+    /**
+     * @Description: (插件用户退出登录)
+     * @author 子青时节 <654108442@qq.com>
+     */
+    public function memberLoginOut()
+    {
+        if(request()->isPost()){
+            session('addon_member_info', null);
+            return ajax_return(0, '退出成功');
         }
     }
 }

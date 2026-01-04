@@ -1,0 +1,19 @@
+<div class="box-body">
+    <div class="callout callout-danger">
+        <p>温馨提示：</p>
+        <p>此处登录账号为<a href="https://www.sxxblog.com" target="_blank">MayAdmin官网账号</a></p>
+    </div>
+    <form class="form-horizontal" method="POST" action="{:url('Addons/memberInfo')}" onsubmit="return false">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="username" placeholder="请输入用户名、手机、或邮箱" >
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" name="password" placeholder="请输入密码" >
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+        </div>
+        <div class="input-group justify-content-center">
+            <button type="submit" class="btn btn-primary submits layer-dialog" data-loading-text="&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; 登录">登录</button>
+        </div>
+    </form>
+</div>

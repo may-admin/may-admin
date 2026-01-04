@@ -1,0 +1,15 @@
+<div class="box-body">
+    <div class="member-panel">
+        <div class="image">
+            <img class="img" src="{:config('addon.api_url')}/static/global/common/img/avatar.png" >
+        </div>
+        <div class="detail">
+            <div class="item">用户名：{$addon_member_info.username}</div>
+        </div>
+    </div>
+    <div class="member-footer text-end">
+        <form class="form-horizontal" method="POST" action="{:url('Addons/memberLoginOut')}" onsubmit="return false">
+            <button type="submit" class="btn btn-danger submits layer-dialog" data-loading-text="&lt;i class='fa-solid fa-spinner fa-spin '&gt;&lt;/i&gt; 退出">退出</button>
+        </form>
+    </div>
+</div>
