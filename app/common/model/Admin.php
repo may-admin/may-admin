@@ -19,7 +19,7 @@ class Admin extends BaseModel
     }
     public function setRegIpAttr($value)
     {
-        return !empty($value) ? $value : request()->ip();
+        return !empty($value) ? $value : get_real_ip();
     }
     public function setLastTimeAttr($value)
     {
@@ -27,7 +27,7 @@ class Admin extends BaseModel
     }
     public function setLastIpAttr($value)
     {
-        return !empty($value) ? $value : request()->ip();
+        return !empty($value) ? $value : get_real_ip();
     }
     
     public function getSexTextAttr($value, $data)

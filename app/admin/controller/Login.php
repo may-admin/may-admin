@@ -70,7 +70,7 @@ class Login extends BaseController
                     //更新登录信息
                     $adminData->logins = $adminData['logins']+1;
                     $adminData->last_time = time();
-                    $adminData->last_ip = request()->ip();
+                    $adminData->last_ip = get_real_ip();
                     $adminData->save();
                     
                     //设置session,cookie
