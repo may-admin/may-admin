@@ -45,8 +45,8 @@ function get_real_ip(){
         if(!empty($_SERVER[$header])){
             $ipChain = explode(',', $_SERVER[$header]);
             // 逆向安全扫描
-            for($i = count($ipChain) - 1; $i >= 0; $i--){
-                $ip = trim($ipChain[$i]);
+            foreach($ipChain as $v){
+                $ip = trim($v);
                 if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)){
                     return $ip;
                 }
