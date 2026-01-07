@@ -417,6 +417,31 @@ $(function(){
                             if(res.url != ''){
                                 $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
                             }
+                        }else if(res.code == 'addon_member_login'){   //插件安装时提示登录弹框
+                            layer.closeAll();
+                            $('#addon-member-btn').trigger('click');
+                        }else if(res.code == 'addon_pay'){   //插件付费购买确认
+                            layer.confirm(res.message, {title: '确认是否付费购买',btn: ['确认购买', '取消购买']},
+                            function(){
+                                $.ajax({
+                                    type : 'post',
+                                    url : url_del,
+                                    dataType : 'json',
+                                    data : { id:res.data.id, buy:res.data.buy},
+                                    success : function(res) {
+                                        if(res.code == '0'){
+                                            layer.msg(res.message, {icon: 1});
+                                            if(res.url != ''){
+                                                $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
+                                            }
+                                        }else{
+                                            layer.msg(res.message, {icon: 2});
+                                        }
+                                    }
+                                });
+                            },function(){
+                                // layer.msg('点击取消的回调');
+                            });
                         }else{
                             layer.msg(res.message, {icon: 2});
                         }

@@ -150,10 +150,20 @@ class Addons extends Admins
             $data = input('post.id', '', 'htmlspecialchars');
             $addon_member_info = session('addon_member_info');
             $data['token'] = !empty($addon_member_info['token']) ? $addon_member_info['token'] : '';
+            $data['buy'] =  input('post.buy', '', 'htmlspecialchars') == '1' ? 1 : 0;
             try {
                 AddonService::download($data['name'], $data);
             } catch (Exception $e) {
-                return ajax_return(1, $e->getMessage());
+                if (substr($e->getMessage(), 0, 1) === '{') {
+                    $res = json_decode($e->getMessage(), true);
+                    $code = isset($res['code']) ? $res['code'] : 1;
+                    $message = isset($res['message']) ? $res['message'] : '';
+                    $url = isset($res['url']) ? $res['url'] : '';
+                    $data = isset($res['data']) ? $res['data'] : [];
+                    return ajax_return($code, $message, $url, $data);
+                }else{
+                    return ajax_return(1, $e->getMessage());
+                }
             }
             
             $url = session('redirect_url') ? session('redirect_url') : url('index');

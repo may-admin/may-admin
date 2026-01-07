@@ -49,7 +49,7 @@ class AddonService extends BaseController
                     $body = $response->getBody();
                     $content = $body->getContents();
                 }else{
-                    throw new Exception($res['message']);   //下载返回错误，抛出异常
+                    throw new Exception($content);   //下载返回错误，抛出异常
                 }
             }
         } catch (TransferException $e) {
