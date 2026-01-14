@@ -115,12 +115,13 @@ function time_turn($time, $format='Y-m-d H:i:s'){
  * @param string $select 配置项
  * @param string $please_select 请选择
  * @param string $value 配置值
+ * @param string $file 文件[selectlist]
  * @return string
  * @author 子青时节 <654108442@qq.com>
  */
-function selectlist_select($select = 'whether', $please_select = true, $value = ''){
+function selectlist_select($select = 'whether', $please_select = true, $value = '', $file = 'selectlist'){
     $option = $please_select ? ['' => lang('please_select')] : [];
-    $arr = config('selectlist.'.$select)['data'];
+    $arr = config($file.'.'.$select)['data'];
     $res = $option + $arr;
     if($value != ''){
         $value_arr = explode(',', $value);
@@ -179,6 +180,32 @@ function rand_str($num = 6){
         $res .= $str[rand(0, strlen($str)-1)];
     }
     return $res;
+}
+
+/**
+ * @Description: (纯数字唯一交易单号)
+ * @param string $str 唯一标识字符串[可用户ID]
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function get_transaction_num($str = ''){
+    $data_time = time_turn(time(), 'Ymd');   // 8位日期
+    
+    $microtime = explode(' ', microtime())[0];
+    $micro_sec = substr(str_pad(explode('.', $microtime)[1], 6, '0', STR_PAD_RIGHT), 0, 6);   // 6位微秒数
+    
+    $random_num = mt_rand(100000, 999999); // 6位随机纯数字
+    
+    $token_str_arr = str_split(token_str($str));
+    $token_str_num = '';
+    foreach($token_str_arr as $v){
+        if(is_numeric($v) && intval($v) == $v){
+            $token_str_num .= $v;
+        }
+    }
+    $token_str = substr(str_pad($token_str_num, 12, '0', STR_PAD_RIGHT), 0, 12);   // 补全12位，超过截取12位
+    
+    return $data_time.$micro_sec.$random_num.$token_str;
 }
 
 /**
