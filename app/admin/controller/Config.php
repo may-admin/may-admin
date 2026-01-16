@@ -55,7 +55,7 @@ class Config extends Admin
                 $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts desc,id desc')->select();
                 foreach($config_lists as $v2){
                     $v2[$v2->k] = $v2->v;
-                    if(strpos($v2['textvalue'], ':') !== false){
+                    if(!empty($v2['textvalue']) && strpos($v2['textvalue'], ':') !== false){
                         $v2['from'] = 'options';
                         $v2['fromcfg'] = option_arr($v2->textvalue);
                     }else{
@@ -90,7 +90,7 @@ class Config extends Admin
                 $config_lists = $this->cModel->where([['type', '=', $type[1]], ['status', '=', 1]])->order('sorts desc,id desc')->select();
                 foreach($config_lists as $v2){
                     $v2[$v2->k] = $v2->v;
-                    if(strpos($v2['textvalue'], ':') !== false){
+                    if(!empty($v2['textvalue']) && strpos($v2['textvalue'], ':') !== false){
                         $v2['from'] = 'options';
                         $v2['fromcfg'] = option_arr($v2->textvalue);
                     }else{
