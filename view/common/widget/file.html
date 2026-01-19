@@ -5,7 +5,7 @@
             <input class="form-control widget-upload-input" name="{$wconfig.name}" value="{$wconfig.widget_val|raw}" placeholder="{$wconfig.placeholder}" {$wconfig.readonly} {$wconfig.disabled} >
             <span class="input-group-btn up-box">
                 <div class="up-btn-box">
-                    <input type="file" class="widget-upload-btn" data-url='{:url("Uploads/upload")}' data-dir="file" data-tag="file" >
+                    <input type="file" class="input-btn widget-upload-btn" data-url='{:url("Uploads/upload")}' data-dir="file" data-tag="file" >
                     <button class="btn btn-success btn-flat" type="button" {$wconfig.btn_disabled} >
                         <i class="fa-solid fa-cloud-arrow-up"> {:lang('upload')}</i>
                     </button>

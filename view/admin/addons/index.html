@@ -23,11 +23,21 @@
                             <a class="btn btn-warning" href="{:url('Addons/index', ['local' => 'lists'])}"><i class="fa-solid fa-list"> 本地安装列表</i></a>
                         </div>
                         <div class="up-btn-box">
-                            <input type="file" id="addon-upload-btn" data-url="{:url('Addons/localInstall')}" accept=".zip,.rar">
+                            <input type="file" class="input-btn" id="addon-upload-btn" data-url="{:url('Addons/localInstall')}" accept=".zip,.rar">
                             <button class="btn btn-danger" type="button"><i class="fa-solid fa-cloud-arrow-up"> 本地安装</i></button>
                         </div>
                         <div class="up-btn-box">
                             <a class="btn btn-primary" id="addon-member-btn" data-url="{:url('Addons/memberInfo')}"><i class="fa-solid fa-user"> 会员信息</i></a>
+                        </div>
+                        <div class="up-btn-box">
+                            <form class="form-horizontal" method="GET" action="{:url(CONTROLLER_NAME.'/'.ACTION_NAME)}" pjax-search="">
+                                <input type="hidden" name="category" value="{:input('get.category', '', 'htmlspecialchars')}" >
+                                <input type="hidden" name="type" value="{:input('get.type', '', 'htmlspecialchars')}" >
+                                <div class="input-group">
+                                    <input type="text" class="form-control start-circle-3" name='search' value="{:input('get.search', '', 'htmlspecialchars')}" placeholder="请输入搜索关键词">
+                                    <button type="submit" class="btn btn-info"><i class="fa-solid fa-search"></i> 搜索</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

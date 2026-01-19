@@ -19,7 +19,7 @@ class Addons extends Admins
      */
     public function index()
     {
-        $get_param = del_arr_empty(input('get.'));
+        $get_param = del_arr_empty(input('get.', '', 'htmlspecialchars'));
         
         if(isset($get_param['local']) && $get_param['local'] == 'lists'){
             $local_addon_list = AddonService::getListAddonConfigIni();
@@ -47,6 +47,7 @@ class Addons extends Admins
             $local_addon_list = AddonService::getListAddonConfigIni();
             
             $params = [];
+            isset($get_param['search']) ? $params['search'] = $get_param['search'] : '' ;   //插件搜索关键词
             isset($get_param['category']) ? $params['category'] = $get_param['category'] : '' ;   //插件类别
             if(!isset($get_param['type'])){   //免费、付费、已安装
             }else if($get_param['type'] == 'free' || $get_param['type'] == 'price'){
