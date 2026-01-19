@@ -137,8 +137,8 @@ class Index extends BaseController
         $env_file = $install_path.'.example.env';
         $env_file_content = @file_get_contents($env_file);
         if ($env_file_content) {
-            $search  = ['database_hostname', 'database_database', 'database_root', 'database_password', 'database_hostport', 'database_prefix'];
-            $replace = [$hostname, $database, $username, $password, $hostport, $prefix];
+            $search  = ['common_prefix', 'database_hostname', 'database_database', 'database_root', 'database_password', 'database_hostport', 'database_prefix'];
+            $replace = [$prefix, $hostname, $database, $username, $password, $hostport, $prefix];
             $env_file_content = str_replace($search, $replace, $env_file_content);
             $result = @file_put_contents( root_path().'.env', $env_file_content);
             if (!$result) {
