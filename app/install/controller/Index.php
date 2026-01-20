@@ -23,15 +23,15 @@ class Index extends BaseController
         if (request()->isPost()){
             $data = input('post.', '', 'htmlspecialchars');
             
-            if(isset($data['hostname']) && !empty($data['hostname'])){
-                $hostname_arr = explode(':', $data['hostname']);
-                if(count($hostname_arr) > 1){
-                    $data['hostname'] = $hostname_arr[0];
-                    $data['hostport'] = $hostname_arr[1];
+            if(isset($data['database_hostname']) && !empty($data['database_hostname'])){
+                $database_hostname_arr = explode(':', $data['database_hostname']);
+                if(count($database_hostname_arr) > 1){
+                    $data['database_hostname'] = $database_hostname_arr[0];
+                    $data['database_hostport'] = $database_hostname_arr[1];
                 }
             }
             try {
-                Install::install($data['hostname'], $data['database'], $data['prefix'], $data['username'], $data['password'], $data['hostport'], $data['admin_username'], $data['admin_password'], $data['admin_repassword']);
+                Install::install($data['database_hostname'], $data['database_database'], $data['prefix'], $data['database_username'], $data['database_password'], $data['database_hostport'], $data['admin_username'], $data['admin_password'], $data['admin_repassword'], $data['redis_host'], $data['redis_password'], $data['redis_port']);
             } catch (\PDOException $e) {
                 return ajax_return(1, $e->getMessage());
             } catch (\Exception $e) {
@@ -55,39 +55,39 @@ class Index extends BaseController
         }
     }
     
-    public function install($hostname, $database, $prefix, $username, $password, $hostport, $admin_username, $admin_password, $admin_repassword)
+    public function install($database_hostname, $database_database, $prefix, $database_username, $database_password, $database_hostport, $admin_username, $admin_password, $admin_repassword, $redis_host, $redis_password, $redis_port)
     {
         Install::checkenv();
         
         $validate_rule = [
-            'hostname' => 'require',
-            'database' => 'require',
+            'database_hostname' => 'require',
+            'database_database' => 'require',
             'prefix' => 'require',
-            'username' => 'require',
-            'password' => 'require',
-            'hostport' => 'require',
+            'database_username' => 'require',
+            'database_password' => 'require',
+            'database_hostport' => 'require',
             'admin_username' => 'require|alphaDash|length:5,50',
             'admin_password' => 'require|/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/|length:6,32',
             'admin_repassword' => 'require|confirm:admin_password',
         ];
         $validate_message = [
-            'hostname' => '数据库地址不能为空',
-            'database' => '数据库名称不能为空',
+            'database_hostname' => '数据库地址不能为空',
+            'database_database' => '数据库名称不能为空',
             'prefix' => '数据表前缀不能为空',
-            'username' => '数据库账号不能为空',
-            'password' => '数据库密码不能为空',
-            'hostport' => '数据库端口不能为空',
+            'database_username' => '数据库账号不能为空',
+            'database_password' => '数据库密码不能为空',
+            'database_hostport' => '数据库端口不能为空',
             'admin_username' => '管理员账号长度5-50（只允许字母、数字、_和-）',
             'admin_password' => '管理员密码长度6-32（必须包含大写字母，小写字母和数字）',
             'admin_repassword' => '确认密码错误',
         ];
         $data = [
-            'hostname' => $hostname,
-            'database' => $database,
+            'database_hostname' => $database_hostname,
+            'database_database' => $database_database,
             'prefix' => $prefix,
-            'username' => $username,
-            'password' => $password,
-            'hostport' => $hostport,
+            'database_username' => $database_username,
+            'database_password' => $database_password,
+            'database_hostport' => $database_hostport,
             'admin_username' => $admin_username,
             'admin_password' => $admin_password,
             'admin_repassword' => $admin_repassword,
@@ -106,17 +106,16 @@ class Index extends BaseController
         // 先尝试能否自动创建数据库
         $db_config = config('database');
         try {
-            $pdo = new PDO("{$db_config['connections']['mysql']['type']}:host={$hostname}" . ($hostport ? ";port={$hostport}" : ''), $username, $password);
+            $pdo = new PDO("{$db_config['connections']['mysql']['type']}:host={$database_hostname}" . ($database_hostport ? ";port={$database_hostport}" : ''), $database_username, $database_password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->query("CREATE DATABASE IF NOT EXISTS `{$database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            $pdo->query("CREATE DATABASE IF NOT EXISTS `{$database_database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
             
-            $db_config = config('database');
             $db_config['connections']['mysql'] = array_merge($db_config['connections']['mysql'], [
-                'hostname' => "{$hostname}",
-                'hostport' => "{$hostport}",
-                'database' => "{$database}",
-                'username' => "{$username}",
-                'password' => "{$password}",
+                'hostname' => "{$database_hostname}",
+                'hostport' => "{$database_hostport}",
+                'database' => "{$database_database}",
+                'username' => "{$database_username}",
+                'password' => "{$database_password}",
                 'prefix'   => "{$prefix}",
             ]);
             
@@ -137,8 +136,8 @@ class Index extends BaseController
         $env_file = $install_path.'.example.env';
         $env_file_content = @file_get_contents($env_file);
         if ($env_file_content) {
-            $search  = ['common_prefix', 'database_hostname', 'database_database', 'database_root', 'database_password', 'database_hostport', 'database_prefix'];
-            $replace = [$prefix, $hostname, $database, $username, $password, $hostport, $prefix];
+            $search  = ['common_prefix', 'database_hostname', 'database_database', 'database_username', 'database_password', 'database_hostport', 'database_prefix', 'redis_host', 'redis_password', 'redis_port'];
+            $replace = [$prefix, $database_hostname, $database_database, $database_username, $database_password, $database_hostport, $prefix, $redis_host, $redis_password, $redis_port];
             $env_file_content = str_replace($search, $replace, $env_file_content);
             $result = @file_put_contents( root_path().'.env', $env_file_content);
             if (!$result) {
