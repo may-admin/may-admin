@@ -39,7 +39,7 @@ class AddonService extends BaseController
         $tmpFile = $addonsBackupDir.$name.'.'.$extend['version'].".zip";
         try {
             $client = $this->getClient();
-            $response = $client->get('/addon/Addon/download', ['query' => array_merge(['name' => $name], $extend)]);
+            $response = $client->get('/addons/Addon/download', ['query' => array_merge(['name' => $name], $extend)]);
             $body = $response->getBody();
             $content = $body->getContents();
             if (substr($content, 0, 1) === '{') {

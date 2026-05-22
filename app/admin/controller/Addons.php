@@ -68,7 +68,7 @@ class Addons extends Admins
                 $params['list_rows'] = cache('list_rows_'.ADMINID) ? : 15;
             }
             
-            $list = AddonService::sendRequest('/addon/Addon/index', $params);
+            $list = AddonService::sendRequest('/addons/Addon/index', $params);
             if(empty($list)){
                 $list = ['total' => 0, 'per_page' => $params['list_rows'], 'current_page' => $params['page'], 'last_page' => 1, 'data' => [], 'category' => [], 'type' => []];
             }
@@ -249,7 +249,7 @@ class Addons extends Admins
                 'username' => $username,
                 'password' => $password,
             ];
-            $res = AddonService::sendRequest('/addon/Addon/memberLogin', $params);
+            $res = AddonService::sendRequest('/addons/Addon/memberLogin', $params);
             if($res['code'] == '0'){
                 session('addon_member_info', $res['data']);
             }
