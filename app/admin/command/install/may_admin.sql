@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `may_admin` (
   KEY `name` (`name`),
   KEY `email` (`email`),
   KEY `mobile` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理员';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理员';
 
 -- ----------------------------
 -- Records of may_admin
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `may_auth_rule` (
   KEY `module` (`module`) USING BTREE,
   KEY `level` (`level`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限节点';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='权限节点';
 
 -- ----------------------------
 -- Records of may_auth_rule
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `may_auth_group_access` (
   KEY `uid` (`uid`) USING BTREE,
   KEY `group_id` (`group_id`) USING BTREE,
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户权限组';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户权限组';
 
 -- ----------------------------
 -- Records of may_auth_group_access
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `may_config` (
   PRIMARY KEY (`id`),
   KEY `k` (`k`) USING BTREE,
   KEY `type` (`type`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置字段';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统配置字段';
 
 -- ----------------------------
 -- Records of may_config

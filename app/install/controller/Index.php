@@ -146,7 +146,7 @@ class Index extends BaseController
         }
         
         // 重置默认管理员密码
-        Db::name('admin')->where('id', 42)->update(['username' => $admin_username, 'password' => md5($admin_password)]);
+        Db::name('admin')->where('username', 'zqsj')->update(['username' => $admin_username, 'password' => md5($admin_password)]);
         
         $installLockFile = $install_path."install.lock";
         //检测能否成功写入lock文件
