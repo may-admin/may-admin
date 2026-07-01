@@ -81,7 +81,7 @@ $(function(){
                         var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
                         _html += '<a class="img-box" href="'+res.link+'" target="_blank"><img src="'+res.link+'" /></a></div>';
                         _this.closest('.input-group').next('.sortables').append(_html);
-                    }else if(_tag == 'file'){   //单图上传
+                    }else if(_tag == 'file'){   //文件上传
                         _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
                     }
                     layer.msg(res.message, {icon: 1});
@@ -139,7 +139,7 @@ $(function(){
             var _html = '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
             _html += '<a class="img-box" href="'+_url+'" target="_blank"><img src="'+_url+'" /></a></div>';
             _back_btn.closest('.input-group').next('.sortables').append(_html);
-        }else if(_tag == 'file'){   //单图上传
+        }else if(_tag == 'file'){   //文件选择
             _back_btn.closest('.up-box').prev('.widget-upload-input').val(_url);
         }
         $('.widgetUploadModal').modal('hide');
@@ -159,6 +159,28 @@ $(function(){
         })
         _val = (_val.substring(_val.length - 1) == ',') ? _val.substring(0, _val.length - 1) : _val;
         _sortables.prev('.input-group').find('.widget-upload-input').val(_val);
+    });
+    
+    //单图变化
+    $('body').off('change', '.widget-upload-image');
+    $('body').on('change', '.widget-upload-image', function(event){
+        var _this = $(this);
+        _url = _this.val() != '' ? _this.val() : '/static/global/common/img/default_img.png';
+        _this.next('.up-box').find('.show-image-box').attr('href', _url);
+        _this.next('.up-box').find('.show-image-box img').attr('src', _url);
+    });
+    
+    //图组变化
+    $('body').off('change', '.widget-upload-images');
+    $('body').on('change', '.widget-upload-images', function(event){
+        var _this = $(this);
+        var _val = _this.val().split(',');
+        var _html = '';
+        $.each(_val, function(index, val){
+            _html += '<div class="items"><div class="actions"><span class="move"><i class="fa fa-arrows"></i></span><span class="sortables-upload-del"><i class="fa fa-trash"></i></span></div>';
+            _html += '<a class="img-box" href="'+val+'" target="_blank"><img src="'+val+'" /></a></div>';
+        });
+        _this.closest('.input-group').next('.sortables').html(_html);
     });
     
     //本地安装插件按钮
