@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `may_admin` (
 -- ----------------------------
 INSERT INTO `may_admin` SELECT NULL,'zqsj','76629f37081d0f343ab6e01248ac6693','www.sxxblog.com','654108442@qq.com','','1','','/static/global/common/img/avatar.png','0','127.0.0.1','1699178086','127.0.0.1','1','1699178086','1699178086' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `may_admin` WHERE username='zqsj');
 
-
 -- ----------------------------
 -- Table structure for `may_auth_rule`
 -- ----------------------------
@@ -157,7 +156,6 @@ CREATE TABLE IF NOT EXISTS `may_config` (
 -- ----------------------------
 -- Records of may_config
 -- ----------------------------
-INSERT INTO `may_config` SELECT NULL,'upload_path','uploads','up','文件上传目录','文件上传根目录存放文件名','49','1','Input','','1699178086','1746775511' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `may_config` WHERE k='upload_path' AND type='up');
 INSERT INTO `may_config` SELECT NULL,'upload_path','uploads','up','文件上传目录','文件上传根目录存放文件名','49','1','Input','','1699178086','1746775511' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `may_config` WHERE k='upload_path' AND type='up');
 INSERT INTO `may_config` SELECT NULL,'upload_size','2','up','上传文件大小','单位【MB】，最大上传限制1MB则填写数字：1','48','1','Input','','1699178086','1746775509' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `may_config` WHERE k='upload_size' AND type='up');
 INSERT INTO `may_config` SELECT NULL,'image_format','jpg,jpeg,png','up','上传图片格式','上传图片后缀限制格式','47','1','Input','','1699178086','1746775506' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `may_config` WHERE k='image_format' AND type='up');
