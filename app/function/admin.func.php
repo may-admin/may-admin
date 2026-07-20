@@ -208,7 +208,12 @@ function addon_version($data, $local_addon_list){
     $version = '';
     $status_switchs = '';
     $action_btns = '';
-    if(empty($data['jump_url'])){
+    $flag_arr = isset($data['flag']) && !empty($data['flag']) ? explode(',', $data['flag']) : [];
+    if(in_array('j', $flag_arr) && !empty($data['jump_url'])){
+        $last_version = '-';
+        $version .= '-';
+        $action_btns .= '<a class="btn btn-success btn-xs" target="_blank" href="'.$data['jump_url'].'"><i class="fa-solid fa-eye"></i> 点击查看</a>';
+    }else{
         $last_version = $data['version_list'][0]['version'];
         if(isset($local_addon_list[$data['name']])){
             $version .= '<span class="position-relative">'.$local_addon_list[$data['name']]['version'];
@@ -247,10 +252,8 @@ function addon_version($data, $local_addon_list){
             }
             $action_btns .= '</div>';
         }
-    }else{
-        $last_version = '-';
-        $version .= '-';
-        $action_btns .= '<a class="btn btn-success btn-xs" target="_blank" href="'.$data['jump_url'].'"><i class="fa-solid fa-eye"></i> 点击查看</a>';
+        
+        
     }
     return [$last_version, $version, $status_switchs, $action_btns];
 }
