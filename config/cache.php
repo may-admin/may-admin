@@ -40,11 +40,11 @@ return [
             'password' => env('redis.password', '123456'),
             'select'   => (int) env('cache.token_select', 1),
             // 全局缓存有效期（0为永久有效）
-            'expire'   => 0,
+            'expire'   => (int) env('cache.token_expire', 259200),
             // 缓存前缀
             'prefix'   => env('common.prefix', ''),
             'timeout'  => 0,
-            // 'serialize'  => ['redis_token', 'redis_token'],
+            'serialize'  => ['redis_token', 'redis_token'],
         ],
         // 更多的缓存连接【queue】
         'redis_queue' => [
@@ -58,7 +58,7 @@ return [
             // 缓存前缀
             'prefix'   => env('common.prefix', ''),
             'timeout'  => 0,
-            // 'serialize'  => ['redis_token', 'redis_token'],
+            'serialize'  => ['redis_token', 'redis_token'],
         ],
     ],
 ];

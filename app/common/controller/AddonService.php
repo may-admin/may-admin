@@ -21,7 +21,7 @@ class AddonService extends BaseController
     private $addon_dir = 'addon';
     
     // 允许检索插件复制目录
-    private $allow_copy_dir = ['app', 'config', 'extend', 'public', 'route', 'view'];
+    private $allow_copy_dir = ['app', 'Applications', 'config', 'extend', 'public', 'route', 'view'];
     
     /**
      * @Description: (远程下载插件)

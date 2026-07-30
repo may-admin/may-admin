@@ -29,7 +29,7 @@ function ajax_return($code, $message='', $url='', $data = []){
  * @return string
  * @author 子青时节 <654108442@qq.com>
  */
-function get_real_ip(){
+function get_real_ip($servers = ''){
     $headers = [
         'HTTP_CLIENT_IP',
         'HTTP_X_FORWARDED_FOR',
@@ -42,8 +42,15 @@ function get_real_ip(){
         'HTTP_CDN_SRC_IP'        // 腾讯云CDN
     ];
     foreach($headers as $header){
-        if(!empty($_SERVER[$header])){
-            $ipChain = explode(',', $_SERVER[$header]);
+        if(!empty($servers) && isset($servers[$header])){
+            $server_deader = $servers[$header];
+        }else if(empty($servers) && isset($_SERVER[$header])){
+            $server_deader = $_SERVER[$header];
+        }else{
+            $server_deader = '';
+        }
+        if(!empty($server_deader)){
+            $ipChain = explode(',', $server_deader);
             // 逆向安全扫描
             foreach($ipChain as $v){
                 $ip = trim($v);

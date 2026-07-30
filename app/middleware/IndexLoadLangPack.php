@@ -35,16 +35,16 @@ class IndexLoadLangPack
         // 自动侦测当前语言
         $langset = $this->detect($request);
 
-        //加载多语言包【先加载】
-        $this->lang->load([
-            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
-        ]);
-
         if ($this->lang->defaultLangSet() != $langset) {
             $this->lang->switchLangSet($langset);
         }
-
-
+        //加载目录下多语言包【先加载】
+        $this->lang->load([
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.DIRECTORY_SEPARATOR.request()->controller().'.php',
+            $this->app->getBasePath().$this->app->http->getName().DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
+            $this->app->getBasePath().$this->app->http->getName().DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.$langset.DIRECTORY_SEPARATOR.request()->controller().'.php',
+        ]);
         $this->saveToCookie($this->app->cookie, $langset);
 
         return $next($request);

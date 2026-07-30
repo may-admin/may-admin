@@ -18,6 +18,7 @@ if(!is_file(__DIR__ . '/../app/admin/command/install/install.lock')){
     exit;
 }
 
+header("Access-Control-Allow-Origin: *");
 require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
