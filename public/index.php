@@ -19,6 +19,14 @@ if(!is_file(__DIR__ . '/../app/admin/command/install/install.lock')){
 }
 
 header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+header('Content-Type: application/json; charset=utf-8');
+
 require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
