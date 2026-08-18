@@ -239,7 +239,7 @@ function redis_token_en($data){
     return json_encode($data);
 }
 function redis_token_de($data){
-    return json_decode($data);
+    return json_decode($data, true);
 }
 
 /**
