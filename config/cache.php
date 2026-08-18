@@ -44,7 +44,7 @@ return [
             // 缓存前缀
             'prefix'   => env('common.prefix', ''),
             'timeout'  => 0,
-            'serialize'  => ['redis_token', 'redis_token'],
+            'serialize'  => ['redis_token_en', 'redis_token_de'],
         ],
         // 更多的缓存连接【queue】
         'redis_queue' => [
@@ -58,7 +58,7 @@ return [
             // 缓存前缀
             'prefix'   => env('common.prefix', ''),
             'timeout'  => 0,
-            'serialize'  => ['redis_token', 'redis_token'],
+            'serialize'  => ['redis_token_en', 'redis_token_de'],
         ],
     ],
 ];

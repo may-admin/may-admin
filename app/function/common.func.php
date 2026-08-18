@@ -235,8 +235,11 @@ function token_str($str = ''){
 /**
  * @Description: (缓存配置文件方法)
  */
-function redis_token($data){
-    return $data;
+function redis_token_en($data){
+    return json_encode($data);
+}
+function redis_token_de($data){
+    return json_decode($data);
 }
 
 /**
