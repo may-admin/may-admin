@@ -1,7 +1,7 @@
 <?php
 /**
  * @Description: (ajax提交返回状态信息)
- * @param int $code 状态值[0:成功,1:失败]
+ * @param int $code 状态值[200:成功,400:失败]
  * @param string $message 提示内容
  * @param string $url 返回链接
  * @param string|array $data 返回数据
@@ -9,7 +9,9 @@
  * @author 子青时节 <654108442@qq.com>
  */
 function ajax_return($code, $message='', $url='', $data = []){
-    if($code == '0'){
+    $code = (int) $code;
+    $code = in_array($code, [200, '200']) ? 200 : $code;
+    if($code === 200){
         $message = !empty($message) ? $message : lang('action_success');
     }else{
         $message = !empty($message) ? $message : lang('action_fail');

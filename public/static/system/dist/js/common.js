@@ -67,7 +67,7 @@ $(function(){
                 return xhr;
             },
             success: function(res) {
-                if(res.code == '0'){
+                if(res.code === 200){
                     if(_tag == 'image'){   //单图上传
                         _this.closest('.up-box').prev('.widget-upload-input').val(res.link);
                         _this.closest('.up-box').find('.show-image-box').attr('href', res.link);
@@ -213,7 +213,7 @@ $(function(){
                 return xhr;
             },
             success: function(res) {
-                if(res.code == '0'){
+                if(res.code === 200){
                     layer.msg(res.message, {icon: 1});
                     if(res.url != ''){
                         $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'});
@@ -300,7 +300,7 @@ $(function(){
             var ajax_option={
                 dataType:'json',
                 success:function(res){
-                    if(res.code == '0'){
+                    if(res.code === 200){
                         if(_this.hasClass('layer-dialog')){
                             layer.closeAll();
                         }
@@ -346,7 +346,7 @@ $(function(){
             dataType : 'json',
             data : dataStr,
             success : function(res) {
-                if(res.code == '0'){
+                if(res.code === 200){
                     _this.data('value', pvalue);
                     _this.removeClass(addclass);
                     _this.addClass(removeclass);
@@ -374,7 +374,7 @@ $(function(){
             dataType : 'json',
             data : dataStr,
             success : function(res) {
-                if(res.code == '0'){
+                if(res.code === 200){
                     layer.msg(res.message, {icon: 1});
                 }else{
                     layer.alert(res.message, {icon: 2});
@@ -429,20 +429,20 @@ $(function(){
                     dataType : 'json',
                     data : { id:id, },
                     success : function(res) {
-                        if(res.code == '0'){
+                        if(res.code === 200){
                             layer.msg(res.message, {icon: 1});
                             if(res.url != ''){
                                 $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
                             }
-                        }else if(res.code == '2'){
+                        }else if(res.code === 409){   //插件卸载，存在文件差异
                             layer.alert(res.message, {icon: 2});
                             if(res.url != ''){
                                 $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
                             }
-                        }else if(res.code == 'addon_member_login'){   //插件安装时提示登录弹框
+                        }else if(res.code === 401){   //插件安装时提示登录弹框
                             layer.closeAll();
                             $('#addon-member-btn').trigger('click');
-                        }else if(res.code == 'addon_pay'){   //插件付费购买确认
+                        }else if(res.code === 402){   //插件付费购买确认
                             layer.confirm(res.message, {title: '确认是否付费购买',btn: ['确认购买', '取消购买']},
                             function(){
                                 $.ajax({
@@ -451,7 +451,7 @@ $(function(){
                                     dataType : 'json',
                                     data : { id:res.data.id, buy:res.data.buy},
                                     success : function(res) {
-                                        if(res.code == '0'){
+                                        if(res.code === 200){
                                             layer.msg(res.message, {icon: 1});
                                             if(res.url != ''){
                                                 $.pjax({url: res.url, container: '#pjax-container', fragment:'#pjax-container'})
@@ -502,7 +502,7 @@ function list_write(input){
             dataType : 'json',
             data : params,
             success : function(res) {
-                if(res.code == '0'){
+                if(res.code === 200){
                     layer.msg(res.message, {icon: 1});
                     _prev.html(_input.val());
                 }else{

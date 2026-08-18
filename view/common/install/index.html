@@ -123,12 +123,12 @@ $(function(){
             var ajax_option={
                 dataType:'json',
                 success:function(res){
-                    if(res.code == '0'){
+                    if(res.code === 200){
                         layer.msg(res.message, {icon: 1});
                         setTimeout(function() {
                             window.location.href = res.url;
                         }, 1000);
-                    }else if(res.code == '2'){
+                    }else if(res.code === 422){
                         layer.msg(res.message.info, {icon: 2});
                         $("input[name='"+res.message.name+"']").focus();
                     }else{

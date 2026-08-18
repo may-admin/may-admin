@@ -57,7 +57,7 @@ class Uploads extends BaseController
     public function upload()
     {
         if (!in_array($this->up_type, $this->allow_type)) {
-            return json(['code' => 1, 'message' => '不允许目录']);
+            return json(['code' => 400, 'message' => '不允许目录']);
         }
         $file = request()->file('imgFile');
         if ($file){
@@ -103,16 +103,16 @@ class Uploads extends BaseController
                 $file_data = $uploadFileModel->where($where)->find();
                 if(!empty($file_data)){
                     unlink($this->file_dir.$savename);
-                    return json(['code' => 0, 'link' => $file_data['url'], 'message' => '上传成功']);
+                    return json(['code' => 200, 'link' => $file_data['url'], 'message' => '上传成功']);
                 }else{
                     $uploadFileModel->save($data);
-                    return json(['code' => 0, 'link' => $file_path, 'message' => '上传成功']);
+                    return json(['code' => 200, 'link' => $file_path, 'message' => '上传成功']);
                 }
             } catch (\think\exception\ValidateException $e) {
-                return json(['code' => 1, 'message' => $e->getMessage()]);
+                return json(['code' => 400, 'message' => $e->getMessage()]);
             }
         }else{
-            return json(['code' => 1, 'message' => '请选择文件']);
+            return json(['code' => 400, 'message' => '请选择文件']);
         }
     }
     
@@ -242,9 +242,9 @@ class Uploads extends BaseController
             if (file_exists($this->public_path.$data['url'])) {
                 unlink($this->public_path.$data['url']);
             }
-            return ajax_return(0, lang('action_success'));
+            return ajax_return(200, lang('action_success'));
         }else{
-            return ajax_return(1, lang('action_fail'));
+            return ajax_return(400, lang('action_fail'));
         }
     }
     

@@ -45,6 +45,6 @@ class Index extends Admin
     public function cleanCache()
     {
         Cache::clear();
-        return ajax_return(0, lang('action_success'), '');
+        return ajax_return(200, lang('action_success'), '');
     }
 }

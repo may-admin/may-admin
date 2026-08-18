@@ -44,7 +44,7 @@ class AddonService extends BaseController
             $content = $body->getContents();
             if (substr($content, 0, 1) === '{') {
                 $res = json_decode($content, true);
-                if($res['code'] == '0' && isset($res['data']['url'])){   //如果传回的是一个下载链接,则再次下载
+                if($res['code'] === 200 && isset($res['data']['url'])){   //如果传回的是一个下载链接,则再次下载
                     $response = $client->get($res['data']['url']);
                     $body = $response->getBody();
                     $content = $body->getContents();

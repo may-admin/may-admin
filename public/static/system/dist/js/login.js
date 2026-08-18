@@ -10,7 +10,7 @@ $(function () {
             var ajax_option={
                 dataType:'json',
                 success:function(res){
-                    if(res.code == '0'){
+                    if(res.code === 200){
                         layer.msg(res.message, {icon: 1});
                         window.location.href = res.url; 
                     }else{

@@ -33,16 +33,16 @@ class Index extends BaseController
             try {
                 Install::install($data['database_hostname'], $data['database_database'], $data['prefix'], $data['database_username'], $data['database_password'], $data['database_hostport'], $data['admin_username'], $data['admin_password'], $data['admin_repassword'], $data['redis_host'], $data['redis_password'], $data['redis_port']);
             } catch (\PDOException $e) {
-                return ajax_return(1, $e->getMessage());
+                return ajax_return(400, $e->getMessage());
             } catch (\Exception $e) {
                 $msg_arr = json_decode($e->getMessage(), true);
                 if(is_array($msg_arr)){
-                    return ajax_return(2, $msg_arr);
+                    return ajax_return(422, $msg_arr);
                 }else{
-                    return ajax_return(1, $e->getMessage());
+                    return ajax_return(400, $e->getMessage());
                 }
             }
-            return ajax_return(0, '安装成功，跳转后台中！', '/admin');
+            return ajax_return(200, '安装成功，跳转后台中！', '/admin');
         }else{
             $data = '';
             try {

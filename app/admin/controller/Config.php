@@ -123,12 +123,12 @@ class Config extends Admin
                         $this->cModel->where($where)->save(['v' => $val]);
                     }
                     $this->dbconfig();
-                    return ajax_return(0, lang('action_success'), '');
+                    return ajax_return(200, lang('action_success'), '');
                 }else{
-                    return ajax_return(1, lang('action_fail'));
+                    return ajax_return(400, lang('action_fail'));
                 }
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }
     }
@@ -160,7 +160,7 @@ class Config extends Admin
         }
         $str .= "\r\n    ],\r\n];\r\n";
         if (!file_put_contents($dbconfig_path, $str)) {
-            ajax_return(1, lang('dbconfig_error'));
+            return ajax_return(400, lang('dbconfig_error'));
         }
     }
 }

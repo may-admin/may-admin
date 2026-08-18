@@ -53,14 +53,14 @@ class Admin extends Admins
             $validate = 'app\common\validate\\'.CONTROLLER_NAME;
             $validate = new $validate;
             if (!$validate->scene('create')->check($data)) {
-                return ajax_return(1, $validate->getError());
+                return ajax_return(400, $validate->getError());
             }
             $result = $this->cModel->save($data);   //这里不能删空数据[模型默认设置值]
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
-                return ajax_return(0, lang('action_success'), $url);
+                return ajax_return(200, lang('action_success'), $url);
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             View::assign('data', []);
@@ -83,18 +83,18 @@ class Admin extends Admins
             
             if(count($data) == 2){
                 if (!$validate->scene($scene)->check($data)) {
-                    return ajax_return(1, $validate->getError());
+                    return ajax_return(400, $validate->getError());
                 }
             }else{
                 if(!empty($data['password']) || !empty($data['repassword'])){
                     if (!$validate->scene('edit_password')->check($data)) {
-                        return ajax_return(1, $validate->getError());
+                        return ajax_return(400, $validate->getError());
                     }
                     unset($data['repassword']);
                 }else{
                     unset($data['old_password'], $data['password'], $data['repassword']);
                     if (!$validate->scene('edit')->check($data)) {
-                        return ajax_return(1, $validate->getError());
+                        return ajax_return(400, $validate->getError());
                     }
                 }
             }
@@ -105,9 +105,9 @@ class Admin extends Admins
             $result->save();
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
-                return ajax_return(0, lang('action_success'), $url);
+                return ajax_return(200, lang('action_success'), $url);
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             $id = input('get.id');
@@ -137,9 +137,9 @@ class Admin extends Admins
                         }
                     }
                     $url = session('redirect_url') ? session('redirect_url') : url('index');
-                    return ajax_return(0, lang('action_success'), $url);
+                    return ajax_return(200, lang('action_success'), $url);
                 }else{
-                    return ajax_return(1, lang('action_fail'));
+                    return ajax_return(400, lang('action_fail'));
                 }
             }
         }
@@ -154,13 +154,13 @@ class Admin extends Admins
             $validate = new $validate;
             if (!empty($data['password']) || !empty($data['repassword'])){
                 if (!$validate->scene('edit_password')->check($data)) {
-                    return ajax_return(1, $validate->getError());
+                    return ajax_return(400, $validate->getError());
                 }
                 unset($data['repassword']);
             }else{
                 unset($data['password'], $data['repassword']);
                 if (!$validate->scene('edit')->check($data)) {
-                    return ajax_return(1, $validate->getError());
+                    return ajax_return(400, $validate->getError());
                 }
             }
             $result = $this->cModel->find($data['id']);
@@ -170,9 +170,9 @@ class Admin extends Admins
             $result->save();
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
-                return ajax_return(0, lang('action_success'), $url);
+                return ajax_return(200, lang('action_success'), $url);
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             $data = $this->cModel->find(ADMINID);
@@ -196,9 +196,9 @@ class Admin extends Admins
             }
             if ($result){
                 $url = session('redirect_url') ? session('redirect_url') : url('index');
-                return ajax_return(0, lang('action_success'), $url);
+                return ajax_return(200, lang('action_success'), $url);
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             $id = input('get.id');

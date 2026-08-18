@@ -23,13 +23,13 @@ class AuthRule extends Admin
             $validate = 'app\common\validate\\'.CONTROLLER_NAME;
             $validate = new $validate;
             if (!$validate->scene('create')->check($data)) {
-                return ajax_return(1, $validate->getError());
+                return ajax_return(400, $validate->getError());
             }
             $result = $this->cModel->save(del_arr_empty($data));
             if ($result){
-                return ajax_return(0, lang('action_success'), url('index'));
+                return ajax_return(200, lang('action_success'), url('index'));
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             View::assign('data', []);
@@ -52,7 +52,7 @@ class AuthRule extends Admin
             $validate = 'app\common\validate\\'.CONTROLLER_NAME;
             $validate = new $validate;
             if (!$validate->scene($scene)->check($data)) {
-                return ajax_return(1, $validate->getError());
+                return ajax_return(400, $validate->getError());
             }
             $result = $this->cModel->find($data['id']);
             foreach ($data as $k => $v){
@@ -60,9 +60,9 @@ class AuthRule extends Admin
             }
             $result->save();
             if ($result){
-                return ajax_return(0, lang('action_success'), url('index'));
+                return ajax_return(200, lang('action_success'), url('index'));
             }else{
-                return ajax_return(1, lang('action_fail'));
+                return ajax_return(400, lang('action_fail'));
             }
         }else{
             $id = input('get.id');
@@ -83,9 +83,9 @@ class AuthRule extends Admin
                 $where[] = ['id', 'in', $id_arr];
                 $result = $this->cModel->where($where)->delete();
                 if ($result){
-                    return ajax_return(0, lang('action_success'), url('index'));
+                    return ajax_return(200, lang('action_success'), url('index'));
                 }else{
-                    return ajax_return(1, lang('action_fail'));
+                    return ajax_return(400, lang('action_fail'));
                 }
             }
         }

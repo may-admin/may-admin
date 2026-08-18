@@ -14,13 +14,13 @@ class CheckToken
             $key = 'token:'.$token;
             $exists = Cache::store('redis_token')->get($key);
             if(empty($exists)){
-                return ajax_return(1, 'token异常或过期');
+                return ajax_return(401, 'token异常或过期');
             }else{
                 $res = json_decode($exists, true);
                 $request->token_member_id = $res['id'];
             }
         }else{
-            return ajax_return(1, 'token不能为空');
+            return ajax_return(401, 'token不能为空');
         }
         return $next($request);
     }

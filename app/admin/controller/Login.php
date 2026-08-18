@@ -51,21 +51,21 @@ class Login extends BaseController
                 $data['username'] = cookie('admin_username');
             }
             if(empty($data['username']) || empty($data['password'])){
-                return ajax_return(1, lang('admin_require'));
+                return ajax_return(400, lang('admin_require'));
             }
             if(empty($data['captcha'])){
-                return ajax_return(1, lang('captcha_require'));
+                return ajax_return(400, lang('captcha_require'));
             }
             if(!captcha_check($data['captcha'])){
-                return ajax_return(2, lang('captcha_error'));
+                return ajax_return(400, lang('captcha_error'));
             };
             $where = [['username', '=', $data['username'] ]];
             $adminData = $this->cModel->where($where)->find();
             if(!empty($adminData)){
                 if($adminData['status'] != '1'){
-                    return ajax_return(1, lang('admin_stop'));
+                    return ajax_return(400, lang('admin_stop'));
                 }elseif($adminData['password'] != md5($data['password'])){
-                    return ajax_return(1, lang('password_error'));
+                    return ajax_return(400, lang('password_error'));
                 }else{
                     //更新登录信息
                     $adminData->logins = $adminData['logins']+1;
@@ -83,10 +83,10 @@ class Login extends BaseController
                     cookie('admin_username', $adminData['username'], 86400);
                     cookie('admin_avatar', $adminData['avatar'], 86400);
                     
-                    return ajax_return(0, lang('login_success'), url('index/index'));
+                    return ajax_return(200, lang('login_success'), url('index/index'));
                 }
             }else{
-                return ajax_return(1, lang('admin_empty'));
+                return ajax_return(400, lang('admin_empty'));
             }
         }
     }

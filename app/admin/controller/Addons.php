@@ -129,13 +129,13 @@ class Addons extends Admins
                 $extend = [];
                 $info = AddonService::localInstall($file, $extend);
             } catch (Exception $e) {
-                return ajax_return(1, $e->getMessage());
+                return ajax_return(400, $e->getMessage());
             }
             
             $url = session('redirect_url') ? session('redirect_url') : url('index');
-            return ajax_return(0, lang('action_success'), $url, $info);
+            return ajax_return(200, lang('action_success'), $url, $info);
         }else{
-            return ajax_return(1, '请选择文件');
+            return ajax_return(400, '请选择文件');
         }
     }
     
@@ -157,18 +157,18 @@ class Addons extends Admins
             } catch (Exception $e) {
                 if (substr($e->getMessage(), 0, 1) === '{') {
                     $res = json_decode($e->getMessage(), true);
-                    $code = isset($res['code']) ? $res['code'] : 1;
+                    $code = isset($res['code']) ? $res['code'] : 400;
                     $message = isset($res['message']) ? $res['message'] : '';
                     $url = isset($res['url']) ? $res['url'] : '';
                     $data = isset($res['data']) ? $res['data'] : [];
                     return ajax_return($code, $message, $url, $data);
                 }else{
-                    return ajax_return(1, $e->getMessage());
+                    return ajax_return(400, $e->getMessage());
                 }
             }
             
             $url = session('redirect_url') ? session('redirect_url') : url('index');
-            return ajax_return(0, lang('action_success'), $url);
+            return ajax_return(200, lang('action_success'), $url);
         }
     }
     
@@ -189,14 +189,14 @@ class Addons extends Admins
                 if($code == 'code2'){
                     $up = explode(',', $e->getMessage())[1];
                     $url = session('redirect_url') ? session('redirect_url') : url('index');
-                    return ajax_return(2, '存在版本差异文件，插件已备份:<br />'.$up.'<br /><a href="'.$up.'" class="text-danger" target="_blank" >点击下载</a>', $url);
+                    return ajax_return(409, '存在版本差异文件，插件已备份:<br />'.$up.'<br /><a href="'.$up.'" class="text-danger" target="_blank" >点击下载</a>', $url);
                 }else{
-                    return ajax_return(1, $e->getMessage());
+                    return ajax_return(400, $e->getMessage());
                 }
             }
             
             $url = session('redirect_url') ? session('redirect_url') : url('index');
-            return ajax_return(0, lang('action_success'), $url);
+            return ajax_return(200, lang('action_success'), $url);
         }
     }
     
@@ -223,9 +223,9 @@ class Addons extends Admins
                     AddonService::disable($name);
                 }
             } catch (Exception $e) {
-                return ajax_return(1, $e->getMessage());
+                return ajax_return(400, $e->getMessage());
             }
-            return ajax_return(0, lang('action_success'), '');
+            return ajax_return(200, lang('action_success'), '');
         }
     }
     
@@ -243,14 +243,14 @@ class Addons extends Admins
             $password = input('post.password', '', 'htmlspecialchars');
             
             if(empty($username) || empty($password)){
-                return ajax_return(1, '登录账户或密码不能为空');
+                return ajax_return(400, '登录账户或密码不能为空');
             }
             $params = [
                 'username' => $username,
                 'password' => $password,
             ];
             $res = AddonService::sendRequest('/addons/Addon/memberLogin', $params);
-            if($res['code'] == '0'){
+            if($res['code'] === 200){
                 session('addon_member_info', $res['data']);
             }
             return json($res);
@@ -273,7 +273,7 @@ class Addons extends Admins
     {
         if(request()->isPost()){
             session('addon_member_info', null);
-            return ajax_return(0, '退出成功');
+            return ajax_return(200, '退出成功');
         }
     }
 }

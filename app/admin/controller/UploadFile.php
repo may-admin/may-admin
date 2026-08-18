@@ -26,9 +26,9 @@ class UploadFile extends Admin
                 }
                 if ($result){
                     $url = session('redirect_url') ? session('redirect_url') : url('index');
-                    return ajax_return(0, lang('action_success'), $url);
+                    return ajax_return(200, lang('action_success'), $url);
                 }else{
-                    return ajax_return(1, lang('action_fail'));
+                    return ajax_return(400, lang('action_fail'));
                 }
             }
         }
