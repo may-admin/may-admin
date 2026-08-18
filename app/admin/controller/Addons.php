@@ -253,7 +253,7 @@ class Addons extends Admins
             if($res['code'] === 200){
                 session('addon_member_info', $res['data']);
             }
-            return json($res);
+            return ajax_return($res['code'], $res['message'], $res['url'], $res['data']);
         }else{
             $addon_member_info = session('addon_member_info');
             if(!empty($addon_member_info)){

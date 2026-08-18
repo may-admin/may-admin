@@ -1,7 +1,7 @@
 <?php
 /**
  * @Description: (ajax提交返回状态信息)
- * @param int $code 状态值[200:成功,400:失败]
+ * @param int $code 状态值[200:成功,400:失败,401:未授权,402:需要付费,409:冲突,422:参数异常]
  * @param string $message 提示内容
  * @param string $url 返回链接
  * @param string|array $data 返回数据
@@ -10,7 +10,6 @@
  */
 function ajax_return($code, $message='', $url='', $data = []){
     $code = (int) $code;
-    $code = in_array($code, [200, '200']) ? 200 : $code;
     if($code === 200){
         $message = !empty($message) ? $message : lang('action_success');
     }else{
