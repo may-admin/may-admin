@@ -13,7 +13,7 @@ class CheckToken
         if(!empty($token)){
             $key = 'token:'.$token;
             $exists = Cache::store('redis_token')->get($key);
-            if(empty($exists)){
+            if(empty($exists) || !is_array($exists)){
                 return ajax_return(401, 'token异常或过期');
             }else{
                 $request->token_id = $res['id'];
