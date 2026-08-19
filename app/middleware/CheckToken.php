@@ -12,8 +12,8 @@ class CheckToken
         $token = $request->param('token');
         if(!empty($token)){
             $key = 'token:'.$token;
-            $exists = Cache::store('redis_token')->get($key);
-            if(empty($exists) || !is_array($exists)){
+            $res = Cache::store('redis_token')->get($key);
+            if(empty($res) || !is_array($res)){
                 return ajax_return(401, 'token异常或过期');
             }else{
                 $request->token_id = $res['id'];
