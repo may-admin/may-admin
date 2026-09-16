@@ -3,7 +3,7 @@ namespace app\admin\controller;
 
 use app\common\controller\Admin;
 use app\common\model\AuthRule;
-use expand\Auth;
+use app\service\AuthService;
 use think\facade\View;
 
 class Config extends Admin
@@ -47,7 +47,7 @@ class Config extends Admin
         
         $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts desc')->select();
         
-        $auth = new Auth();
+        $auth = new AuthService();
         foreach ($dataList as $k => $v){
             if ($auth->check($v['name'], ADMINID) ){
                 $type = explode('/', $v['name']);
@@ -82,7 +82,7 @@ class Config extends Admin
         
         $dataList = AuthRule::field('id,name,title')->where([['pid', '=', $sys_menu_id], ['status', '=', 1]])->order('sorts desc')->select();
         
-        $auth = new Auth();
+        $auth = new AuthService();
         foreach ($dataList as $k => $v){
             if ($auth->check($v['name'], ADMINID) ){
                 $type = explode('/', $v['name']);

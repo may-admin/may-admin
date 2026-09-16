@@ -1,8 +1,8 @@
 <?php
-namespace expand;
+namespace app\service;
 use think\facade\Db;
 
-class Auth{
+class AuthService{
     //默认配置
     protected $_config = array(
         'AUTH_ON'           => true,    // 认证开关

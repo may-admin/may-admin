@@ -12,7 +12,7 @@
  * @author 子青时节 <654108442@qq.com>
  */
 function auth_action($rule, $cationType='a', $info='infos', $param='', $color='primary', $size='xs', $icon='edit'){
-    $auth = new \expand\Auth();
+    $auth = new \app\service\AuthService();
     $result = $auth->check($rule, ADMINID);
     $icon = !empty($icon) ? "<i class=\"fa-solid fa-".$icon."\"></i> " : '';
     if( $result ){

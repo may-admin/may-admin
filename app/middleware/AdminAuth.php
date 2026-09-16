@@ -4,7 +4,7 @@ declare (strict_types = 1);
 namespace app\middleware;
 
 use app\common\model\AuthRule;
-use expand\Auth;
+use app\service\AuthService;
 use think\facade\View;
 
 class AdminAuth
@@ -26,7 +26,7 @@ class AdminAuth
             View::assign('activeMenus', ['addons']);
         }
         
-        $auth = new Auth();
+        $auth = new AuthService();
         if( CONTROLLER_NAME != 'Addons' && !$auth->check(CONTROLLER_NAME.'/'.ACTION_NAME, ADMINID) ){
             return redirect((string) url('login/loginOut'));
         }
@@ -47,7 +47,7 @@ class AdminAuth
             $authRuleModel = new AuthRule();
             $lists = $authRuleModel->where($where)->order('sorts desc,id desc')->select()->toArray();
             //判断导航tree用户使用权限
-            $auth = new Auth();
+            $auth = new AuthService();
             foreach($lists as $k=>$val){
                 $res = $auth->check($val['name'], ADMINID);
                 if( $res === false ){
