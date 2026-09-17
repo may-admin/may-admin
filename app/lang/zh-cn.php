@@ -25,8 +25,10 @@ return [
     'help'              => '帮助',
     'default'           => '默认',
     
-    'base_param'        => '基本参数',
-    'advanced_param'    => '高级参数',
+    'base_param'        => '基本设置',
+    'advanced_param'    => '高级设置',
+    'submit_param'      => '投稿设置',
+    'other_param'       => '其他设置',
     'base_avatar'       => '修改头像',
     
     'table_url_text'    => '文件',

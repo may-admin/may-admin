@@ -25,8 +25,10 @@ return [
     'help'              => 'Help',
     'default'           => 'Default',
     
-    'base_param'        => 'Base Param',
-    'advanced_param'    => 'Advanced Param',
+    'base_param'        => 'Base Setup',
+    'advanced_param'    => 'Advanced Setup',
+    'submit_param'      => 'Submit Setup',
+    'other_param'       => 'Other Setup',
     'base_avatar'       => 'Base Avatar',
     
     'table_url_text'    => 'File',
