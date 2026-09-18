@@ -1,7 +1,7 @@
 <?php
-namespace expand;
+namespace app\service;
 
-class Tree
+class TreeService
 {
     static public $treeList = [];   //存放无限极分类结果
     

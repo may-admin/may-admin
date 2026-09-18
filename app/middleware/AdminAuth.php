@@ -54,7 +54,7 @@ class AdminAuth
                     unset($lists[$k]);
                 }
             }
-            $treeClass = new \expand\Tree();
+            $treeClass = new \app\service\TreeService();
             $treeMenu = $treeClass->treeMenu($lists);
             cache('DB_ADMIN_TREE_MENU_'.ADMINID, $treeMenu);
         }

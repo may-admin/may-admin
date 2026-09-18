@@ -15,7 +15,7 @@ class AuthRule extends BaseModel
                 $where[] = ['status', '=', $status];
             }
             $list = $this->where($where)->order('sorts desc,id desc')->select()->toArray();
-            $treeClass = new \expand\Tree();
+            $treeClass = new \app\service\TreeService();
             $treeClass::$treeList = [];
             $list = $treeClass->create($list);
             cache('DB_TREE_AUTHRULE_'.$module.'_'.$status, $list);

@@ -22,4 +22,14 @@ return [
         "copyright" => "Copyright © 2017-2025 &lt;a href=&quot;#&quot; &gt;QQ群：184278846&lt;/a&gt;",
         "version" => "MayAdmin 1.0.0",
     ],
+    "memberConfig" => [
+        "member_reg" => "1",
+        "member_reg_review" => "1",
+        "member_mobile_check" => "0",
+        "member_email_check" => "0",
+        "member_login_captcha" => "1",
+        "amount_exchange_points" => "100",
+        "member_reg_points" => "0",
+        "member_reg_amount" => "0",
+    ],
 ];

@@ -4,7 +4,7 @@ namespace app\admin\controller;
 use app\common\controller\Admin as Admins;
 use app\facade\AddonService;
 use think\facade\View;
-use expand\BootstrapAdmin;
+use app\service\BootstrapAdminService;
 use think\Exception;
 
 class Addons extends Admins
@@ -80,7 +80,7 @@ class Addons extends Admins
                 'path' => (string)url('Addons/index'),
                 'query' => page_param()['query'],
             ];
-            $dataList = new BootstrapAdmin($list['data'], $list['per_page'], $list['current_page'], $list['total'], $simple = false, $option = $option);
+            $dataList = new BootstrapAdminService($list['data'], $list['per_page'], $list['current_page'], $list['total'], $simple = false, $option = $option);
             $category_arr = [];
             foreach($list['category'] as $k => $v){
                 $get_param1 = $get_param;

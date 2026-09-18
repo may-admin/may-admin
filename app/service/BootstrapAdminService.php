@@ -9,11 +9,11 @@
 // | Author: zhangyajun <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace expand;
+namespace app\service;
 
 use think\Paginator;
 
-class BootstrapAdmin extends Paginator
+class BootstrapAdminService extends Paginator
 {
     /**
      * 上一页按钮

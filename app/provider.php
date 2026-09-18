@@ -6,5 +6,5 @@ use app\Request;
 return [
     'think\Request'          => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
-    'think\Paginator'        => 'expand\BootstrapAdmin',
+    'think\Paginator'        => 'app\service\BootstrapAdminService',
 ];
