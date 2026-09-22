@@ -252,6 +252,24 @@ function is_percentage($str) {
 }
 
 /**
+ * @Description: (是否百分数)
+ * @param string $msg 提示消息
+ * @param string $url 返回url
+ * @param int $time 倒计时
+ * @return string
+ * @author 子青时节 <654108442@qq.com>
+ */
+function timeJumpHomeView($msg = '请先登录', $url = '/', $time = 3){
+    $referer = request()->header('referer');
+    return \think\facade\View::fetch('../common/tpl/timeJumpHomeView', [
+        'msg'  => $msg,
+        'url'  => $url,
+        'backUrl' => $referer ?: $url,
+        'time' => $time
+    ]);
+}
+
+/**
  * @Description: (价格转文本显示)
  * @param int $price 价格
  * @param string $unit 单位

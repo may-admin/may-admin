@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{$msg}</title>
+<style>
+*{padding:0;margin:0;}
+body{height:100vh;font-size:16px;display:flex;justify-content:center;align-items:center;background:#ffffff;font-family:"微软雅黑";}
+.box{padding:40px 120px;background:#ffffff;border-radius:5px;text-align:center;box-shadow: 0 0px 14px 0 rgba(0, 0, 0, 0.1);}
+.msg{font-size:22px;color:#333333;font-weight: bold;}
+.time{margin-top:10px;font-size: 14px;color:#999999;}
+.num{color:#1677ff;}
+.btns{margin-top:15px;}
+.btn{display:inline-block;font-size: 14px;margin:0 10px;padding:6px 18px;border-radius:5px;border:1px solid #dddddd;color:#333333;text-decoration:none;transition: all .3s;}
+.btn:hover{background:#1677ff;color:#ffffff;border-color:#1677ff;}
+</style>
+</head>
+<body>
+<div class="box">
+    <div class="msg">{$msg}</div>
+    <div class="time">
+        <span class="num" id="time">{$time}</span>秒后返回
+    </div>
+    <div class="btns">
+        <a class="btn" href="{$backUrl}">返回</a>
+        <a class="btn" href="{$url}">首页</a>
+    </div>
+</div>
+<script>
+let time = {$time};
+let timer = setInterval(function(){
+    time--;
+    document.getElementById('time').innerHTML = time;
+    if(time <= 0){
+        clearInterval(timer);
+        location.href = "{$backUrl}";
+    }
+}, 1000);
+</script>
+</body>
+</html>
