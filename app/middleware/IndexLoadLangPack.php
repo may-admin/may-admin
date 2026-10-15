@@ -40,10 +40,13 @@ class IndexLoadLangPack
         }
 
         //加载目录下多语言包
-        $this->lang->load([
+        $langFile = [
+            $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
             $this->app->getBasePath().'lang'.DIRECTORY_SEPARATOR.$langset.DIRECTORY_SEPARATOR.request()->controller().'.php',
+            $this->app->getBasePath().$this->app->http->getName().DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.$langset.'.php',
             $this->app->getBasePath().$this->app->http->getName().DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.$langset.DIRECTORY_SEPARATOR.request()->controller().'.php',
-        ]);
+        ];
+        $this->lang->load($langFile);
 
         $this->saveToCookie($this->app->cookie, $langset);
 
